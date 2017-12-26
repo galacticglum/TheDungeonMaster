@@ -28,27 +28,48 @@ public class CardController : MonoBehaviour
         hand.Add(CardInstance.Create(cardPrototype));
         hand.Add(CardInstance.Create(cardPrototype));
         hand.Add(CardInstance.Create(cardPrototype));
+        hand.Add(CardInstance.Create(cardPrototype));
+        hand.Add(CardInstance.Create(cardPrototype));
+        hand.Add(CardInstance.Create(cardPrototype));
+        hand.Add(CardInstance.Create(cardPrototype));
+        hand.Add(CardInstance.Create(cardPrototype));
 
-         UpdateCardPositions();
+        UpdateCardPositions();
     }
 
     private void UpdateCardPositions()
     {
+        // The highest amount of cards we account for when arranging for display.
+        const int maxHandSize = 10;
+        // Radius of the circle arc upon which the cards are placed, if we have 1 card.
+        const float minCircleRadius = 300f;
+        // Radius of the circle arc upon which the cards are placed, if we have maxHandSize cards.
+        const float maxCircleRadius = 1250f;
+        // The width-ratio representing the gap between each card, if we have 1 card.
+        const float minGapBetweenCardRatio = 1 / 2f;
+        // The width-ratio representing the gap between each card, if we have maxHandSize cards.
+        const float maxGapBetweenCardRatio = 1 / 3f;
+        // The height-ratio representing the distance which the card may go below the screen, if we have 1 card.
+        const float minCardRatioBelowScreen = 0.15f;
+        // The height-ratio representing the distance which the card may go below the screen, if we have maxHandSize cards.
+        const float maxCardRatioBelowScreen = 0.04f;
+
+        // Lerp factor based on how many cards currently are in the hand, compared to our max hand size (offset by 1 since we only care about starting at 1).
+        float lerpFactor = (float)(hand.Count - 1) / (maxHandSize - 1);
+        // Radius of the circle arc upon which the cards are placed.
+        float circleRadius = Mathf.Lerp(minCircleRadius, maxCircleRadius, lerpFactor);
         // The width-ratio representing the gap between each card.
-        const float gapBetweenCardRatio = 1 / 2f;
+        float gapBetweenCardRatio = Mathf.Lerp(minGapBetweenCardRatio, maxGapBetweenCardRatio, lerpFactor);
         // The height-ratio representing the distance which the card may go below the screen.
-        const float cardRatioBelowScreen = 0.15f;
-        // The angle between the left-most and right-most cards.
-        const float angleBetweenEdgeCards = 30f;
-        const float rotationFromCentreCard = -angleBetweenEdgeCards / 2f;
+        float cardRatioBelowScreen = Mathf.Lerp(minCardRatioBelowScreen, maxCardRatioBelowScreen, lerpFactor);
 
         RectTransform cardPrefabRectTransform = Resources.Load<GameObject>("Prefabs/Card_Front").GetComponent<RectTransform>();
         float gapBetweenCards = cardPrefabRectTransform.rect.width * cardPrefabRectTransform.localScale.x * gapBetweenCardRatio;
-        float positionFromCentreCard = (hand.Count - 1) * gapBetweenCards / 2f;
         float belowScreenOffset = cardPrefabRectTransform.rect.height * cardPrefabRectTransform.localScale.y * cardRatioBelowScreen;
 
-        float rotationPerCard = angleBetweenEdgeCards / hand.Count;
-        float cardVerticalOffset = rotationFromCentreCard + (hand.Count - 1) * rotationPerCard / 2f;
+        Vector2 circleCentre = new Vector2(0, -(circleRadius + belowScreenOffset));
+        float distanceBetweenEdgeCards = gapBetweenCards * (hand.Count - 1);
+        float arcAngle = 2 * Mathf.Asin(distanceBetweenEdgeCards / (2 * circleRadius));
 
         for (int i = 0; i < hand.Count; i++)
         {
@@ -58,11 +79,11 @@ public class CardController : MonoBehaviour
             rectTransform.anchorMax = new Vector2(0.5f, 0);
             rectTransform.pivot = new Vector2(0.5f, 0);
 
-            float rotation = -(rotationFromCentreCard + i * rotationPerCard - cardVerticalOffset);
+            float rotation = hand.Count > 1 ? arcAngle / 2 - i * (arcAngle / (hand.Count - 1)) : 0f;
 
-            Vector2 position = new Vector2(i * gapBetweenCards - positionFromCentreCard, -belowScreenOffset - Mathf.Abs(rotation) * 0.01f);
+            Vector2 position = new Vector2(Mathf.Sin(-rotation), Mathf.Cos(rotation)) * circleRadius + circleCentre;
             rectTransform.anchoredPosition = position;
-            rectTransform.rotation = Quaternion.Euler(0, 0, rotation);
+            rectTransform.rotation = Quaternion.Euler(0, 0, rotation * Mathf.Rad2Deg);
         }
     }
 }
