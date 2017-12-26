@@ -15,6 +15,11 @@ using UnityEngine.UI;
 /// </summary>
 public class CardInstance : MonoBehaviour
 {
+    /// <summary>
+    /// The card data which this <see cref="CardInstance"/> is initialized from.
+    /// </summary>
+    public Card Card { get; private set; }
+
     [SerializeField]
     private Text cardNameText;
     [SerializeField]
@@ -26,6 +31,8 @@ public class CardInstance : MonoBehaviour
     /// <param name="card">The <see cref="Card"/> data to initialize from.</param>
     private void Initialize(Card card)
     {
+        Card = card;
+
         gameObject.name = $"{card.Name}_instance";
         cardNameText.text = card.Name;
         cardDescriptionText.text = card.Description;
@@ -36,7 +43,7 @@ public class CardInstance : MonoBehaviour
     /// </summary>
     /// <param name="card">The <see cref="Card"/> to create the <see cref="CardInstance"/> from.</param>
     /// <returns>The card instance's <see cref="GameObject"/>.</returns>
-    public static GameObject Create(Card card)
+    public static CardInstance Create(Card card)
     {
         GameObject cardGameObject = Instantiate(Resources.Load<GameObject>("Prefabs/Card_Front"));
         cardGameObject.transform.SetParent(UIManager.Instance.Canvas.transform, false);
@@ -44,6 +51,6 @@ public class CardInstance : MonoBehaviour
         CardInstance cardInstance = cardGameObject.GetComponent<CardInstance>();
         cardInstance.Initialize(card);
 
-        return cardGameObject;
+        return cardInstance;
     }
 }
