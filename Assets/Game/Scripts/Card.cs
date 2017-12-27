@@ -1,7 +1,7 @@
 ﻿/*
  * Author: Shon Verch
  * File Name: Card.cs
- * Project Name: The Dungeon Master
+ * Project Name: TheDungeonMaster
  * Creation Date: 12/25/2017
  * Modified Date: 12/25/2017
  * Description: An action that the player can execute.

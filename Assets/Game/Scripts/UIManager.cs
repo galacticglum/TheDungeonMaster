@@ -1,7 +1,7 @@
 ﻿/*
  * Author: Shon Verch
  * File Name: UIManager.cs
- * Project Name: The Dungeon Master
+ * Project Name: TheDungeonMaster
  * Creation Date: 12/26/2017
  * Modified Date: 12/26/2017
  * Description: The manager for all top-level UI functionality and data.
