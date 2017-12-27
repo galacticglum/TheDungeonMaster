@@ -15,7 +15,7 @@ using UnityEngine;
 public class UIManager : MonoBehaviour
 {
     /// <summary>
-    /// The active instance of this <see cref="UIManager"/>.
+    /// The active instance of the <see cref="UIManager"/>.
     /// </summary>
     public static UIManager Instance { get; private set; }
 

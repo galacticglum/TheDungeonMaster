@@ -3,7 +3,7 @@
  * File Name: CardController.cs
  * Project Name: TheDungeonMaster
  * Creation Date: 12/25/2017
- * Modified Date: 12/26/2017
+ * Modified Date: 12/27/2017
  * Description: Handles all the cards in the game.
  */
 
@@ -15,23 +15,39 @@ using UnityEngine;
 /// </summary>
 public class CardController : MonoBehaviour
 {
+    /// <summary>
+    /// The active instance of the <see cref="CardController"/>.
+    /// </summary>
+    public static CardController Instance { get; private set; }
+    
+    /// <summary>
+    /// The parent transform for all cards in the hand. When a card is added to the hand, it's <see cref="GameObject"/> is parented to this <see cref="Transform"/>.
+    /// </summary>
+    [SerializeField]
+    private Transform handParentTransform;
     private List<CardInstance> hand;
 
+    /// <summary>
+    /// Called when the component is created and placed into the world.
+    /// </summary>
     private void Start()
     {
+        Instance = this;
         hand = new List<CardInstance>();
 
         Card cardPrototype = new Card("Brutish Sheltie", "Bork bork RURU. Does 15 sound damage to all nearby targets.");
+        Card cardPrototype1 = new Card("Brutish Ole", "Norweigan Scum; Bork bork RURU. Does 15 sound damage to all nearby targets.");
 
-        hand.Add(CardInstance.Create(cardPrototype));
-        hand.Add(CardInstance.Create(cardPrototype));
-        hand.Add(CardInstance.Create(cardPrototype));
-        hand.Add(CardInstance.Create(cardPrototype));
-        hand.Add(CardInstance.Create(cardPrototype));
-
-        UpdateCardPositions();
+        AddCardToHand(cardPrototype);
+        AddCardToHand(cardPrototype1);
+        AddCardToHand(cardPrototype);
+        AddCardToHand(cardPrototype1);
+        AddCardToHand(cardPrototype);
     }
 
+    /// <summary>
+    /// Re-organize the visual represenation of the hand.
+    /// </summary>
     private void UpdateCardPositions()
     {
         // The highest amount of cards we account for when arranging for display.
@@ -71,17 +87,44 @@ public class CardController : MonoBehaviour
 
         for (int i = 0; i < hand.Count; i++)
         {
-            RectTransform rectTransform = hand[i].GetComponent<RectTransform>();
+            CardInstance cardInstance = hand[i];
 
-            rectTransform.anchorMin = new Vector2(0.5f, 0);
-            rectTransform.anchorMax = new Vector2(0.5f, 0);
-            rectTransform.pivot = new Vector2(0.5f, 0);
+            cardInstance.RectTransform.anchorMin = new Vector2(0.5f, 0);
+            cardInstance.RectTransform.anchorMax = new Vector2(0.5f, 0);
+            cardInstance.RectTransform.pivot = new Vector2(0.5f, 0);
 
             float rotation = hand.Count > 1 ? arcAngle / 2 - i * (arcAngle / (hand.Count - 1)) : 0f;
 
             Vector2 position = new Vector2(Mathf.Sin(-rotation), Mathf.Cos(rotation)) * circleRadius + centreOfCircle;
-            rectTransform.anchoredPosition = position;
-            rectTransform.rotation = Quaternion.Euler(0, 0, rotation * Mathf.Rad2Deg);
+            cardInstance.RectTransform.anchoredPosition = position;
+            cardInstance.RectTransform.rotation = Quaternion.Euler(0, 0, rotation * Mathf.Rad2Deg);
         }
+    }
+
+    /// <summary>
+    /// Adds a card to the hand.
+    /// </summary>
+    /// <param name="card">The <see cref="Card"/> to add to the hand.</param>
+    public CardInstance AddCardToHand(Card card)
+    {
+        CardInstance cardInstance = CardInstance.Create(card);
+        cardInstance.transform.SetParent(handParentTransform, false);
+
+        hand.Add(cardInstance);
+        UpdateCardPositions();
+
+        return cardInstance;
+    }
+
+    /// <summary>
+    /// Removes a card from the hand.
+    /// </summary>
+    /// <param name="cardInstance">The <see cref="CardInstance"/> to remove from the hand.</param>
+    public bool RemoveCardFromHand(CardInstance cardInstance)
+    {
+        bool result = hand.Remove(cardInstance);
+        UpdateCardPositions();
+
+        return result;
     }
 }

@@ -3,7 +3,7 @@
  * File Name: CardInstance.cs
  * Project Name: TheDungeonMaster
  * Creation Date: 12/26/2017
- * Modified Date: 12/26/2017
+ * Modified Date: 12/27/2017
  * Description: The interface between the card data and the card visuals.
  */
 
@@ -15,33 +15,42 @@ using UnityEngine.UI;
 /// The interface between the card data and the card visuals.
 /// </summary>
 [RequireComponent(typeof(CanvasGroup))]
-public class CardInstance : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+[RequireComponent(typeof(RectTransform))]
+public class CardInstance : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
 {
     /// <summary>
     /// The card data which this <see cref="CardInstance"/> is initialized from.
     /// </summary>
     public Card Card { get; private set; }
 
+    /// <summary>
+    /// The <see cref="CanvasGroup"/> belonging to this <see cref="CardInstance"/>.
+    /// </summary>
+    public CanvasGroup CanvasGroup => canvasGroup ?? (canvasGroup = GetComponent<CanvasGroup>());
+
+    /// <summary>
+    /// The <see cref="RectTransform"/> of this <see cref="CardInstance"/>.
+    /// </summary>
+    public RectTransform RectTransform => rectTransform ?? (rectTransform = GetComponent<RectTransform>());
+
     [SerializeField]
     private Text cardNameText;
     [SerializeField]
     private Text cardDescriptionText;
 
+    private RectTransform rectTransform;
     private CanvasGroup canvasGroup;
 
     /// <summary>
     /// Initializes this <see cref="CardInstance"/> from a <see cref="Card"/>.
     /// </summary>
     /// <param name="card">The <see cref="Card"/> data to initialize from.</param>
-    private void Initialize(Card card)
+    public void Initialize(Card card)
     {
         Card = card;
-
         gameObject.name = $"{card.Name}_instance";
         cardNameText.text = card.Name;
         cardDescriptionText.text = card.Description;
-
-        canvasGroup = GetComponent<CanvasGroup>();
     }
 
     /// <summary>
@@ -64,17 +73,23 @@ public class CardInstance : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     /// Executed when the pointer is over the <see cref="GameObject"/> pertaining to this <see cref="MonoBehaviour"/>.
     /// </summary>
     /// <param name="eventData">The data pertaining to this event.</param>
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        canvasGroup.SetVisibility(false);
-    }
+    public void OnPointerEnter(PointerEventData eventData) => CardInteractionController.Instance.BeginHover(this);
 
     /// <summary>
     /// Executed when the pointer leaves the <see cref="GameObject"/> pertaining to this <see cref="MonoBehaviour"/>.
     /// </summary>
     /// <param name="eventData">The data pertaining to this event.</param>
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        canvasGroup.SetVisibility(true);
-    }
+    public void OnPointerExit(PointerEventData eventData) => CardInteractionController.Instance.EndHover(this);
+
+    /// <summary>
+    /// Executed when the pointer is down on the <see cref="GameObject"/> pertaining to this <see cref="MonoBehaviour"/>.
+    /// </summary>
+    /// <param name="eventData">The data pertaining to this event.</param>
+    public void OnPointerDown(PointerEventData eventData) => CardInteractionController.Instance.BeginDrag(this);
+
+    /// <summary>
+    /// Executed when the pointer is up (released) on the <see cref="GameObject"/> pertaining to this <see cref="MonoBehaviour"/>.
+    /// </summary>
+    /// <param name="eventData">The data pertaining to this event.</param>
+    public void OnPointerUp(PointerEventData eventData) => CardInteractionController.Instance.EndDrag();
 }
