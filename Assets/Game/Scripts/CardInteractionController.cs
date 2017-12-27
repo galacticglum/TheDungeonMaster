@@ -25,6 +25,7 @@ public class CardInteractionController : MonoBehaviour
     private Transform dragCardParent;
 
     private CardInstance currentDraggingCardInstance;
+    private int indexOfDraggedCardInHand;
 
     /// <summary>
     /// Called when the component is created and placed into the world.
@@ -62,12 +63,14 @@ public class CardInteractionController : MonoBehaviour
     {
         if (cardInstance == null || currentDraggingCardInstance != null) return;
 
+        // We hide the original hand-card as we use a clone of the hovered card for the popup.
         cardInstance.CanvasGroup.SetVisibility(false);
 
         cardPopupInstance.Initialize(cardInstance.Card);
         cardPopupInstance.CanvasGroup.SetVisibility(true);
 
         Vector2 position = cardInstance.RectTransform.anchoredPosition;
+        // Nudge the card "up-a-bit" so that it is not COMPLETELY aligned with the bottom of the screen.
         position.y = 0.05f * cardInstance.RectTransform.rect.height * cardInstance.RectTransform.localScale.y;
 
         cardPopupInstance.RectTransform.anchoredPosition = position;
@@ -93,6 +96,8 @@ public class CardInteractionController : MonoBehaviour
     {
         if (cardInstance == null || currentDraggingCardInstance != null) return;
 
+        indexOfDraggedCardInHand = CardController.Instance.GetIndexOfCardInHand(cardInstance);
+
         currentDraggingCardInstance = cardInstance;
         currentDraggingCardInstance.RectTransform.rotation = Quaternion.identity;
         currentDraggingCardInstance.transform.SetParent(dragCardParent, false);
@@ -108,8 +113,9 @@ public class CardInteractionController : MonoBehaviour
     {
         if (currentDraggingCardInstance == null) return;
 
-        CardController.Instance.AddCardToHand(currentDraggingCardInstance.Card);
+        CardController.Instance.AddCardToHand(currentDraggingCardInstance.Card, indexOfDraggedCardInHand);
 
+        // We destroy our original hand-card as we create a clone of the card that is returned to the hand.
         Destroy(currentDraggingCardInstance.gameObject);
         currentDraggingCardInstance = null;
     }

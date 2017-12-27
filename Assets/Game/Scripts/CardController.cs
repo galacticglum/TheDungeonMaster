@@ -35,14 +35,10 @@ public class CardController : MonoBehaviour
         Instance = this;
         hand = new List<CardInstance>();
 
-        Card cardPrototype = new Card("Brutish Sheltie", "Bork bork RURU. Does 15 sound damage to all nearby targets.");
-        Card cardPrototype1 = new Card("Brutish Ole", "Norweigan Scum; Bork bork RURU. Does 15 sound damage to all nearby targets.");
-
-        AddCardToHand(cardPrototype);
-        AddCardToHand(cardPrototype1);
-        AddCardToHand(cardPrototype);
-        AddCardToHand(cardPrototype1);
-        AddCardToHand(cardPrototype);
+        for (int i = 0; i < 5; i++)
+        {
+            AddCardToHand(new Card("Ole Pumper", "Pump something out of a discrete area of his body."));
+        }
     }
 
     /// <summary>
@@ -99,18 +95,38 @@ public class CardController : MonoBehaviour
             cardInstance.RectTransform.anchoredPosition = position;
             cardInstance.RectTransform.rotation = Quaternion.Euler(0, 0, rotation * Mathf.Rad2Deg);
         }
+
+        OrderCardsInHierarchy();
     }
 
     /// <summary>
-    /// Adds a card to the hand.
+    /// Orders the cards in the hierarchy based on their position in the hand.
+    /// </summary>
+    private void OrderCardsInHierarchy()
+    {
+        for (int i = 0; i < hand.Count; i++)
+        {
+            hand[i].transform.SetSiblingIndex(i);
+        }
+    }
+
+    /// <summary>
+    /// Adds a card into the hand.
     /// </summary>
     /// <param name="card">The <see cref="Card"/> to add to the hand.</param>
-    public CardInstance AddCardToHand(Card card)
+    public CardInstance AddCardToHand(Card card) => AddCardToHand(card, hand.Count);
+
+    /// <summary>
+    /// Adds a card into the hand at a specified index.
+    /// </summary>
+    /// <param name="card">The <see cref="Card"/> to add to the hand.</param>
+    /// <param name="index">The index at which to insert the card</param>
+    public CardInstance AddCardToHand(Card card, int index)
     {
         CardInstance cardInstance = CardInstance.Create(card);
         cardInstance.transform.SetParent(handParentTransform, false);
 
-        hand.Add(cardInstance);
+        hand.Insert(index, cardInstance);
         UpdateCardPositions();
 
         return cardInstance;
@@ -127,4 +143,10 @@ public class CardController : MonoBehaviour
 
         return result;
     }
+
+    /// <summary>
+    /// Retrieves the position of a card in the hand.
+    /// </summary>
+    /// <param name="cardInstance">The card to get the index of.</param>
+    public int GetIndexOfCardInHand(CardInstance cardInstance) => hand.IndexOf(cardInstance);
 }
