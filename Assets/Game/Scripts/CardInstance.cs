@@ -16,7 +16,7 @@ using UnityEngine.UI;
 /// </summary>
 [RequireComponent(typeof(CanvasGroup))]
 [RequireComponent(typeof(RectTransform))]
-public class CardInstance : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
+public class CardInstance : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
 {
     /// <summary>
     /// The card data which this <see cref="CardInstance"/> is initialized from.
@@ -86,10 +86,4 @@ public class CardInstance : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     /// </summary>
     /// <param name="eventData">The data pertaining to this event.</param>
     public void OnPointerDown(PointerEventData eventData) => CardInteractionController.Instance.BeginDrag(this);
-
-    /// <summary>
-    /// Executed when the pointer is up (released) on the <see cref="GameObject"/> pertaining to this <see cref="MonoBehaviour"/>.
-    /// </summary>
-    /// <param name="eventData">The data pertaining to this event.</param>
-    public void OnPointerUp(PointerEventData eventData) => CardInteractionController.Instance.EndDrag();
 }
