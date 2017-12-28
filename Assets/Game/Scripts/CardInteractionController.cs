@@ -19,11 +19,6 @@ using UnityEngine.UI;
 [RequireComponent(typeof(GraphicRaycaster))]
 public class CardInteractionController : MonoBehaviour
 {
-    /// <summary>
-    /// The active instance of the <see cref="CardInteractionController"/>.
-    /// </summary>
-    public static CardInteractionController Instance { get; private set; }
-
     [SerializeField]
     private CardInstance cardPopupInstance;
     [SerializeField]
@@ -38,7 +33,6 @@ public class CardInteractionController : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        Instance = this;
         cardPopupInstance.CanvasGroup.SetVisibility(false);
         graphicRaycaster = GetComponent<GraphicRaycaster>();
     }
@@ -114,14 +108,14 @@ public class CardInteractionController : MonoBehaviour
     {
         if (cardInstance == null || currentDraggingCardInstance != null) return;
 
-        indexOfDraggedCardInHand = CardController.Instance.GetIndexOfCardInHand(cardInstance);
+        indexOfDraggedCardInHand = MasterDataController.Current.CardController.GetIndexOfCardInHand(cardInstance);
 
         currentDraggingCardInstance = cardInstance;
         currentDraggingCardInstance.RectTransform.rotation = Quaternion.identity;
         currentDraggingCardInstance.transform.SetParent(dragCardParent, false);
         currentDraggingCardInstance.CanvasGroup.blocksRaycasts = false;
 
-        CardController.Instance.RemoveCardFromHand(cardInstance);    
+        MasterDataController.Current.CardController.RemoveCardFromHand(cardInstance);    
         EndHover(cardInstance);
     }
 
@@ -132,10 +126,9 @@ public class CardInteractionController : MonoBehaviour
     public void EndDrag(bool cancelled)
     {
         if (currentDraggingCardInstance == null) return;
-
         if (cancelled)
         {
-            CardController.Instance.AddCardToHand(currentDraggingCardInstance.Card, indexOfDraggedCardInHand);
+            MasterDataController.Current.CardController.AddCardToHand(currentDraggingCardInstance.Card, indexOfDraggedCardInHand);
         }
 
         // We destroy our original hand-card as we create a clone of the card if it is returned to the hand.
@@ -152,8 +145,7 @@ public class CardInteractionController : MonoBehaviour
         bool validDropArea = raycastResults.Any(result => result.gameObject.GetComponent<DropArea>());
         if (validDropArea)
         {
-            // TODO: Execute action
-            Debug.Log("DROPPED ON VALID LOCATION: DUN DUN DUN!!!");
+
         }
 
         EndDrag(!validDropArea);

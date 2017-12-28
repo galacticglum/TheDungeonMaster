@@ -16,11 +16,6 @@ using UnityEngine;
 public class CardController : MonoBehaviour
 {
     /// <summary>
-    /// The active instance of the <see cref="CardController"/>.
-    /// </summary>
-    public static CardController Instance { get; private set; }
-    
-    /// <summary>
     /// The parent transform for all cards in the hand. When a card is added to the hand, it's <see cref="GameObject"/> is parented to this <see cref="Transform"/>.
     /// </summary>
     [SerializeField]
@@ -32,13 +27,14 @@ public class CardController : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        Instance = this;
         hand = new List<CardInstance>();
 
         for (int i = 0; i < 5; i++)
         {
             AddCardToHand(new Card("Ole Pumper", "Pump something out of a discrete area of his body."));
         }
+
+        EnemyInstance.Create(new Enemy("Orc Grunt", "Gay", 10));
     }
 
     /// <summary>

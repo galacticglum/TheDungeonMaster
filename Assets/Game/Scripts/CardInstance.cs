@@ -54,14 +54,14 @@ public class CardInstance : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     }
 
     /// <summary>
-    /// Creates a <see cref="CardInstance"/> from a <see cref="Card"/>.
+    /// Creates a <see cref="CardInstance"/> from a <see cref="global::Card"/>.
     /// </summary>
-    /// <param name="card">The <see cref="Card"/> to create the <see cref="CardInstance"/> from.</param>
+    /// <param name="card">The <see cref="global::Card"/> to create the <see cref="CardInstance"/> from.</param>
     /// <returns>The card instance's <see cref="GameObject"/>.</returns>
     public static CardInstance Create(Card card)
     {
         GameObject cardGameObject = Instantiate(Resources.Load<GameObject>("Prefabs/Card_Front"));
-        cardGameObject.transform.SetParent(UIManager.Instance.Canvas.transform, false);
+        cardGameObject.transform.SetParent(MasterDataController.Current.CardSpawnRoot, false);
 
         CardInstance cardInstance = cardGameObject.GetComponent<CardInstance>();
         cardInstance.Initialize(card);
@@ -73,17 +73,17 @@ public class CardInstance : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     /// Executed when the pointer is over the <see cref="GameObject"/> pertaining to this <see cref="MonoBehaviour"/>.
     /// </summary>
     /// <param name="eventData">The data pertaining to this event.</param>
-    public void OnPointerEnter(PointerEventData eventData) => CardInteractionController.Instance.BeginHover(this);
+    public void OnPointerEnter(PointerEventData eventData) => MasterDataController.Current.CardInteractionController.BeginHover(this);
 
     /// <summary>
     /// Executed when the pointer leaves the <see cref="GameObject"/> pertaining to this <see cref="MonoBehaviour"/>.
     /// </summary>
     /// <param name="eventData">The data pertaining to this event.</param>
-    public void OnPointerExit(PointerEventData eventData) => CardInteractionController.Instance.EndHover(this);
+    public void OnPointerExit(PointerEventData eventData) => MasterDataController.Current.CardInteractionController.EndHover(this);
 
     /// <summary>
     /// Executed when the pointer is down on the <see cref="GameObject"/> pertaining to this <see cref="MonoBehaviour"/>.
     /// </summary>
     /// <param name="eventData">The data pertaining to this event.</param>
-    public void OnPointerDown(PointerEventData eventData) => CardInteractionController.Instance.BeginDrag(this);
+    public void OnPointerDown(PointerEventData eventData) => MasterDataController.Current.CardInteractionController.BeginDrag(this);
 }

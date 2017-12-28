@@ -23,13 +23,20 @@ public class Card
     public string Description { get; }
 
     /// <summary>
+    /// The amount of health points this <see cref="Card"/> can subtract from an <see cref="Enemy"/>.
+    /// </summary>
+    public int AttackPoints { get; }
+
+    /// <summary>
     /// Initialize a <see cref="Card"/>.
     /// </summary>
     /// <param name="name">The name of this <see cref="Card"/>.</param>
     /// <param name="description">A description of the behaviour(s) of this <see cref="Card"/>.</param>
-    public Card(string name, string description)
+    /// <param name="attackPoints">The amount of health points this <see cref="Card"/> can subtract from an <see cref="Enemy"/>.</param>
+    public Card(string name, string description, int attackPoints = 0)
     {
         Name = name;
         Description = description;
+        AttackPoints = attackPoints;
     }
 }

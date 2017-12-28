@@ -15,11 +15,9 @@ using UnityEditor;
 [CustomEditor(typeof(DropArea))]
 public class DropAreaEditor : Editor
 {
-    protected override bool ShouldHideOpenButton()
-    {
-        return true;
-    }
-
+    /// <summary>
+    /// Render the inspector GUI.
+    /// </summary>
     public override void OnInspectorGUI()
     {
         // This is empty for a reason, we don't want to render any inspector options.

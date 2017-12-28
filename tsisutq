@@ -1,0 +1,323 @@
+warning: LF will be replaced by CRLF in Assets/Game/Resources/Prefabs/Enemy_Front.prefab.meta.
+The file will have its original line endings in your working directory.
+[1mdiff --git a/Assets/Game/Resources/Prefabs/Enemy_Front.prefab b/Assets/Game/Resources/Prefabs/Enemy_Front.prefab[m
+[1mindex 2fe2c8e..ee043e0 100644[m
+[1m--- a/Assets/Game/Resources/Prefabs/Enemy_Front.prefab[m
+[1m+++ b/Assets/Game/Resources/Prefabs/Enemy_Front.prefab[m
+[36m@@ -9,311 +9,313 @@[m [mPrefab:[m
+     m_Modifications: [][m
+     m_RemovedComponents: [][m
+   m_ParentPrefab: {fileID: 0}[m
+[31m-  m_RootGameObject: {fileID: 1510590519374150}[m
+[32m+[m[32m  m_RootGameObject: {fileID: 1066364299914822}[m
+   m_IsPrefabParent: 1[m
+[31m---- !u!1 &1024710923677652[m
+[32m+[m[32m--- !u!1 &1035732849794248[m
+ GameObject:[m
+   m_ObjectHideFlags: 0[m
+   m_PrefabParentObject: {fileID: 0}[m
+   m_PrefabInternal: {fileID: 100100000}[m
+   serializedVersion: 5[m
+   m_Component:[m
+[31m-  - component: {fileID: 224955434717815386}[m
+[31m-  - component: {fileID: 222560158485082278}[m
+[31m-  - component: {fileID: 114844806054279934}[m
+[32m+[m[32m  - component: {fileID: 224779727570413936}[m
+[32m+[m[32m  - component: {fileID: 222758301171068668}[m
+[32m+[m[32m  - component: {fileID: 114589084337281016}[m
+   m_Layer: 5[m
+[31m-  m_Name: stat_right_inner[m
+[32m+[m[32m  m_Name: crystal[m
+   m_TagString: Untagged[m
+   m_Icon: {fileID: 0}[m
+   m_NavMeshLayer: 0[m
+   m_StaticEditorFlags: 0[m
+   m_IsActive: 1[m
+[31m---- !u!1 &1115940878932312[m
+[32m+[m[32m--- !u!1 &1050183726621556[m
+ GameObject:[m
+   m_ObjectHideFlags: 0[m
+   m_PrefabParentObject: {fileID: 0}[m
+   m_PrefabInternal: {fileID: 100100000}[m
+   serializedVersion: 5[m
+   m_Component:[m
+[31m-  - component: {fileID: 224001840215848106}[m
+[31m-  - component: {fileID: 222509017897520356}[m
+[31m-  - component: {fileID: 114590202436263658}[m
+[31m-  - component: {fileID: 114828614367921132}[m
+[32m+[m[32m  - component: {fileID: 224196980611405058}[m
+[32m+[m[32m  - component: {fileID: 222561099304517530}[m
+[32m+[m[32m  - component: {fileID: 114497295117815828}[m
+[32m+[m[32m  - component: {fileID: 114512622788919214}[m
+   m_Layer: 5[m
+[31m-  m_Name: card_title_text[m
+[32m+[m[32m  m_Name: crystal_text[m
+   m_TagString: Untagged[m
+   m_Icon: {fileID: 0}[m
+   m_NavMeshLayer: 0[m
+   m_StaticEditorFlags: 0[m
+[31m-  m_IsActive: 1[m
+[31m---- !u!1 &1217929407788758[m
+[32m+[m[32m  m_IsActive: 0[m
+[32m+[m[32m--- !u!1 &1066364299914822[m
+ GameObject:[m
+   m_ObjectHideFlags: 0[m
+   m_PrefabParentObject: {fileID: 0}[m
+   m_PrefabInternal: {fileID: 100100000}[m
+   serializedVersion: 5[m
+   m_Component:[m
+[31m-  - component: {fileID: 224837061744614076}[m
+[31m-  - component: {fileID: 222031753291300842}[m
+[31m-  - component: {fileID: 114095461347988484}[m
+[32m+[m[32m  - component: {fileID: 224966330074444652}[m
+[32m+[m[32m  - component: {fileID: 222097196487423552}[m
+[32m+[m[32m  - component: {fileID: 114598013801569478}[m
+[32m+[m[32m  - component: {fileID: 114416915835868026}[m
+   m_Layer: 5[m
+[31m-  m_Name: fgc1_front2_border[m
+[32m+[m[32m  m_Name: Enemy_Front[m
+   m_TagString: Untagged[m
+   m_Icon: {fileID: 0}[m
+   m_NavMeshLayer: 0[m
+   m_StaticEditorFlags: 0[m
+   m_IsActive: 1[m
+[31m---- !u!1 &1265286003051336[m
+[32m+[m[32m--- !u!1 &1089898744092050[m
+ GameObject:[m
+   m_ObjectHideFlags: 0[m
+   m_PrefabParentObject: {fileID: 0}[m
+   m_PrefabInternal: {fileID: 100100000}[m
+   serializedVersion: 5[m
+   m_Component:[m
+[31m-  - component: {fileID: 224341354014240626}[m
+[31m-  - component: {fileID: 222369830525304412}[m
+[31m-  - component: {fileID: 114534963711847358}[m
+[32m+[m[32m  - component: {fileID: 224947981563751500}[m
+[32m+[m[32m  - component: {fileID: 222694240118650892}[m
+[32m+[m[32m  - component: {fileID: 114759849862962764}[m
+   m_Layer: 5[m
+[31m-  m_Name: stat_left_inner[m
+[32m+[m[32m  m_Name: fgc1_front1_border[m
+   m_TagString: Untagged[m
+   m_Icon: {fileID: 0}[m
+   m_NavMeshLayer: 0[m
+   m_StaticEditorFlags: 0[m
+   m_IsActive: 1[m
+[31m---- !u!1 &1273777926756412[m
+[32m+[m[32m--- !u!1 &1233699417849868[m
+ GameObject:[m
+   m_ObjectHideFlags: 0[m
+   m_PrefabParentObject: {fileID: 0}[m
+   m_PrefabInternal: {fileID: 100100000}[m
+   serializedVersion: 5[m
+   m_Component:[m
+[31m-  - component: {fileID: 224850068482201072}[m
+[31m-  - component: {fileID: 222894720611637858}[m
+[31m-  - component: {fileID: 114792439161855322}[m
+[31m-  - component: {fileID: 114768329033724048}[m
+[32m+[m[32m  - component: {fileID: 224369467685793442}[m
+[32m+[m[32m  - component: {fileID: 222326982887184402}[m
+[32m+[m[32m  - component: {fileID: 114402822241233524}[m
+   m_Layer: 5[m
+[31m-  m_Name: stat_right_text[m
+[32m+[m[32m  m_Name: fgc2_front1[m
+   m_TagString: Untagged[m
+   m_Icon: {fileID: 0}[m
+   m_NavMeshLayer: 0[m
+   m_StaticEditorFlags: 0[m
+   m_IsActive: 1[m
+[31m---- !u!1 &1313801412705790[m
+[32m+[m[32m--- !u!1 &1270410562374294[m
+ GameObject:[m
+   m_ObjectHideFlags: 0[m
+   m_PrefabParentObject: {fileID: 0}[m
+   m_PrefabInternal: {fileID: 100100000}[m
+   serializedVersion: 5[m
+   m_Component:[m
+[31m-  - component: {fileID: 224064997825930376}[m
+[31m-  - component: {fileID: 222449752643939630}[m
+[31m-  - component: {fileID: 114799737116945518}[m
+[32m+[m[32m  - component: {fileID: 224531650011857862}[m
+[32m+[m[32m  - component: {fileID: 222297528155797162}[m
+[32m+[m[32m  - component: {fileID: 114080457627021878}[m
+   m_Layer: 5[m
+[31m-  m_Name: stat_right_icon[m
+[32m+[m[32m  m_Name: cover_art[m
+   m_TagString: Untagged[m
+   m_Icon: {fileID: 0}[m
+   m_NavMeshLayer: 0[m
+   m_StaticEditorFlags: 0[m
+   m_IsActive: 1[m
+[31m---- !u!1 &1494061077982580[m
+[32m+[m[32m--- !u!1 &1296477464539586[m
+ GameObject:[m
+   m_ObjectHideFlags: 0[m
+   m_PrefabParentObject: {fileID: 0}[m
+   m_PrefabInternal: {fileID: 100100000}[m
+   serializedVersion: 5[m
+   m_Component:[m
+[31m-  - component: {fileID: 224830958198285280}[m
+[31m-  - component: {fileID: 222859297233905538}[m
+[31m-  - component: {fileID: 114981050617831944}[m
+[32m+[m[32m  - component: {fileID: 224651259192955514}[m
+[32m+[m[32m  - component: {fileID: 222809235141447060}[m
+[32m+[m[32m  - component: {fileID: 114930924733244568}[m
+   m_Layer: 5[m
+[31m-  m_Name: front2_art_overlay[m
+[32m+[m[32m  m_Name: stat_right_icon_frame[m
+   m_TagString: Untagged[m
+   m_Icon: {fileID: 0}[m
+   m_NavMeshLayer: 0[m
+   m_StaticEditorFlags: 0[m
+   m_IsActive: 1[m
+[31m---- !u!1 &1510590519374150[m
+[32m+[m[32m--- !u!1 &1447387107594146[m
+ GameObject:[m
+   m_ObjectHideFlags: 0[m
+   m_PrefabParentObject: {fileID: 0}[m
+   m_PrefabInternal: {fileID: 100100000}[m
+   serializedVersion: 5[m
+   m_Component:[m
+[31m-  - component: {fileID: 224590541656948970}[m
+[31m-  - component: {fileID: 222040978857679128}[m
+[31m-  - component: {fileID: 114429662009422228}[m
+[32m+[m[32m  - component: {fileID: 224805782400643482}[m
+[32m+[m[32m  - component: {fileID: 222861942679404616}[m
+[32m+[m[32m  - component: {fileID: 114278031159913096}[m
+[32m+[m[32m  - component: {fileID: 114653119761742120}[m
+   m_Layer: 5[m
+[31m-  m_Name: Enemy_Front[m
+[31m-  m_TagString: DropArea[m
+[32m+[m[32m  m_Name: card_title_text[m
+[32m+[m[32m  m_TagString: Untagged[m
+   m_Icon: {fileID: 0}[m
+   m_NavMeshLayer: 0[m
+   m_StaticEditorFlags: 0[m
+   m_IsActive: 1[m
+[31m---- !u!1 &1523914376921650[m
+[32m+[m[32m--- !u!1 &1475293941320312[m
+ GameObject:[m
+   m_ObjectHideFlags: 0[m
+   m_PrefabParentObject: {fileID: 0}[m
+   m_PrefabInternal: {fileID: 100100000}[m
+   serializedVersion: 5[m
+   m_Component:[m
+[31m-  - component: {fileID: 224683987509650128}[m
+[31m-  - component: {fileID: 222993072465726754}[m
+[31m-  - component: {fileID: 114026436748256624}[m
+[32m+[m[32m  - component: {fileID: 224088050531028912}[m
+[32m+[m[32m  - component: {fileID: 222818244528043714}[m
+[32m+[m[32m  - component: {fileID: 114504715433557862}[m
+   m_Layer: 5[m
+[31m-  m_Name: stat_right_icon_frame[m
+[32m+[m[32m  m_Name: stat_left_inner[m
+   m_TagString: Untagged[m
+   m_Icon: {fileID: 0}[m
+   m_NavMeshLayer: 0[m
+   m_StaticEditorFlags: 0[m
+   m_IsActive: 1[m
+[31m---- !u!1 &1564569600375274[m
+[32m+[m[32m--- !u!1 &1577439456949818[m
+ GameObject:[m
+   m_ObjectHideFlags: 0[m
+   m_PrefabParentObject: {fileID: 0}[m
+   m_PrefabInternal: {fileID: 100100000}[m
+   serializedVersion: 5[m
+   m_Component:[m
+[31m-  - component: {fileID: 224937626171219816}[m
+[31m-  - component: {fileID: 222420668463804256}[m
+[31m-  - component: {fileID: 114605175536773150}[m
+[32m+[m[32m  - component: {fileID: 224032254647659048}[m
+[32m+[m[32m  - component: {fileID: 222317489334743154}[m
+[32m+[m[32m  - component: {fileID: 114615942001713410}[m
+   m_Layer: 5[m
+[31m-  m_Name: fgc2_front2[m
+[32m+[m[32m  m_Name: stat_left_icon_frame[m
+   m_TagString: Untagged[m
+   m_Icon: {fileID: 0}[m
+   m_NavMeshLayer: 0[m
+   m_StaticEditorFlags: 0[m
+   m_IsActive: 1[m
+[31m---- !u!1 &1613887141706736[m
+[32m+[m[32m--- !u!1 &1666409457200924[m
+ GameObject:[m
+   m_ObjectHideFlags: 0[m
+   m_PrefabParentObject: {fileID: 0}[m
+   m_PrefabInternal: {fileID: 100100000}[m
+   serializedVersion: 5[m
+   m_Component:[m
+[31m-  - component: {fileID: 224017703066383752}[m
+[31m-  - component: {fileID: 222896170897481858}[m
+[31m-  - component: {fileID: 114471808163754220}[m
+[32m+[m[32m  - component: {fileID: 224205302080153056}[m
+[32m+[m[32m  - component: {fileID: 222693852589378102}[m
+[32m+[m[32m  - component: {fileID: 114187566094927202}[m
+   m_Layer: 5[m
+[31m-  m_Name: stat_left_icon_frame[m
+[32m+[m[32m  m_Name: stat_right_icon[m
+   m_TagString: Untagged[m
+   m_Icon: {fileID: 0}[m
+   m_NavMeshLayer: 0[m
+   m_StaticEditorFlags: 0[m
+   m_IsActive: 1[m
+[31m---- !u!1 &1630259255061880[m
+[32m+[m[32m--- !u!1 &1689801251861320[m
+ GameObject:[m
+   m_ObjectHideFlags: 0[m
+   m_PrefabParentObject: {fileID: 0}[m
+   m_PrefabInternal: {fileID: 100100000}[m
+   serializedVersion: 5[m
+   m_Component:[m
+[31m-  - component: {fileID: 224985576868222848}[m
+[31m-  - component: {fileID: 222767803799516602}[m
+[31m-  - component: {fileID: 114789239415468902}[m
+[31m-  - component: {fileID: 114539847044610424}[m
+[32m+[m[32m  - component: {fileID: 224970065057379944}[m
+[32m+[m[32m  - component: {fileID: 222052797422052164}[m
+[32m+[m[32m  - component: {fileID: 114342428874558322}[m
+[32m+[m[32m  - component: {fileID: 114648819969468884}[m
+   m_Layer: 5[m
+[31m-  m_Name: description[m
+[32m+[m[32m  m_Name: stat_right_text[m
+   m_TagString: Untagged[m
+   m_Icon: {fileID: 0}[m
+   m_NavMeshLayer: 0[m
+   m_StaticEditorFlags: 0[m
+   m_IsActive: 1[m
+[31m---- !u!1 &1673842758305510[m
+[32m+[m[32m--- !u!1 &1732663027131016[m
+ GameObject:[m
+   m_ObjectHideFlags: 0[m
+   m_PrefabParentObject: {fileID: 0}[m
+   m_PrefabInternal: {fileID: 100100000}[m
+   serializedVersion: 5[m
+   m_Component:[m
+[31m-  - component: {fileID: 224240680925868088}[m
+[31m-  - component: {fileID: 222236400982366640}[m
+[31m-  - component: {fileID: 114287521139041536}[m
+[32m+[m[32m  - component: {fileID: 224435831833981406}[m
+[32m+[m[32m  - component: {fileID: 222492226601644264}[m
+[32m+[m[32m  - component: {fileID: 114992368411903094}[m
+[32m+[m[32m  - component: {fileID: 114109364913431852}[m
+   m_Layer: 5[m
+[31m-  m_Name: crystal[m
+[32m+[m[32m  m_Name: stat_left_text_hp[m
+   m_TagString: Untagged[m
+   m_Icon: {fileID: 0}[m
+   m_NavMeshLayer: 0[m
+   m_StaticEditorFlags: 0[m
+   m_IsActive: 1[m
+[31m---- !u!1 &1709357759122282[m
+[32m+[m[32m--- !u!1 &1742851422003250[m
+ GameObject:[m
+   m_ObjectHideFlags: 0[m
+   m_PrefabParentObject: {fileID: 0}[m
+   m_PrefabInternal: {fileID: 100100000}[m
+   serializedVersion: 5[m
+   m_Component:[m
+[31m-  - component: {fileID: 224380835270273560}[m
+[31m-  - component: {fileID: 222042578246847286}[m
+[31m-  - component: {fileID: 114432430327310364}[m
+[31m-  - component: {fileID: 114811305248738502}[m
+[32m+[m[32m  - component: {fileID: 224541177675953164}[m
+[32m+[m[32m  - component: {fileID: 222
