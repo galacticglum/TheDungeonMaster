@@ -18,6 +18,8 @@ public class MasterDataController : MonoBehaviour
 
     public CardController CardController => cardController;
     public CardInteractionController CardInteractionController => cardInteractionController;
+    public RoomController RoomController => roomController;
+
     public Transform CardSpawnRoot => cardSpawnRoot;
     public Transform EnemySpawnRoot => enemySpawnRoot;
 
@@ -26,6 +28,8 @@ public class MasterDataController : MonoBehaviour
     private CardController cardController;
     [SerializeField]
     private CardInteractionController cardInteractionController;
+    [SerializeField]
+    private RoomController roomController;
 
     [Header("Spawners")]
     [SerializeField]
