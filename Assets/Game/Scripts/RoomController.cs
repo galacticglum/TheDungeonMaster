@@ -58,7 +58,13 @@ public class RoomController : MonoBehaviour
     /// <summary>
     /// Raise the player-room-changed event.
     /// </summary>
-    private void OnCurrentRoomChanged(Room oldRoom, Room newRoom) => CurrentRoomChanged?.Invoke(this, new CurrentRoomChangedEventArgs(oldRoom, newRoom));
+    private void OnCurrentRoomChanged(Room oldRoom, Room newRoom)
+    {
+        oldRoom?.OnPlayerExit();
+        newRoom?.OnPlayerEnter();
+
+        CurrentRoomChanged?.Invoke(this, new CurrentRoomChangedEventArgs(oldRoom, newRoom));
+    }
 
     /// <summary>
     /// The current room which the player is in.
@@ -77,19 +83,26 @@ public class RoomController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// The <see cref="RoomManager"/> for this controller.
+    /// </summary>
+    public RoomManager RoomManager { get; private set; } 
+
     [SerializeField]
     private PlayerController playerController;
-    [SerializeField]
-    private Room[] rooms;
-
     private Room currentRoom;
+
+    private void OnEnable()
+    {
+        RoomManager = new RoomManager();
+    }
 
     /// <summary>
     /// Called when the component is created and placed into the world.
     /// </summary>
     private void Start()
     {
-        playerController.PositionChangedEventHandler += OnPlayerPositionChanged;
+        playerController.PositionChanged += OnPlayerPositionChanged;
     }
 
     /// <summary>
@@ -107,7 +120,8 @@ public class RoomController : MonoBehaviour
     /// </summary>
     public Room GetRoomFromPosition(Vector3 position)
     {
-        return rooms.FirstOrDefault(room => position.x >= room.Centre.x - room.Size.x / 2f && 
+        // If the position is WITHIN the bounds of our room, we have a match!
+        return RoomManager.FirstOrDefault(room => position.x >= room.Centre.x - room.Size.x / 2f && 
                                             position.x <= room.Centre.x + room.Size.x / 2f && 
                                             position.z >= room.Centre.z - room.Size.y / 2f && 
                                             position.z <= room.Centre.z + room.Size.y / 2f);

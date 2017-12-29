@@ -7,6 +7,7 @@
  * Description: Extension functions related to mathematics.
  */
 
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -25,5 +26,5 @@ public static class MathHelper
     /// </summary>
     public static bool IsApproximatelyEqual(Vector3 a, Vector3 b) => Mathf.Approximately(a.x, a.y) &&
                                                                      Mathf.Approximately(a.y, b.y) &&
-                                                                     Mathf.Approximately(a.y, b.y);
+                                                                     Mathf.Approximately(a.y, b.y);   
 }

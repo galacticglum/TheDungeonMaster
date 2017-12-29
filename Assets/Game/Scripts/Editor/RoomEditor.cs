@@ -15,7 +15,7 @@ using UnityEngine;
 /// <summary>
 /// Room component inspector.
 /// </summary>
-[CustomEditor(typeof(Room))]
+[CustomEditor(typeof(Room), true)]
 public class RoomEditor : Editor
 {
     private static GUIContent EditModeButton => EditorGUIUtility.IconContent("EditCollider");

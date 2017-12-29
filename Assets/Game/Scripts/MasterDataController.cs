@@ -40,7 +40,7 @@ public class MasterDataController : MonoBehaviour
     /// <summary>
     /// Called when the component is created and placed into the world.
     /// </summary>
-    private void Start()
+    private void OnEnable()
     {
         Current = this;
     }

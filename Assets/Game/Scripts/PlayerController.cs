@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// This event is raised when the position of this <see cref="PlayerController"/> is changed.
     /// </summary>
-    public event PlayerControllerEventHandler PositionChangedEventHandler;
+    public event PlayerControllerEventHandler PositionChanged;
 
     private ThirdPersonUserControl thirdPersonUserControl;
 
@@ -75,6 +75,6 @@ public class PlayerController : MonoBehaviour
     private void OnPositionChangedEventHandler()
     {
         PlayerControllerEventArgs args = new PlayerControllerEventArgs(this);
-        PositionChangedEventHandler?.Invoke(this, args);
+        PositionChanged?.Invoke(this, args);
     }
 }

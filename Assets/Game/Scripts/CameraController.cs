@@ -46,7 +46,7 @@ public class CameraController : MonoBehaviour
     private void OnCurrentRoomChanged(object sender, CurrentRoomChangedEventArgs args)
     {
         Vector3 destination = args.NewRoom.Centre + CameraOffset;
-        cameraTransitionLerpInformation = new LerpInformation<Vector3>(transform.position, destination, transitionDuration, Vector3.Lerp);
+        cameraTransitionLerpInformation = new LerpInformation<Vector3>(transform.position, destination, transitionDuration, GradualCurve.Interpolate);
         cameraTransitionLerpInformation.Finished += (o, eventArgs) => cameraTransitionLerpInformation = null;
     }
 }

@@ -7,6 +7,7 @@
  * Description: The top-level manager for a dungeon.
  */
 
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -14,5 +15,25 @@ using UnityEngine;
 /// </summary>
 public class DungeonController : MonoBehaviour
 {
+    [SerializeField]
+    private Room entryRoom;
 
+    [SerializeField]
+    private EncounterRoom[] encounters;
+
+    [SerializeField]
+    private EncounterRoom bossRoom;
+
+    private void Update()
+    {
+        if (IsReadyForBoss())
+        {
+            Debug.Log("boss is ready!");
+        }
+    }
+
+    private bool IsReadyForBoss()
+    {
+        return encounters.All(encounterRoom => encounterRoom.IsComplete());
+    }
 }
