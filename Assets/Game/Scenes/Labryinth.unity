@@ -1937,6 +1937,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1205400897}
   - component: {fileID: 1205400898}
+  - component: {fileID: 1205400899}
   m_Layer: 0
   m_Name: _MASTER_DATA_CONTROLLER
   m_TagString: Untagged
@@ -1968,11 +1969,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e1e389c296f33d4bb5e295599d1d9d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardController: {fileID: 0}
-  cardInteractionController: {fileID: 0}
-  roomController: {fileID: 1961729397}
   cardSpawnRoot: {fileID: 0}
   enemySpawnRoot: {fileID: 0}
+--- !u!114 &1205400899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1205400896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e55d096e107f254abd12af12981e0ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1260946874
 GameObject:
   m_ObjectHideFlags: 0
@@ -2741,7 +2750,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 244efa3b553733b4fb82b599d79772e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerController: {fileID: 737575162}
 --- !u!4 &1961729398
 Transform:
   m_ObjectHideFlags: 0

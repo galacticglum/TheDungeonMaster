@@ -55,7 +55,7 @@ public class Room : MonoBehaviour
     /// The centre point of this room.
     /// </summary>
     public Vector3 Centre => transform.position;
-
+    
     /// <summary>
     /// The size (of the bounds) of this room.
     /// </summary>
@@ -69,7 +69,7 @@ public class Room : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        MasterDataController.Current.RoomController.RoomManager.Add(this);
+        ControllerDatabase.Get<RoomController>().RoomManager.Add(this);
     }
 
     /// <summary>

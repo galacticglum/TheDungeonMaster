@@ -12,24 +12,13 @@ using UnityEngine;
 /// <summary>
 /// Global data controller which stores any game-wide variables.
 /// </summary>
+[ExecuteInEditMode]
 public class MasterDataController : MonoBehaviour
 {
     public static MasterDataController Current { get; private set; }
 
-    public CardController CardController => cardController;
-    public CardInteractionController CardInteractionController => cardInteractionController;
-    public RoomController RoomController => roomController;
-
     public Transform CardSpawnRoot => cardSpawnRoot;
     public Transform EnemySpawnRoot => enemySpawnRoot;
-
-    [Header("Controllers")]
-    [SerializeField]
-    private CardController cardController;
-    [SerializeField]
-    private CardInteractionController cardInteractionController;
-    [SerializeField]
-    private RoomController roomController;
 
     [Header("Spawners")]
     [SerializeField]

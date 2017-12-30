@@ -3,7 +3,7 @@
  * File Name: RoomController.cs
  * Project Name: TheDungeonMaster
  * Creation Date: 12/28/2017
- * Modified Date: 12/28/2017
+ * Modified Date: 12/29/2017
  * Description: Manages all rooms and keeps track of the current room the player is in.
  */
 
@@ -48,7 +48,7 @@ public delegate void CurrentRoomChangedEventHandler(object sender, CurrentRoomCh
 /// <summary>
 /// Manages all rooms and keeps track of the current room the player is in.
 /// </summary>
-public class RoomController : MonoBehaviour
+public class RoomController : ControllerBehaviour
 {
     /// <summary>
     /// This event is raised when the current room changes.
@@ -65,6 +65,8 @@ public class RoomController : MonoBehaviour
 
         CurrentRoomChanged?.Invoke(this, new CurrentRoomChangedEventArgs(oldRoom, newRoom));
     }
+
+    private Room currentRoom;
 
     /// <summary>
     /// The current room which the player is in.
@@ -88,11 +90,10 @@ public class RoomController : MonoBehaviour
     /// </summary>
     public RoomManager RoomManager { get; private set; } 
 
-    [SerializeField]
-    private PlayerController playerController;
-    private Room currentRoom;
-
-    private void OnEnable()
+    /// <summary>
+    /// Called before Start.
+    /// </summary>
+    private void Awake()
     {
         RoomManager = new RoomManager();
     }
@@ -102,7 +103,7 @@ public class RoomController : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        playerController.PositionChanged += OnPlayerPositionChanged;
+        ControllerDatabase.Get<PlayerController>().PositionChanged += OnPlayerPositionChanged;
     }
 
     /// <summary>

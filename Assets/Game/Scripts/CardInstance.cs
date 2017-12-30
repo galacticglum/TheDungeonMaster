@@ -73,17 +73,17 @@ public class CardInstance : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     /// Executed when the pointer is over the <see cref="GameObject"/> pertaining to this <see cref="MonoBehaviour"/>.
     /// </summary>
     /// <param name="eventData">The data pertaining to this event.</param>
-    public void OnPointerEnter(PointerEventData eventData) => MasterDataController.Current.CardInteractionController.BeginHover(this);
+    public void OnPointerEnter(PointerEventData eventData) => ControllerDatabase.Get<CardInteractionController>().BeginHover(this);
 
     /// <summary>
     /// Executed when the pointer leaves the <see cref="GameObject"/> pertaining to this <see cref="MonoBehaviour"/>.
     /// </summary>
     /// <param name="eventData">The data pertaining to this event.</param>
-    public void OnPointerExit(PointerEventData eventData) => MasterDataController.Current.CardInteractionController.EndHover(this);
+    public void OnPointerExit(PointerEventData eventData) => ControllerDatabase.Get<CardInteractionController>().EndHover(this);
 
     /// <summary>
     /// Executed when the pointer is down on the <see cref="GameObject"/> pertaining to this <see cref="MonoBehaviour"/>.
     /// </summary>
     /// <param name="eventData">The data pertaining to this event.</param>
-    public void OnPointerDown(PointerEventData eventData) => MasterDataController.Current.CardInteractionController.BeginDrag(this);
+    public void OnPointerDown(PointerEventData eventData) => ControllerDatabase.Get<CardInteractionController>().BeginDrag(this);
 }

@@ -3,7 +3,7 @@
  * File Name: RoomEditor.cs
  * Project Name: TheDungeonMaster
  * Creation Date: 12/28/2017
- * Modified Date: 12/28/2017
+ * Modified Date: 12/29/2017
  * Description: Room component inspector.
  */
 
@@ -18,12 +18,28 @@ using UnityEngine;
 [CustomEditor(typeof(Room), true)]
 public class RoomEditor : Editor
 {
+    /// <summary>
+    /// The <see cref="GUIContent"/> for the edit bounds button.
+    /// </summary>
     private static GUIContent EditModeButton => EditorGUIUtility.IconContent("EditCollider");
+
+    /// <summary>
+    /// The <see cref="BoxBoundsHandle"/> for editing room bounds.
+    /// </summary>
     private BoxBoundsHandle boxBoundsHandle;
+    
+    /// <summary>
+    /// Indicates whether edit mode is enabled. 
+    /// When it is enabled, the user can change the bounds of the room.
+    /// </summary>
     private bool canEditBounds;
 
+    /// <summary>
+    /// Called when the editor is enabled.
+    /// </summary>
     private void OnEnable()
     {
+        // Initialize the box bound handle with the appropriate axes.
         boxBoundsHandle = new BoxBoundsHandle
         {
             axes = PrimitiveBoundsHandle.Axes.X | PrimitiveBoundsHandle.Axes.Y
@@ -36,13 +52,19 @@ public class RoomEditor : Editor
         boxBoundsHandle.wireframeColor = Color.green;
     }
 
+    /// <summary>
+    /// Draw the inspector.
+    /// </summary>
     public override void OnInspectorGUI()
     {
+        // This initializes the edit mode button and hook into the editor delegate for changing the scene view handle.
+        // When the button is pressed, the position handle in the viewport is hidden.
         EditMode.DoEditModeInspectorModeButton(EditMode.SceneViewEditMode.Collider, "Edit Bounds", EditModeButton, () => new Bounds(boxBoundsHandle.center, boxBoundsHandle.size), this);
 
         SerializedProperty sizeProperty = serializedObject.FindProperty("size");
         sizeProperty.vector2Value = EditorGUILayout.Vector2Field(new GUIContent("Size"), sizeProperty.vector2Value);
 
+        // Readonly centre field.
         GUI.enabled = false;
         EditorGUILayout.Vector3Field(new GUIContent("Centre"), ((Room)target).transform.position);
         GUI.enabled = true;
@@ -50,6 +72,9 @@ public class RoomEditor : Editor
         serializedObject.ApplyModifiedProperties();
     }
 
+    /// <summary>
+    /// Draw the scene GUI.
+    /// </summary>`
     private void OnSceneGUI()
     {
         Room room = (Room)target;
@@ -86,12 +111,16 @@ public class RoomEditor : Editor
             }
         }
     }
-
-    private static Matrix4x4 GetGridViewMatrix(Transform transform)
+        
+    /// <summary>
+    /// Retrieves <see cref="Matrix4x4"/> that is the grid view matrix.
+    /// Rotates the matrix by 90 degrees on the x-axis so that it is top-down.
+    /// </summary>
+    private static Matrix4x4 GetGridViewMatrix(Transform gridTransform)
     {
         Vector3 rotation = new Vector3(90, 0, 0);
-        Vector3 position = transform.position;
+        Vector3 position = gridTransform.position;
 
-        return Matrix4x4.Translate(position) * Matrix4x4.Rotate(transform.rotation * Quaternion.Euler(rotation));
+        return Matrix4x4.Translate(position) * Matrix4x4.Rotate(gridTransform.rotation * Quaternion.Euler(rotation));
     }
 }

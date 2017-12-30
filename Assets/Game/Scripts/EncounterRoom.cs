@@ -7,8 +7,6 @@
  * Description: A room for an encounter.
  */
 
-using UnityEngine;
-
 /// <summary>
 /// A room for an encounter.
 /// </summary>

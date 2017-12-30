@@ -548,6 +548,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1343152474}
   - component: {fileID: 1343152475}
+  - component: {fileID: 1343152476}
   m_Layer: 0
   m_Name: _MASTER DATA CONTROLLER
   m_TagString: Untagged
@@ -579,10 +580,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e1e389c296f33d4bb5e295599d1d9d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardController: {fileID: 1973786203}
-  cardInteractionController: {fileID: 997111365}
   cardSpawnRoot: {fileID: 330249130}
   enemySpawnRoot: {fileID: 434384303}
+--- !u!114 &1343152476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1343152473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e55d096e107f254abd12af12981e0ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1447603721
 GameObject:
   m_ObjectHideFlags: 0
@@ -643,7 +653,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 258497dfafb572249a941d82094c1c48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  handParentTransform: {fileID: 1447603722}
+  handParentTransform: {fileID: 0}
 --- !u!4 &1973786204
 Transform:
   m_ObjectHideFlags: 0

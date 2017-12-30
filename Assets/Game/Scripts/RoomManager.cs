@@ -3,7 +3,7 @@
  * File Name: RoomManager.cs
  * Project Name: TheDungeonMaster
  * Creation Date: 12/28/2017
- * Modified Date: 12/28/2017
+ * Modified Date: 12/29/2017
  * Description: Stores all the rooms in the world.
  */
 
@@ -65,6 +65,13 @@ public class RoomManager : IEnumerable<Room>
     /// <param name="filter">The filter to use for finding the room.</param>
     public IEnumerable<Room> Find(Func<Room, bool> filter) => rooms.Where(filter);
 
+    /// <summary>
+    /// Retrieve the <see cref="IEnumerator{T}"/> for this <see cref="RoomManager"/> which iterates over the stored <see cref="Room"/> collection.
+    /// </summary>
     public IEnumerator<Room> GetEnumerator() => ((IEnumerable<Room>)rooms).GetEnumerator();
+
+    /// <summary>
+    /// Retrieve the <see cref="IEnumerator{T}"/> for this <see cref="RoomManager"/> which iterates over the stored <see cref="Room"/> collection.
+    /// </summary>
     IEnumerator IEnumerable.GetEnumerator() => rooms.GetEnumerator();
 }

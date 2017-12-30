@@ -3,7 +3,7 @@
  * File Name: CardInteractionController.cs
  * Project Name: TheDungeonMaster
  * Creation Date: 12/26/2017
- * Modified Date: 12/27/2017
+ * Modified Date: 12/29/2017
  * Description: Manages all the interaction between cards and the user.
  */
 
@@ -17,7 +17,7 @@ using UnityEngine.UI;
 /// Manages all the interaction between cards and the user.
 /// </summary>
 [RequireComponent(typeof(GraphicRaycaster))]
-public class CardInteractionController : MonoBehaviour
+public class CardInteractionController : ControllerBehaviour
 {
     [SerializeField]
     private CardInstance cardPopupInstance;
@@ -108,14 +108,14 @@ public class CardInteractionController : MonoBehaviour
     {
         if (cardInstance == null || currentDraggingCardInstance != null) return;
 
-        indexOfDraggedCardInHand = MasterDataController.Current.CardController.GetIndexOfCardInHand(cardInstance);
+        indexOfDraggedCardInHand = ControllerDatabase.Get<CardController>().GetIndexOfCardInHand(cardInstance);
 
         currentDraggingCardInstance = cardInstance;
         currentDraggingCardInstance.RectTransform.rotation = Quaternion.identity;
         currentDraggingCardInstance.transform.SetParent(dragCardParent, false);
         currentDraggingCardInstance.CanvasGroup.blocksRaycasts = false;
 
-        MasterDataController.Current.CardController.RemoveCardFromHand(cardInstance);    
+        ControllerDatabase.Get<CardController>().RemoveCardFromHand(cardInstance);    
         EndHover(cardInstance);
     }
 
@@ -128,7 +128,7 @@ public class CardInteractionController : MonoBehaviour
         if (currentDraggingCardInstance == null) return;
         if (cancelled)
         {
-            MasterDataController.Current.CardController.AddCardToHand(currentDraggingCardInstance.Card, indexOfDraggedCardInHand);
+            ControllerDatabase.Get<CardController>().AddCardToHand(currentDraggingCardInstance.Card, indexOfDraggedCardInHand);
         }
 
         // We destroy our original hand-card as we create a clone of the card if it is returned to the hand.
@@ -145,7 +145,7 @@ public class CardInteractionController : MonoBehaviour
         bool validDropArea = raycastResults.Any(result => result.gameObject.GetComponent<DropArea>());
         if (validDropArea)
         {
-
+            // TODO: Drop operation execution
         }
 
         EndDrag(!validDropArea);

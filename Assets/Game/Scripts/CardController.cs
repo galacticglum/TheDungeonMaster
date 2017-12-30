@@ -3,7 +3,7 @@
  * File Name: CardController.cs
  * Project Name: TheDungeonMaster
  * Creation Date: 12/25/2017
- * Modified Date: 12/27/2017
+ * Modified Date: 12/29/2017
  * Description: Handles all the cards in the game.
  */
 
@@ -13,7 +13,7 @@ using UnityEngine;
 /// <summary>
 /// Handles all the cards in the game.
 /// </summary>
-public class CardController : MonoBehaviour
+public class CardController : ControllerBehaviour
 {
     /// <summary>
     /// The parent transform for all cards in the hand. When a card is added to the hand, it's <see cref="GameObject"/> is parented to this <see cref="Transform"/>.

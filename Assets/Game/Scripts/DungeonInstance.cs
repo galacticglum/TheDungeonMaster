@@ -1,6 +1,6 @@
 ﻿/*
  * Author: Shon Verch
- * File Name: DungeonController.cs
+ * File Name: DungeonInstance.cs
  * Project Name: TheDungeonMaster
  * Creation Date: 12/28/2017
  * Modified Date: 12/28/2017
@@ -13,7 +13,7 @@ using UnityEngine;
 /// <summary>
 /// The top-level manager for a dungeon.
 /// </summary>
-public class DungeonController : MonoBehaviour
+public class DungeonInstance : MonoBehaviour
 {
     [SerializeField]
     private Room entryRoom;

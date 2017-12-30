@@ -1,9 +1,9 @@
 ﻿/*
  * Author: Shon Verch
- * File Name: CameraController.cs
+ * File Name: CameraMovement.cs
  * Project Name: TheDungeonMaster
  * Creation Date: 12/28/2017
- * Modified Date: 12/28/2017
+ * Modified Date: 12/29/2017
  * Description: Manages all camera movement.
  */
 
@@ -13,7 +13,7 @@ using UnityEngine;
 /// Manages all camera movement.
 /// </summary>
 [RequireComponent(typeof(Camera))]
-public class CameraController : MonoBehaviour
+public class CameraMovement : MonoBehaviour
 {
     [SerializeField]
     private float transitionDuration = 1f;
@@ -31,7 +31,7 @@ public class CameraController : MonoBehaviour
     private void Start()
     {
         transform.position = CameraOffset;
-        MasterDataController.Current.RoomController.CurrentRoomChanged += OnCurrentRoomChanged;
+        ControllerDatabase.Get<RoomController>().CurrentRoomChanged += OnCurrentRoomChanged;
     }
 
     /// <summary>
@@ -43,6 +43,11 @@ public class CameraController : MonoBehaviour
         transform.position = cameraTransitionLerpInformation.Step(Time.deltaTime);
     }
 
+    /// <summary>
+    /// Event which is called when the current room (that the player is in) has changed.
+    /// </summary>
+    /// <param name="sender">The object which dispatched this event.</param>
+    /// <param name="args">The arguments pertaining to the event.</param>
     private void OnCurrentRoomChanged(object sender, CurrentRoomChangedEventArgs args)
     {
         Vector3 destination = args.NewRoom.Centre + CameraOffset;

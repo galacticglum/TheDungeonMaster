@@ -7,7 +7,6 @@
  * Description: Extension functions related to mathematics.
  */
 
-using System;
 using UnityEngine;
 
 /// <summary>

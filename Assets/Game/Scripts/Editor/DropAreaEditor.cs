@@ -20,6 +20,7 @@ public class DropAreaEditor : Editor
     /// </summary>
     public override void OnInspectorGUI()
     {
-        // This is empty for a reason, we don't want to render any inspector options.
+        // This is empty for a reason: because we don't want to render any inspector options.
+        // If we don't do this, our drop area editor will include the image fields.
     }
 }

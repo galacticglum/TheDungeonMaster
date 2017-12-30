@@ -3,7 +3,7 @@
  * File Name: PlayerController.cs
  * Project Name: TheDungeonMaster
  * Creation Date: 12/28/2017
- * Modified Date: 12/28/2017
+ * Modified Date: 12/29/2017
  * Description: Manages the various player functionality.
  */
 
@@ -42,7 +42,7 @@ public delegate void PlayerControllerEventHandler(object sender, PlayerControlle
 /// Manages the various player functionality.
 /// </summary>
 [RequireComponent(typeof(ThirdPersonUserControl))]
-public class PlayerController : MonoBehaviour
+public class PlayerController : ControllerBehaviour
 {
     /// <summary>
     /// This event is raised when the position of this <see cref="PlayerController"/> is changed.
