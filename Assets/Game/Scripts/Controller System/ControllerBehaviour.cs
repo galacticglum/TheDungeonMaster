@@ -12,7 +12,6 @@ using UnityEngine;
 /// <summary>
 /// The base class from which every controller derives from.
 /// </summary>
-[DisallowMultipleComponent]
 public abstract class ControllerBehaviour : MonoBehaviour
 {
     /// <summary>
@@ -26,11 +25,6 @@ public abstract class ControllerBehaviour : MonoBehaviour
     /// </summary>
     protected virtual void Reset()
     {
-        if (FindObjectOfType<ControllerDatabase>() == null)
-        {
-            Debug.LogWarning("For controllers to function, you MUST place a ControllerDatabase component into the scene.");
-        }
-
         // If our controller already exists in the database, DESTROY IT!
         ShouldDestroy = ControllerDatabase.Exists(GetType());
     }

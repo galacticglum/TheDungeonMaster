@@ -33,29 +33,15 @@ public class ControllerDatabaseEditor : Editor
     private void OnEnable()
     {
         controllerVisibility = new Dictionary<string, bool>();
-        GetControllerDatabase();
     }
-
-    /// <summary>
-    /// Retrieves the <see cref="ControllerDatabase"/>; converts the target object the editor is working under to a <see cref="ControllerDatabase"/>.
-    /// </summary>
-    private void GetControllerDatabase() => controllerDatabase = (ControllerDatabase)target;
 
     /// <summary>
     /// Draw the inspector.
     /// </summary>
     public override void OnInspectorGUI()
     {
-        // If our controller database is uninitialize, initialize it and then bail. 
-        // In this case, we will wait for the next frame to execute drawing logic.
-        if (controllerDatabase == null)
-        {
-            GetControllerDatabase();
-            return;
-        }
-
         // Draw each controller behaviour.
-        foreach (ControllerBehaviour controllerBehaviour in controllerDatabase.GetEnumerable())
+        foreach (ControllerBehaviour controllerBehaviour in ControllerDatabase.GetEnumerable())
         {
             // Make the controller class name "friendly" by adding spaces and capitalizing each word (if needed).
             string controllerName = ObjectNames.NicifyVariableName(controllerBehaviour.GetType().Name);

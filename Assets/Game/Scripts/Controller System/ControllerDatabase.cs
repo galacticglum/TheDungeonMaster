@@ -9,7 +9,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using UnityEditor;
 using UnityEngine;
 
 /// <summary>
@@ -19,34 +21,60 @@ using UnityEngine;
 public class ControllerDatabase : MonoBehaviour
 {
     /// <summary>
+    /// All the types which derive from <see cref="ControllerBehaviour"/>.
+    /// </summary>
+    private static HashSet<Type> controllerBehavioursType;
+
+    /// <summary>
     /// All the controllers stored in this <see cref="ControllerDatabase"/>.
     /// </summary>
     private static Dictionary<Type, ControllerBehaviour> controllers;
 
+    [RuntimeInitializeOnLoadMethod]
+    private static void RuntimeInitialize()
+    {
+        if (FindObjectOfType<ControllerDatabase>() == null)
+        {
+            // Instantiate an empty gameobject with a ControllerDatabase object on it.
+            new GameObject("_CONTROLLER_DATABASE_", typeof(ControllerDatabase));
+        }
+    }
+
+    [InitializeOnLoadMethod]
+    private static void EditorInitialize()
+    {
+        EditorApplication.update += HandleUpdate;
+    }
+
     /// <summary>
-    /// Scans all assemblies in the current <see cref="AppDomain"/> and adds all controllers with the <see cref="RegisterControllerAttribute"/> into the database.
+    /// Scans all assemblies in the current <see cref="AppDomain"/> and registers all types that derive from <see cref="ControllerBehaviour"/>..
     /// </summary>
     private static void ScanForControllers()
     {
-        // If we have already instantiated our dictionary then we only need to clear it before scanning.
-        // OTHERWISE: we need to instantiate our dictionary.
-        if (controllers != null)
+        // Build our list of types
+        if (controllerBehavioursType == null)
         {
-            controllers.Clear();
+            controllerBehavioursType = new HashSet<Type>();
+            foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                foreach (Type type in assembly.GetTypes())
+                {
+                    if (!type.IsSubclassOf(typeof(ControllerBehaviour))) continue;
+                    controllerBehavioursType.Add(type);
+                }
+            }
         }
-        else
+
+        // Initialize the controllers dictionary if it is NULL.
+        if (controllers == null)
         {
             controllers = new Dictionary<Type, ControllerBehaviour>();
         }
 
-        // Scan each type in all assemblies in our current app domain to find controller behaviours.
-        foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+        // Go through each ControllerBehaviour type and try to find it in the scene-graph, if it is exists, then we add it to our database.
+        foreach (Type type in controllerBehavioursType)
         {
-            foreach (Type type in assembly.GetTypes())
-            {
-                if (!type.IsSubclassOf(typeof(ControllerBehaviour))) continue;
-                AddController(type);
-            }
+            AddController(type);
         }
     }
 
@@ -60,8 +88,14 @@ public class ControllerDatabase : MonoBehaviour
 
     /// <summary>
     /// Called every frame.
+    /// The <see cref="MonoBehaviour"/> update method.
     /// </summary>
-    private void Update()
+    private void Update() => HandleUpdate();
+
+    /// <summary>
+    /// The actual logic for the update method.
+    /// </summary>
+    private static void HandleUpdate()
     {
         // If our controllers dictionary is uninitialized, let's initialize it by scanning through the scene for controllers.
         if (controllers == null)
@@ -76,17 +110,15 @@ public class ControllerDatabase : MonoBehaviour
         ScanForControllers();
 
         // Make sure that all controller behaviours in the database are associated with a gameobject.
-        foreach (ControllerBehaviour controllerBehaviour in GetEnumerable())
+        List<ControllerBehaviour> behavioursToRemove = GetEnumerable().Where(controllerBehaviour => FindObjectOfType(controllerBehaviour.GetType()) == null).ToList();
+        foreach (ControllerBehaviour controllerBehaviour in behavioursToRemove)
         {
-            if (FindObjectOfType(controllerBehaviour.GetType()) == null)
-            {
-                controllers.Remove(controllerBehaviour.GetType());
-            }
+            controllers.Remove(controllerBehaviour.GetType());
         }
     }
 
     /// <summary>
-    /// Add a <see cref="ControllerBehaviour"/> to this <see cref="ControllerDatabase"/>.
+    /// Add a <see cref="ControllerBehaviour"/> to this <see cref="ControllerDatabase"/> if it exists in the scene; that is, there is a gameobject of the type.
     /// </summary>
     /// <param name="type"></param>
     private static void AddController(Type type)
@@ -139,5 +171,5 @@ public class ControllerDatabase : MonoBehaviour
     /// <summary>
     /// Retrieve the <see cref="IEnumerable{T}"/> for this <see cref="ControllerDatabase"/> which iterates over <see cref="ControllerBehaviour"/>.
     /// </summary>
-    public IEnumerable<ControllerBehaviour> GetEnumerable() => controllers.Values;
+    public static IEnumerable<ControllerBehaviour> GetEnumerable() => controllers.Values;
 }
