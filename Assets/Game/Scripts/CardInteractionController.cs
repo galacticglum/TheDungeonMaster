@@ -45,7 +45,7 @@ public class CardInteractionController : ControllerBehaviour
         if (currentDraggingCardInstance == null) return;
 
         // Make the card follow the mouse position.
-        Canvas canvas = UIManager.Instance.Canvas;
+        Canvas canvas = ControllerDatabase.Get<UIController>().Canvas;
         Vector2 mousePosition;
 
         // Convert from screen-coordinates to UI-space coordinates.
@@ -108,14 +108,14 @@ public class CardInteractionController : ControllerBehaviour
     {
         if (cardInstance == null || currentDraggingCardInstance != null) return;
 
-        indexOfDraggedCardInHand = ControllerDatabase.Get<CardController>().GetIndexOfCardInHand(cardInstance);
+        indexOfDraggedCardInHand = ControllerDatabase.Get<CardHandController>().GetIndexOfCard(cardInstance);
 
         currentDraggingCardInstance = cardInstance;
         currentDraggingCardInstance.RectTransform.rotation = Quaternion.identity;
         currentDraggingCardInstance.transform.SetParent(dragCardParent, false);
         currentDraggingCardInstance.CanvasGroup.blocksRaycasts = false;
 
-        ControllerDatabase.Get<CardController>().RemoveCardFromHand(cardInstance);    
+        ControllerDatabase.Get<CardHandController>().RemoveCard(cardInstance);    
         EndHover(cardInstance);
     }
 
@@ -128,7 +128,7 @@ public class CardInteractionController : ControllerBehaviour
         if (currentDraggingCardInstance == null) return;
         if (cancelled)
         {
-            ControllerDatabase.Get<CardController>().AddCardToHand(currentDraggingCardInstance.Card, indexOfDraggedCardInHand);
+            ControllerDatabase.Get<CardHandController>().AddCard(currentDraggingCardInstance.Card, indexOfDraggedCardInHand);
         }
 
         // We destroy our original hand-card as we create a clone of the card if it is returned to the hand.

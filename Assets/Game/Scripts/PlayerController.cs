@@ -8,8 +8,8 @@
  */
 
 using System;
+using Invector.CharacterController;
 using UnityEngine;
-using UnityStandardAssets.Characters.ThirdPerson;
 
 /// <summary>
 /// The event args pertaining to the <see cref="PlayerControllerEventHandler"/>.
@@ -41,7 +41,7 @@ public delegate void PlayerControllerEventHandler(object sender, PlayerControlle
 /// <summary>
 /// Manages the various player functionality.
 /// </summary>
-[RequireComponent(typeof(ThirdPersonUserControl))]
+[RequireComponent(typeof(vThirdPersonController))]
 public class PlayerController : ControllerBehaviour
 {
     /// <summary>
@@ -49,23 +49,47 @@ public class PlayerController : ControllerBehaviour
     /// </summary>
     public event PlayerControllerEventHandler PositionChanged;
 
-    private ThirdPersonUserControl thirdPersonUserControl;
+    /// <summary>
+    /// Determines whether the player can move.
+    /// </summary>
+    public bool CanMove
+    {
+        get { return canMove; }
+        set
+        {
+            if (value == canMove) return;
+            canMove = value;
+
+            if (!canMove)
+            {
+                thirdPersonController.input = Vector3.zero;
+            }
+
+            thirdPersonController.lockMovement = !canMove;
+        }
+    }
+
+    /// <summary>
+    /// Internal "tracking" variable for CanMove.
+    /// </summary>
+    private bool canMove = true;
+    private vThirdPersonController thirdPersonController;
 
     /// <summary>
     /// Called when the component is created and placed into the world.
     /// </summary>
     private void Start()
     {
-        thirdPersonUserControl = GetComponent<ThirdPersonUserControl>();
+        thirdPersonController = GetComponent<vThirdPersonController>();
         OnPositionChangedEventHandler();
     }
 
     /// <summary>
-    /// Called every frame.
+    /// Called every fixed frame.
     /// </summary>
-    private void Update()
+    private void FixedUpdate()
     {
-        if (!thirdPersonUserControl.IsMoving) return;
+        if (thirdPersonController.speed == 0) return;
         OnPositionChangedEventHandler();
     }
 

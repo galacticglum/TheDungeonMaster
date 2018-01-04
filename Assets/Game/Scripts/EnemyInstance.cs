@@ -14,12 +14,18 @@ using UnityEngine.UI;
 /// <summary>
 /// The interface between the enemy data and the enemy visuals.
 /// </summary>
+[RequireComponent(typeof(RectTransform))]
 public class EnemyInstance : MonoBehaviour
 {
     /// <summary>
     /// The enemy data which this <see cref="EnemyInstance"/> is initialized from.
     /// </summary>
     public Enemy Enemy { get; private set; }
+
+    /// <summary>
+    /// The <see cref="RectTransform"/> of this <see cref="EnemyInstance"/>.
+    /// </summary>
+    public RectTransform RectTransform => rectTransform ?? (rectTransform = GetComponent<RectTransform>());
 
     [SerializeField]
     private Text enemyNameText;
@@ -29,6 +35,8 @@ public class EnemyInstance : MonoBehaviour
     private RawImage enemyCrystalImage;
     [SerializeField]
     private Text enemyHealthPointsText;
+
+    private RectTransform rectTransform;
 
     /// <summary>
     /// Initializes this <see cref="EnemyInstance"/> from an <see cref="Enemy"/>.
@@ -61,14 +69,15 @@ public class EnemyInstance : MonoBehaviour
     /// Creates a <see cref="EnemyInstance"/> from an <see cref="global::Enemy"/>.
     /// </summary>
     /// <param name="enemy">The <see cref="global::Enemy"/> to create the <see cref="EnemyInstance"/>.</param>
+    /// <param name="parent">The parent of this <see cref="EnemyInstance"/>.</param>
     /// <returns>The enemy's instance <see cref="GameObject"/>.</returns>
-    public static EnemyInstance Create(Enemy enemy)
+    public static EnemyInstance Create(Enemy enemy, RectTransform parent)
     {
         GameObject enemyGameObject = Instantiate(Resources.Load<GameObject>("Prefabs/Enemy_Front"));
-        enemyGameObject.transform.SetParent(MasterDataController.Current.EnemySpawnRoot, false);
+        enemyGameObject.transform.SetParent(parent, false);
 
         EnemyInstance enemyInstance = enemyGameObject.GetComponent<EnemyInstance>();
-        enemyInstance.Initialize(enemy);
+        enemyInstance.Initialize(enemy);    
 
         return enemyInstance;
     }

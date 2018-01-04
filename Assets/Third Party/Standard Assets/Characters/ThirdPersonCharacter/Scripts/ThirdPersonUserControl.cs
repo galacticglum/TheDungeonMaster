@@ -11,6 +11,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         private Vector3 m_CamForward;             // The current forward direction of the camera
         private Vector3 m_Move;
 
+        private Vector3 clickToMoveTargetPosition;
+
         public bool IsMoving { get; private set; }
 
         private void Start()
@@ -29,6 +31,20 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
             // get the third person character ( this should never be null due to require component )
             m_Character = GetComponent<ThirdPersonCharacter>();
+        }
+        
+        private void Update()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                RaycastHit hit;
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+                if (Physics.Raycast(ray, out hit))
+                {
+                    clickToMoveTargetPosition = hit.transform.position;
+                }
+            }
         }
 
         // Fixed update is called in sync with physics

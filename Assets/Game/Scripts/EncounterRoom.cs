@@ -21,7 +21,7 @@ public class EncounterRoom : Room
 
     private void OnPlayerEntered(object sender, RoomEventArgs args)
     {
-        isComplete = true;
+        ControllerDatabase.Get<EncounterController>().BeginEncounter();
     }
 
     public override bool IsComplete()

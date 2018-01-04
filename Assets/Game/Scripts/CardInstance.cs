@@ -57,11 +57,12 @@ public class CardInstance : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     /// Creates a <see cref="CardInstance"/> from a <see cref="global::Card"/>.
     /// </summary>
     /// <param name="card">The <see cref="global::Card"/> to create the <see cref="CardInstance"/> from.</param>
+    /// <param name="parent">The parent of this <see cref="CardInstance"/>.</param>
     /// <returns>The card instance's <see cref="GameObject"/>.</returns>
-    public static CardInstance Create(Card card)
+    public static CardInstance Create(Card card, RectTransform parent)
     {
         GameObject cardGameObject = Instantiate(Resources.Load<GameObject>("Prefabs/Card_Front"));
-        cardGameObject.transform.SetParent(MasterDataController.Current.CardSpawnRoot, false);
+        cardGameObject.transform.SetParent(parent, false);
 
         CardInstance cardInstance = cardGameObject.GetComponent<CardInstance>();
         cardInstance.Initialize(card);
