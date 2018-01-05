@@ -828,7 +828,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Texture: {fileID: 2800000, guid: 24b4a41112d27e64297563401628ef0a, type: 3}
+  m_Texture: {fileID: 2800000, guid: 3b56c47448e2f5e44a5647b4a555388e, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -961,6 +961,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardNameText: {fileID: 114781165016360390}
   cardDescriptionText: {fileID: 114425385741548842}
+  cardAttackPointsText: {fileID: 114435682580191754}
 --- !u!114 &114932793525741032
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -9,6 +9,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -142,10 +143,19 @@ public class CardInteractionController : ControllerBehaviour
         PointerEventData eventData = new PointerEventData(EventSystem.current) { position = Input.mousePosition, pointerId = -1 };
         graphicRaycaster.Raycast(eventData, raycastResults);
 
-        bool validDropArea = raycastResults.Any(result => result.gameObject.GetComponent<DropArea>());
-        if (validDropArea)
+        bool validDropArea = false;
+        foreach (RaycastResult result in raycastResults)
         {
-            // TODO: Drop operation execution
+            validDropArea = result.gameObject.GetComponent<DropArea>();
+            if (!validDropArea) continue;
+
+            EnemyInstance enemyInstance = result.gameObject.GetComponent<EnemyInstance>();
+            if (enemyInstance != null)
+            {
+                enemyInstance.Enemy.CurrentHealthPoints -= currentDraggingCardInstance.Card.AttackPoints;
+            }
+
+            break;
         }
 
         EndDrag(!validDropArea);

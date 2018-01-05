@@ -37,6 +37,8 @@ public class CardInstance : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     private Text cardNameText;
     [SerializeField]
     private Text cardDescriptionText;
+    [SerializeField]
+    private Text cardAttackPointsText;
 
     private RectTransform rectTransform;
     private CanvasGroup canvasGroup;
@@ -51,6 +53,7 @@ public class CardInstance : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         gameObject.name = $"{card.Name}_instance";
         cardNameText.text = card.Name;
         cardDescriptionText.text = card.Description;
+        cardAttackPointsText.text = card.AttackPoints.ToString();
     }
 
     /// <summary>

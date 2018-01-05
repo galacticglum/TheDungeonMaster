@@ -35,7 +35,7 @@ public class Enemy
     /// <summary>
     /// The current health points of this <see cref="Enemy"/>; defaults to the maximum HP.
     /// </summary>
-    public int CurrentHealthPoints { get; private set; }
+    public int CurrentHealthPoints { get; set; }
 
     /// <summary>
     /// Initialize a <see cref="Enemy"/>.

@@ -3,7 +3,7 @@
  * File Name: EnemyInstance.cs
  * Project Name: TheDungeonMaster
  * Creation Date: 12/27/2017
- * Modified Date: 12/27/2017
+ * Modified Date: 1/5/2018
  * Description: The interface between the enemy data and the enemy visuals.
  */
 
@@ -50,7 +50,11 @@ public class EnemyInstance : MonoBehaviour
         enemyNameText.text = enemy.Name;
         enemyDescriptionText.text = enemy.Description;
         enemyCrystalImage.texture = GetEnemyCrystalFromType(enemy.Type);
-        enemyHealthPointsText.text = enemy.CurrentHealthPoints.ToString();
+    }
+
+    private void Update()
+    {
+        enemyHealthPointsText.text = Enemy.CurrentHealthPoints.ToString();
     }
 
     /// <summary>

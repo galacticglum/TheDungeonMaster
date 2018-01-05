@@ -3,7 +3,7 @@
  * File Name: EncounterRoom.cs
  * Project Name: TheDungeonMaster
  * Creation Date: 12/28/2017
- * Modified Date: 12/28/2017
+ * Modified Date: 1/5/2018
  * Description: A room for an encounter.
  */
 
@@ -21,7 +21,8 @@ public class EncounterRoom : Room
 
     private void OnPlayerEntered(object sender, RoomEventArgs args)
     {
-        ControllerDatabase.Get<EncounterController>().BeginEncounter();
+        if (isComplete) return;
+        ControllerDatabase.Get<EncounterController>().BeginEncounter(() => isComplete = true);
     }
 
     public override bool IsComplete()

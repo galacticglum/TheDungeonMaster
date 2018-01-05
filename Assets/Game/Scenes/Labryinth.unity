@@ -3655,6 +3655,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardNameText: {fileID: 857073574}
   cardDescriptionText: {fileID: 1169603952}
+  cardAttackPointsText: {fileID: 1662316154}
 --- !u!1 &1343038689
 GameObject:
   m_ObjectHideFlags: 0
