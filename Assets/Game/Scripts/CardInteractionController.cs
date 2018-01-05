@@ -144,20 +144,19 @@ public class CardInteractionController : ControllerBehaviour
         graphicRaycaster.Raycast(eventData, raycastResults);
 
         bool validDropArea = false;
+        bool cardExecuteSuccess = false;
+ 
         foreach (RaycastResult result in raycastResults)
         {
             validDropArea = result.gameObject.GetComponent<DropArea>();
             if (!validDropArea) continue;
 
             EnemyInstance enemyInstance = result.gameObject.GetComponent<EnemyInstance>();
-            if (enemyInstance != null)
-            {
-                enemyInstance.Enemy.CurrentHealthPoints -= currentDraggingCardInstance.Card.AttackPoints;
-            }
+            cardExecuteSuccess = ControllerDatabase.Get<EncounterController>().ExecuteCard(currentDraggingCardInstance, enemyInstance);
 
             break;
         }
 
-        EndDrag(!validDropArea);
+        EndDrag(!validDropArea || !cardExecuteSuccess);
     }
 }

@@ -39,4 +39,19 @@ public class Card
         Description = description;
         AttackPoints = attackPoints;
     }
+
+    /// <summary>
+    /// Initialize a <see cref="Card"/> from another <see cref="Card"/> value.
+    /// </summary>
+    protected Card(Card other)
+    {
+        Name = other.Name;
+        Description = other.Description;
+        AttackPoints = other.AttackPoints;
+    }
+
+    /// <summary>
+    /// Creates a copy of this <see cref="Card"/>.
+    /// </summary>
+    public virtual Card Clone() => new Card(this);
 }

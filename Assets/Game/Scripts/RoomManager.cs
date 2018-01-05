@@ -7,10 +7,8 @@
  * Description: Stores all the rooms in the world.
  */
 
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 /// <summary>
 /// Stores all the rooms in the world.
@@ -58,12 +56,6 @@ public class RoomManager : IEnumerable<Room>
     /// </summary>
     /// <param name="room">The room to retrieve the index of.</param>
     public int GetRoomIndex(Room room) => rooms.IndexOf(room);
-
-    /// <summary>
-    /// Find a room based on a filter function.
-    /// </summary>
-    /// <param name="filter">The filter to use for finding the room.</param>
-    public IEnumerable<Room> Find(Func<Room, bool> filter) => rooms.Where(filter);
 
     /// <summary>
     /// Retrieve the <see cref="IEnumerator{T}"/> for this <see cref="RoomManager"/> which iterates over the stored <see cref="Room"/> collection.

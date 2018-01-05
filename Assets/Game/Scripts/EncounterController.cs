@@ -18,16 +18,20 @@ public class EncounterController : ControllerBehaviour
 {
     [SerializeField]
     private RectTransform enemyInstanceParent;
+
     private List<EnemyInstance> enemies;
     private Action onEncounterComplete;
+    private Stack<Card> deck;
+    private bool isPlayerTurn = true;
 
     public void BeginEncounter(Action encounterCompleteAction)
     {
-        ControllerDatabase.Get<CardHandController>().Clear();
+        CardHandController cardHandController = ControllerDatabase.Get<CardHandController>();
+        deck = new Stack<Card>(ControllerDatabase.Get<PlayerController>().Deck.CloneShuffled());
+        cardHandController.Clear();
         for (int i = 0; i < 5; i++)
         {
-            ControllerDatabase.Get<CardHandController>().AddCard(new Card("Power Punch", "Deals <color=#D5AB5CFF><i>6</i></color> damage to an enemy. " +
-                                                                                         "<color=#D5AB5CFF>Overcharge:</color> 3 cards.", 6));
+            cardHandController.AddCard(deck.Pop());
         }
 
         ClearEnemies();
@@ -47,6 +51,13 @@ public class EncounterController : ControllerBehaviour
             {
                 RemoveEnemyFromEncounter(enemies[i]);
             }
+        }
+
+        // TODO: Actual logic for enemy turn
+        if (Input.GetKeyDown(KeyCode.Space) && !isPlayerTurn)
+        {
+            isPlayerTurn = true;
+            Debug.Log("enemy turn ended");
         }
 
         // Encounter is complete
@@ -108,14 +119,18 @@ public class EncounterController : ControllerBehaviour
         UpdateEnemyPositions();
     }
 
-    public void ExecuteCard(CardInstance card, EnemyInstance target)
+    public bool ExecuteCard(CardInstance card, EnemyInstance target)
     {
-        if (!enemies.Contains(target)) return;
+        if (!enemies.Contains(target) || !isPlayerTurn) return false;
 
         // If our cards attacks then we execute damage!
-        if (card.Card.AttackPoints <= 0) return;
+        if (card.Card.AttackPoints <= 0) return false;
 
         int damage = Mathf.Max(0, target.Enemy.CurrentHealthPoints - card.Card.AttackPoints);
         target.Enemy.CurrentHealthPoints = damage;
+
+        isPlayerTurn = !isPlayerTurn;
+        Debug.Log("player turn ended");
+        return true;
     }
 }
