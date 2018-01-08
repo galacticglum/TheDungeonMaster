@@ -3,7 +3,7 @@
  * File Name: SokobanPuzzleInstance.cs
  * Project Name: TheDungeonMaster
  * Creation Date: 01/07/2018
- * Modified Date: 01/07/2018
+ * Modified Date: 01/08/2018
  * Description: The top-level manager for a sokoban puzzle.
  */
 
@@ -62,6 +62,12 @@ public class SokobanPuzzleInstance : MonoBehaviour
     /// The size of our tilemap in a <see cref="Vector2Int"/>.
     /// </summary>
     public Vector2Int TileMapSize => new Vector2Int(tiles?.GetLength(0) ?? 0, tiles?.GetLength(1) ?? 0);
+
+    /// <summary>
+    /// The puzzle level which this <see cref="SokobanPuzzleInstance"/> will create.
+    /// </summary>
+    [SerializeField]
+    private SokobanPuzzleLevel level;
 
     /// <summary>
     /// The full size of our grid.

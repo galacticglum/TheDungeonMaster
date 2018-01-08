@@ -50,6 +50,12 @@ public class CardInstance : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     /// <param name="card">The <see cref="Card"/> data to initialize from.</param>
     public void Initialize(Card card)
     {
+        if (card == null)
+        {
+            Debug.Log("CARD IS NULL!");
+            return;
+        }
+
         Card = card;
         gameObject.name = $"{card.Name}_instance";
         cardNameText.text = card.Name;

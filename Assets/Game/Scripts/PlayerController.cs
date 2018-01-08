@@ -90,23 +90,25 @@ public class PlayerController : ControllerBehaviour
         OnPositionChangedEventHandler();
 
         Deck = new CardDeck();
-        Card[] cards = new[]
+        Card[] cards = 
         {
             new Card("Punch",
                 "Deals <color=#D5AB5CFF><i>6</i></color> damage to an enemy. ", 2),
 
             new Card("Power Punch",
                 "Deals <color=#D5AB5CFF><i>6</i></color> damage to an enemy. " +
-                "<color=#D5AB5CFF>Overcharge:</color> 3 cards.", 6),
+                "<color=#D5AB5CFF>Overcharge:</color> 3 cards.", 12),
 
             new Card("Power Kick",
-                "Your kick is mightier than the sun! Deals <color=#D5AB5CFF><i>10</i></color> damage to an enemy.", 10)
+                "Your kick is mightier than the sun! Deals <color=#D5AB5CFF><i>10</i></color> damage to an enemy.", 10),
+
+            new Card("David", "The scrub", 30), 
         };
 
         // Initialize a test deck
         for (int i = 0; i < 25; i++)
         {
-            Deck.Add(cards[Random.Range(0, cards.Length - 1)].Clone());
+            Deck.Add(cards[Random.Range(0, cards.Length)].Clone());
         }
     }
 

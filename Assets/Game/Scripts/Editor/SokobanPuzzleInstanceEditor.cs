@@ -3,7 +3,7 @@
  * File Name: SokobanPuzzleInstanceEditor.cs
  * Project Name: TheDungeonMaster
  * Creation Date: 01/07/2018
- * Modified Date: 01/07/2018
+ * Modified Date: 01/08/2018
  * Description: Custom editor for a SokobanPuzzleInstance.
  */
 
@@ -45,55 +45,73 @@ public class SokobanPuzzleInstanceEditor : Editor
 
     public override void OnInspectorGUI()
     {
-        showGeneralSettings = EditorGUIHelper.DrawSectionBox(new GUIContent("General Settings"), showGeneralSettings, () =>
+        EditorGUILayout.BeginHorizontal();
+        EditorGUILayout.PropertyField(propertyManager["level"], new GUIContent("Level"));
+
+        GUIContent createButtonContent = new GUIContent("Create");
+        if (GUILayout.Button(createButtonContent, GUILayout.Width(GUI.skin.button.CalcSize(createButtonContent).x + 2)))
         {
-            EditMode.DoEditModeInspectorModeButton(EditMode.SceneViewEditMode.Collider, "Edit Bounds", EditModeButton, () => new Bounds(boxBoundsHandle.center, boxBoundsHandle.size), this);
+            string createAssetFilePath = EditorUtility.SaveFilePanelInProject("Create Sokoban Level Asset", "level", "asset", "Please enter a filename to create the level to");
 
-            propertyManager["size"].vector2Value = EditorGUILayout.Vector2Field(new GUIContent("Size"),
-                propertyManager["size"].vector2Value);
+            ScriptableObjectHelper.CreateAsset<SokobanPuzzleLevel>(createAssetFilePath);
+        }
+        
+        EditorGUILayout.EndHorizontal();
 
-            GUI.enabled = false;
-            EditorGUILayout.Vector3Field(new GUIContent("Offset"), sokobanPuzzleInstance.transform.position);
-            GUI.enabled = true;
+        if (propertyManager["level"].objectReferenceValue != null)
+        {
+            EditorGUIHelper.Splitter();
 
-            propertyManager["topDownGrid"].boolValue = EditorGUILayout.Toggle(new GUIContent("Is Topdown Grid"),
-                propertyManager["topDownGrid"].boolValue);
-
-            EditorGUILayout.BeginHorizontal();
-            Rect buttonRect = GUILayoutUtility.GetRect(new GUIContent("Generate Tile Map"), GUI.skin.button);
-
-            GUI.enabled = !isEditingBounds;
-            if (GUI.Button(buttonRect, new GUIContent("Generate Tile Map", "Create the tile map.")))
+            showGeneralSettings = EditorGUIHelper.DrawSectionBox(new GUIContent("General Settings"), showGeneralSettings, () =>
             {
-                if (EditorUtility.DisplayDialog("Generate Tile Map",
-                    "Are you sure you want to regenerate the tile map? " +
-                    "This will remove ALL modifications made to the level settings—including tile setup.", "Yes", "No"))
+                EditMode.DoEditModeInspectorModeButton(EditMode.SceneViewEditMode.Collider, "Edit Bounds", EditModeButton, () => new Bounds(boxBoundsHandle.center, boxBoundsHandle.size), this);
+
+                propertyManager["size"].vector2Value = EditorGUILayout.Vector2Field(new GUIContent("Size"),
+                    propertyManager["size"].vector2Value);
+
+                GUI.enabled = false;
+                EditorGUILayout.Vector3Field(new GUIContent("Offset"), sokobanPuzzleInstance.transform.position);
+                GUI.enabled = true;
+
+                propertyManager["topDownGrid"].boolValue = EditorGUILayout.Toggle(new GUIContent("Is Topdown Grid"),
+                    propertyManager["topDownGrid"].boolValue);
+
+                EditorGUILayout.BeginHorizontal();
+                Rect buttonRect = GUILayoutUtility.GetRect(new GUIContent("Generate Tile Map"), GUI.skin.button);
+
+                GUI.enabled = !isEditingBounds;
+                if (GUI.Button(buttonRect, new GUIContent("Generate Tile Map", "Create the tile map.")))
                 {
-                    sokobanPuzzleInstance.InitializeTiles();
+                    if (EditorUtility.DisplayDialog("Generate Tile Map",
+                        "Are you sure you want to regenerate the tile map? " +
+                        "This will remove ALL modifications made to the level settings—including tile setup.", "Yes", "No"))
+                    {
+                        sokobanPuzzleInstance.InitializeTiles();
+                        showLevelSettings = true;
+                        hasSavedGeneralSettings = true;
+
+                        EditorGUIHelper.RemoveFocus();
+                    }
+                }
+
+                GUI.enabled = true;
+
+                EditorGUILayout.EndHorizontal();
+            });
+
+            showLevelSettings = EditorGUIHelper.DrawSectionBox(new GUIContent("Level Settings"), showLevelSettings && hasSavedGeneralSettings, () =>
+            {
+                EditorGUILayout.BeginHorizontal();
+                Rect buttonRect = GUILayoutUtility.GetRect(new GUIContent("Generate Level"), GUI.skin.button);
+                if (GUI.Button(buttonRect, "Generate Level"))
+                {
+                    //sokobanPuzzleInstance.InitializeTiles();s
                     showLevelSettings = true;
                     hasSavedGeneralSettings = true;
-
-                    EditorGUIHelper.RemoveFocus();
                 }
-            }
-
-            GUI.enabled = true;
-
-            EditorGUILayout.EndHorizontal();
-        });
-
-        showLevelSettings = EditorGUIHelper.DrawSectionBox(new GUIContent("Level Settings"), showLevelSettings && hasSavedGeneralSettings, () =>
-        {
-            EditorGUILayout.BeginHorizontal();
-            Rect buttonRect = GUILayoutUtility.GetRect(new GUIContent("Generate Level"), GUI.skin.button);
-            if (GUI.Button(buttonRect, "Generate Level"))
-            {
-                //sokobanPuzzleInstance.InitializeTiles();s
-                showLevelSettings = true;
-                hasSavedGeneralSettings = true;
-            }
-            EditorGUILayout.EndHorizontal();
-        });
+                EditorGUILayout.EndHorizontal();
+            });
+        }
 
         propertyManager.Target.ApplyModifiedProperties();
     }
