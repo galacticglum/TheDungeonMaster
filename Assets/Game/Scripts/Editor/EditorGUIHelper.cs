@@ -266,7 +266,6 @@ public static class EditorGUIHelper
 
         // Revert background colour in the event that our lower section box was not showed.
         GUI.backgroundColor = previousColour;
-        RemoveFocus();
 
         return show;
     }

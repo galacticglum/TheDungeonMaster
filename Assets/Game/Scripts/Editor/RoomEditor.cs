@@ -12,6 +12,7 @@ using UnityEditor.IMGUI.Controls;
 using UnityEditorInternal;
 using UnityEngine;
 
+/// <inheritdoc />
 /// <summary>
 /// Room component inspector.
 /// </summary>
@@ -35,6 +36,11 @@ public class RoomEditor : Editor
     private bool canEditBounds;
 
     /// <summary>
+    /// The <see cref="SerializedPropertyManager"/> for this <see cref="SerializedObject"/>.
+    /// </summary>
+    private SerializedPropertyManager propertyManager;
+
+    /// <summary>
     /// Called when the editor is enabled.
     /// </summary>
     private void OnEnable()
@@ -50,8 +56,11 @@ public class RoomEditor : Editor
 
         boxBoundsHandle.handleColor = Color.yellow;
         boxBoundsHandle.wireframeColor = Color.green;
+
+        propertyManager = new SerializedPropertyManager(serializedObject);
     }
 
+    /// <inheritdoc />
     /// <summary>
     /// Draw the inspector.
     /// </summary>
@@ -61,8 +70,7 @@ public class RoomEditor : Editor
         // When the button is pressed, the position handle in the viewport is hidden.
         EditMode.DoEditModeInspectorModeButton(EditMode.SceneViewEditMode.Collider, "Edit Bounds", EditModeButton, () => new Bounds(boxBoundsHandle.center, boxBoundsHandle.size), this);
 
-        SerializedProperty sizeProperty = serializedObject.FindProperty("size");
-        sizeProperty.vector2Value = EditorGUILayout.Vector2Field(new GUIContent("Size"), sizeProperty.vector2Value);
+        propertyManager["size"].vector2Value = EditorGUILayout.Vector2Field(new GUIContent("Size"), propertyManager["size"].vector2Value);
 
         // Readonly centre field.
         GUI.enabled = false;
