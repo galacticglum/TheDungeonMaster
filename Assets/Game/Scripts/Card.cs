@@ -3,7 +3,7 @@
  * File Name: Card.cs
  * Project Name: TheDungeonMaster
  * Creation Date: 12/25/2017
- * Modified Date: 12/25/2017
+ * Modified Date: 1/5/2018
  * Description: An action that the player can execute.
  */
 

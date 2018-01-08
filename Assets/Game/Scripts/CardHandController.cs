@@ -10,6 +10,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <inheritdoc />
 /// <summary>
 /// Manages the players hand.
 /// </summary>
@@ -20,7 +21,6 @@ public class CardHandController : ControllerBehaviour
     /// </summary>
     [SerializeField]
     private RectTransform handParentTransform;
-
     private List<CardInstance> hand;
 
     /// <summary>

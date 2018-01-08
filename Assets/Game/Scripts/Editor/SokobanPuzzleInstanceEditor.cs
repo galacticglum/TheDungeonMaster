@@ -1,8 +1,20 @@
-﻿using UnityEditor;
+﻿/*
+ * Author: Shon Verch
+ * File Name: SokobanPuzzleInstanceEditor.cs
+ * Project Name: TheDungeonMaster
+ * Creation Date: 01/07/2018
+ * Modified Date: 01/07/2018
+ * Description: Custom editor for a SokobanPuzzleInstance.
+ */
+
+using UnityEditor;
 using UnityEditor.IMGUI.Controls;
 using UnityEditorInternal;
 using UnityEngine;
 
+/// <summary>
+/// Custom editor for a <see cref="SokobanPuzzleInstance"/>.
+/// </summary>
 [CustomEditor(typeof(SokobanPuzzleInstance))]
 public class SokobanPuzzleInstanceEditor : Editor
 {
@@ -119,8 +131,8 @@ public class SokobanPuzzleInstanceEditor : Editor
                 Handles.DrawLine(topRight, bottomRight);
             }
 
-            int halfWidth = sokobanPuzzleInstance.GridSizeX / 2;
-            int halfHeight = sokobanPuzzleInstance.GridSizeY / 2;
+            int halfWidth = sokobanPuzzleInstance.GridSize.x / 2;
+            int halfHeight = sokobanPuzzleInstance.GridSize.y / 2;
 
             for (int x = -halfWidth; x < halfWidth + 1; x++)
             {
@@ -145,8 +157,8 @@ public class SokobanPuzzleInstanceEditor : Editor
 
             if (!isEditingBounds)
             {
-                int tileMapHalfWidth = sokobanPuzzleInstance.TileMapWidth / 2;
-                int tileMapHalfHeight = sokobanPuzzleInstance.TileMapHeight / 2;
+                int tileMapHalfWidth = sokobanPuzzleInstance.TileMapSize.x / 2;
+                int tileMapHalfHeight = sokobanPuzzleInstance.TileMapSize.y / 2;
 
                 // Reset tint
                 Handles.color = Color.white;

@@ -14,6 +14,7 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
+/// <inheritdoc />
 /// <summary>
 /// Stores all controllers.
 /// </summary>
@@ -30,6 +31,10 @@ public class ControllerDatabase : MonoBehaviour
     /// </summary>
     private static Dictionary<Type, ControllerBehaviour> controllers;
 
+    /// <summary>
+    /// Initialize this <see cref="ControllerDatabase"/> at runtime.
+    /// This is called when the game is loaded, before any <see cref="MonoBehaviour"/>.
+    /// </summary>
     [RuntimeInitializeOnLoadMethod]
     private static void RuntimeInitialize()
     {
@@ -40,6 +45,10 @@ public class ControllerDatabase : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Initialize this <see cref="ControllerDatabase"/> in the editor.
+    /// This is called when the editor is loaded.
+    /// </summary>
     [InitializeOnLoadMethod]
     private static void EditorInitialize()
     {

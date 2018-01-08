@@ -11,6 +11,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+/// <inheritdoc cref="MonoBehaviour" />
 /// <summary>
 /// The interface between the card data and the card visuals.
 /// </summary>
@@ -74,19 +75,19 @@ public class CardInstance : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     }
 
     /// <summary>
-    /// Executed when the pointer is over the <see cref="GameObject"/> pertaining to this <see cref="MonoBehaviour"/>.
+    /// Executed when the pointer is over the <see cref="T:UnityEngine.GameObject" /> pertaining to this <see cref="T:UnityEngine.MonoBehaviour" />.
     /// </summary>
     /// <param name="eventData">The data pertaining to this event.</param>
     public void OnPointerEnter(PointerEventData eventData) => ControllerDatabase.Get<CardInteractionController>().BeginHover(this);
 
     /// <summary>
-    /// Executed when the pointer leaves the <see cref="GameObject"/> pertaining to this <see cref="MonoBehaviour"/>.
+    /// Executed when the pointer leaves the <see cref="T:UnityEngine.GameObject" /> pertaining to this <see cref="T:UnityEngine.MonoBehaviour" />.
     /// </summary>
     /// <param name="eventData">The data pertaining to this event.</param>
     public void OnPointerExit(PointerEventData eventData) => ControllerDatabase.Get<CardInteractionController>().EndHover(this);
 
     /// <summary>
-    /// Executed when the pointer is down on the <see cref="GameObject"/> pertaining to this <see cref="MonoBehaviour"/>.
+    /// Executed when the pointer is down on the <see cref="T:UnityEngine.GameObject" /> pertaining to this <see cref="T:UnityEngine.MonoBehaviour" />.
     /// </summary>
     /// <param name="eventData">The data pertaining to this event.</param>
     public void OnPointerDown(PointerEventData eventData) => ControllerDatabase.Get<CardInteractionController>().BeginDrag(this);

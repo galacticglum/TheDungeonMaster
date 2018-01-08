@@ -3,13 +3,11 @@
  * File Name: CardInteractionController.cs
  * Project Name: TheDungeonMaster
  * Creation Date: 12/26/2017
- * Modified Date: 12/29/2017
+ * Modified Date: 1/7/2018
  * Description: Manages all the interaction between cards and the user.
  */
 
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -137,6 +135,9 @@ public class CardInteractionController : ControllerBehaviour
         currentDraggingCardInstance = null;
     }
 
+    /// <summary>
+    /// Handle a card being dropped in the scene.
+    /// </summary>
     private void HandleDrop()
     {
         List<RaycastResult> raycastResults = new List<RaycastResult>();

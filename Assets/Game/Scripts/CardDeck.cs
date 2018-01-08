@@ -26,7 +26,14 @@ public class CardDeck : IEnumerable<Card>
         this.cards = new List<Card>(cards);
     }
 
+    /// <summary>
+    /// Adds a <see cref="Card"/> to this <see cref="CardDeck"/>.
+    /// </summary>
     public void Add(Card card) => cards.Add(card);
+
+    /// <summary>
+    /// Removes a <see cref="Card"/> from this <see cref="CardDeck"/>.
+    /// </summary>
     public void Remove(Card card) => cards.Remove(card);
 
     /// <summary>
