@@ -9,6 +9,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using UnityEngine;
 
 /// <summary>
@@ -27,13 +28,17 @@ public class EncounterController : ControllerBehaviour
     public void BeginEncounter(Action encounterCompleteAction)
     {
         CardHandController cardHandController = ControllerDatabase.Get<CardHandController>();
+        cardHandController.gameObject.SetActive(true);
+
         deck = new Stack<Card>(ControllerDatabase.Get<PlayerController>().Deck.CloneShuffled());
         cardHandController.Clear();
+
         for (int i = 0; i < 5; i++)
         {
             cardHandController.AddCard(deck.Pop());
         }
 
+        enemyInstanceParent.gameObject.SetActive(true);
         ClearEnemies();
         AddEnemyToEncounter(new Enemy("Orc Grunt", "ME ORC, ME SMASH!", 12));
         AddEnemyToEncounter(new Enemy("Elessar", "The fantastic shetland sheepdog.", 18));
@@ -62,6 +67,9 @@ public class EncounterController : ControllerBehaviour
 
         // Encounter is complete
         if (enemies.Count != 0) return;
+
+        enemyInstanceParent.gameObject.SetActive(false);
+        ControllerDatabase.Get<CardHandController>().gameObject.SetActive(false);
         ControllerDatabase.Get<PlayerController>().CanMove = true;
         onEncounterComplete();
     }
@@ -110,12 +118,14 @@ public class EncounterController : ControllerBehaviour
             return;
         }
 
-        foreach (EnemyInstance enemyInstance in enemies)
+        for (int i = enemies.Count - 1; i >= 0; i--)
         {
+            EnemyInstance enemyInstance = enemies[i];
+
             Destroy(enemyInstance.gameObject);
+            enemies.Remove(enemyInstance);
         }
 
-        enemies.Clear();
         UpdateEnemyPositions();
     }
 

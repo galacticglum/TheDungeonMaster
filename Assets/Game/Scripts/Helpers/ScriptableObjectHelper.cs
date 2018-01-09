@@ -18,17 +18,17 @@ public static class ScriptableObjectHelper
     /// <summary>
     ///	Creates a unique <see cref="ScriptableObject"/> of type <typeparamref name="T"/> at the specified file path.
     /// </summary>
-    public static void CreateAsset<T>(string filePath) where T : ScriptableObject
+    public static T CreateAsset<T>(string filePath) where T : ScriptableObject
     {
-        if (filePath == string.Empty) return;
+        // If we don't have a file path provided or the directory is invalid.
+        if (filePath == string.Empty || !Directory.Exists(Path.GetDirectoryName(filePath))) return default(T);
 
         T asset = ScriptableObject.CreateInstance<T>();
-        string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath(filePath);
-
-        AssetDatabase.CreateAsset(asset, assetPathAndName);
+        AssetDatabase.CreateAsset(asset, filePath);
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
-        EditorUtility.FocusProjectWindow();
+
+        return asset;
         //Selection.activeObject = asset;
     }
 }

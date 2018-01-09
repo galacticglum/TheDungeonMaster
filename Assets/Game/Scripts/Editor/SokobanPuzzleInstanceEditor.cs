@@ -3,7 +3,7 @@
  * File Name: SokobanPuzzleInstanceEditor.cs
  * Project Name: TheDungeonMaster
  * Creation Date: 01/07/2018
- * Modified Date: 01/08/2018
+ * Modified Date: 01/09/2018
  * Description: Custom editor for a SokobanPuzzleInstance.
  */
 
@@ -39,8 +39,19 @@ public class SokobanPuzzleInstanceEditor : Editor
 
         EditMode.onEditModeStartDelegate += (editor, mode) => isEditingBounds = true;
         EditMode.onEditModeEndDelegate += editor => isEditingBounds = false;
+        EditorApplication.update += Update;
 
         sokobanPuzzleInstance = (SokobanPuzzleInstance)target;
+    }
+
+    private void Update()
+    {
+        Vector2 vector = propertyManager["size"].vector2Value;
+        vector.x = Mathf.Max(2, vector.x);
+        vector.y = Mathf.Max(2, vector.y);
+
+        propertyManager["size"].vector2Value = vector;
+        propertyManager.Target.ApplyModifiedProperties();
     }
 
     public override void OnInspectorGUI()
@@ -53,7 +64,11 @@ public class SokobanPuzzleInstanceEditor : Editor
         {
             string createAssetFilePath = EditorUtility.SaveFilePanelInProject("Create Sokoban Level Asset", "level", "asset", "Please enter a filename to create the level to");
 
-            ScriptableObjectHelper.CreateAsset<SokobanPuzzleLevel>(createAssetFilePath);
+            SokobanPuzzleLevel levelAsset = ScriptableObjectHelper.CreateAsset<SokobanPuzzleLevel>(createAssetFilePath);
+            if (levelAsset != null)
+            {
+                propertyManager["level"].objectReferenceValue = levelAsset;
+            }
         }
         
         EditorGUILayout.EndHorizontal();
@@ -135,19 +150,6 @@ public class SokobanPuzzleInstanceEditor : Editor
                     propertyManager["size"].vector2Value = boxBoundsHandle.size;
                 }
             }
-            else
-            {
-                Vector2 bottomLeft = new Vector2(-propertyManager["size"].vector2Value.x / 2f, -propertyManager["size"].vector2Value.y / 2f);
-                Vector2 bottomRight = new Vector2(propertyManager["size"].vector2Value.x / 2f, -propertyManager["size"].vector2Value.y / 2f);
-
-                Vector2 topLeft = new Vector2(-propertyManager["size"].vector2Value.x / 2f, propertyManager["size"].vector2Value.y / 2f);
-                Vector2 topRight = new Vector2(propertyManager["size"].vector2Value.x / 2f, propertyManager["size"].vector2Value.y / 2f);
-
-                Handles.DrawLine(bottomLeft, bottomRight);
-                Handles.DrawLine(bottomLeft, topLeft);
-                Handles.DrawLine(topLeft, topRight);
-                Handles.DrawLine(topRight, bottomRight);
-            }
 
             int halfWidth = sokobanPuzzleInstance.GridSize.x / 2;
             int halfHeight = sokobanPuzzleInstance.GridSize.y / 2;
@@ -209,6 +211,11 @@ public class SokobanPuzzleInstanceEditor : Editor
         }
 
         propertyManager.Target.ApplyModifiedProperties();
+    }
+
+    private void OnDestroy()
+    {
+        EditorApplication.update -= Update;
     }
 
     private static void InitializeGizmoColour(int value) => Handles.color = value == 0 ? Color.white : Color.green;

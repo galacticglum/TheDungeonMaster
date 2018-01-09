@@ -92,7 +92,7 @@ public class SokobanPuzzleInstance : MonoBehaviour
 
     public void InitializeTiles()
     {
-        size = size.CeilToEven();
+        size = size.FloorToEven();
         tiles = new SokobanTile[GridSize.x, GridSize.y];
 
         Transform tileParent = new GameObject("__LEVEL__").transform;
