@@ -9,7 +9,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using UnityEngine;
 
 /// <summary>
@@ -64,7 +63,7 @@ public class EncounterController : ControllerBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && !isPlayerTurn)
         {
             isPlayerTurn = true;
-            Debug.Log("enemy turn ended");
+            Debug.Log("enemy turn ended!");
         }
 
         // Encounter is complete

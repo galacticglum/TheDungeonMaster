@@ -4,20 +4,14 @@
  * Project Name: TheDungeonMaster
  * Creation Date: 01/07/2018
  * Modified Date: 01/07/2018
- * Description: The type of a SokobanTile.
+ * Description: The type of a tile in a SokobanPuzzleLevel.
  */
 
 /// <summary>
-/// The type of a <see cref="SokobanTile"/>.
+/// The type of a tile in a <see cref="SokobanPuzzleLevel"/>
 /// </summary>
 public enum SokobanTileType
 {
-    /// <summary>
-    /// An empty tile which contains nothing.
-    /// A tile with this type is void and has no visual representation.
-    /// </summary>
-    Empty,
-
     /// <summary>
     /// A floor which the player can stand on.
     /// </summary>

@@ -3,10 +3,11 @@
  * File Name: SokobanPuzzleInstance.cs
  * Project Name: TheDungeonMaster
  * Creation Date: 01/07/2018
- * Modified Date: 01/08/2018
+ * Modified Date: 01/09/2018
  * Description: The top-level manager for a sokoban puzzle.
  */
 
+using System;
 using UnityEngine;
 
 /// <inheritdoc />
@@ -54,68 +55,31 @@ public class SokobanPuzzleInstance : MonoBehaviour
     public Vector2 Offset => topDownGrid ? new Vector2(transform.position.x, transform.position.z) : new Vector2(transform.position.x, transform.position.y);
 
     /// <summary>
-    /// The actual size of our grid (rounded) in a <see cref="Vector2Int"/>.
+    /// The size of the of this grid rounded to the nearest integer.
     /// </summary>
-    public Vector2Int GridSize => new Vector2Int(Mathf.FloorToInt(size.x), Mathf.FloorToInt(size.y));
-
-    /// <summary>
-    /// The size of our tilemap in a <see cref="Vector2Int"/>.
-    /// </summary>
-    public Vector2Int TileMapSize => new Vector2Int(tiles?.GetLength(0) ?? 0, tiles?.GetLength(1) ?? 0);
+    public Vector2Int RoundedSize => new Vector2Int(size.x.FloorToEven(), size.y.FloorToEven());
 
     /// <summary>
     /// The puzzle level which this <see cref="SokobanPuzzleInstance"/> will create.
     /// </summary>
-    [SerializeField]
-    private SokobanPuzzleLevel level;
+    public SokobanPuzzleLevel Level => level;
 
-    /// <summary>
-    /// The full size of our grid.
-    /// </summary>
-    [SerializeField]
-    private Vector2 size = new Vector2(2, 2);
-
-    /// <summary>
-    /// Determines whether this <see cref="SokobanPuzzleInstance"/> faces up.
-    /// </summary>
+    [Tooltip("Determines the orientation of the grid.")]
     [SerializeField]
     private bool topDownGrid = true;
 
-    private SokobanTile[,] tiles;
+    [SerializeField]
+    private SokobanPuzzleLevel level;
+    
+    /// <summary>
+    /// The size of this grid.
+    /// </summary>
+    [SerializeField]
+    private Vector2 size;
 
     private void Reset()
     {
-        tiles = null;
         size = new Vector2(2, 2);
         topDownGrid = true;
-    }
-
-    public void InitializeTiles()
-    {
-        size = size.FloorToEven();
-        tiles = new SokobanTile[GridSize.x, GridSize.y];
-
-        Transform tileParent = new GameObject("__LEVEL__").transform;
-        tileParent.SetParent(transform);
-        
-        for (int y = 0; y < GridSize.y; y++)
-        {
-            for (int x = 0; x < GridSize.x; x++)
-            {
-                Vector2 position = new Vector2(GridSize.x / 2 - x + Offset.x - 0.5f, GridSize.y / 2 - y + Offset.y - 0.5f);
-                tiles[x, y] = new SokobanTile(SokobanTileType.Empty, position);
-                    
-                //GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-
-                //Vector3 spawnPosition = new Vector3(position.x, position.y, 0);
-                //if (topDownGrid)
-                //{
-                //    spawnPosition = new Vector3(position.x, transform.position.y, position.y);
-                //}
-
-                //cube.transform.position = spawnPosition;
-                //cube.transform.SetParent(tileParent);
-            }
-        }
     }
 }
