@@ -23,10 +23,12 @@ public class EncounterController : ControllerBehaviour
     private List<EnemyInstance> enemies;
     private Action onEncounterComplete;
     private Stack<Card> deck;
-    private bool isPlayerTurn = true;
+    private bool isPlayerTurn;
 
     public void BeginEncounter(Action encounterCompleteAction)
     {
+        isPlayerTurn = true;
+
         CardHandController cardHandController = ControllerDatabase.Get<CardHandController>();
         cardHandController.gameObject.SetActive(true);
 
