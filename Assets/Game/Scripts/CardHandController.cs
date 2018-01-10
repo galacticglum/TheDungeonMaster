@@ -16,6 +16,13 @@ using UnityEngine;
 /// </summary>
 public class CardHandController : ControllerBehaviour
 {
+    public const int HandLimit = 5;
+
+    /// <summary>
+    /// The amount of cards in the hand.
+    /// </summary>
+    public int HandCount => hand.Count;
+
     /// <summary>
     /// The parent transform for all cards in the hand. When a card is added to the hand, it's <see cref="GameObject"/> is parented to this <see cref="Transform"/>.
     /// </summary>
@@ -117,6 +124,7 @@ public class CardHandController : ControllerBehaviour
     /// <param name="index">The index at which to insert the card</param>
     public CardInstance AddCard(Card card, int index)
     {
+        if (HandCount >= HandLimit) return null;
         CardInstance cardInstance = CardInstance.Create(card, handParentTransform);
 
         hand.Insert(index, cardInstance);

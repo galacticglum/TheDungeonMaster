@@ -34,7 +34,7 @@ public class EncounterController : ControllerBehaviour
         deck = new Stack<Card>(ControllerDatabase.Get<PlayerController>().Deck.CloneShuffled());
         cardHandController.Clear();
 
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < CardHandController.HandLimit; i++)
         {
             cardHandController.AddCard(deck.Pop());
         }
@@ -63,6 +63,12 @@ public class EncounterController : ControllerBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && !isPlayerTurn)
         {
             isPlayerTurn = true;
+            CardHandController cardHandController = ControllerDatabase.Get<CardHandController>();
+            if (cardHandController.HandCount < CardHandController.HandLimit)
+            {
+                cardHandController.AddCard(deck.Pop());
+            }
+
             Debug.Log("enemy turn ended!");
         }
 
