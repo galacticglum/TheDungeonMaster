@@ -20,13 +20,17 @@ public class EncounterController : ControllerBehaviour
     private RectTransform enemyInstanceParent;
 
     private List<EnemyInstance> enemies;
-    private Action onEncounterComplete;
     private Stack<Card> deck;
+    private Stack<Card> discards;
+
+    private Action onEncounterComplete;
     private bool isPlayerTurn;
 
     public void BeginEncounter(Action encounterCompleteAction)
     {
         isPlayerTurn = true;
+
+        discards = new Stack<Card>();
 
         CardHandController cardHandController = ControllerDatabase.Get<CardHandController>();
         cardHandController.gameObject.SetActive(true);
@@ -70,6 +74,13 @@ public class EncounterController : ControllerBehaviour
             }
 
             Debug.Log("enemy turn ended!");
+        }
+
+        // Debug resurrection
+        if (Input.GetKeyDown(KeyCode.R) && discards.Count > 0)
+        {
+            Card card = discards.Pop();
+            ControllerDatabase.Get<CardHandController>().AddCard(card);
         }
 
         // Encounter is complete
@@ -140,7 +151,9 @@ public class EncounterController : ControllerBehaviour
     {
         if (!enemies.Contains(target) || !isPlayerTurn) return false;
 
-        // If our cards attacks then we execute damage!
+        discards.Push(card.Card);
+
+        // Check if our card can do any damage, if it can't then we bail!
         if (card.Card.AttackPoints <= 0) return false;
 
         int damage = Mathf.Max(0, target.Enemy.CurrentHealthPoints - card.Card.AttackPoints);
