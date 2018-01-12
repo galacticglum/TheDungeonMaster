@@ -3,13 +3,14 @@
  * File Name: EnemyInstance.cs
  * Project Name: TheDungeonMaster
  * Creation Date: 12/27/2017
- * Modified Date: 1/5/2018
+ * Modified Date: 1/11/2018
  * Description: The interface between the enemy data and the enemy visuals.
  */
 
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 /// <summary>
 /// The interface between the enemy data and the enemy visuals.
@@ -35,6 +36,8 @@ public class EnemyInstance : MonoBehaviour
     private RawImage enemyCrystalImage;
     [SerializeField]
     private Text enemyHealthPointsText;
+    [SerializeField]
+    private Text attackPointsText;
 
     private RectTransform rectTransform;
 
@@ -55,6 +58,18 @@ public class EnemyInstance : MonoBehaviour
     private void Update()
     {
         enemyHealthPointsText.text = Enemy.CurrentHealthPoints.ToString();
+    }
+
+    public void ExecuteTurn()
+    {
+        // Can we even attack?
+        if (Enemy.AttackPoints > 0)
+        {
+            if (Random.value > 1 - Enemy.AttackChance)
+            {
+                ControllerDatabase.Get<EncounterController>().DamagePlayer(Enemy.AttackPoints, Enemy);
+            }
+        }
     }
 
     /// <summary>

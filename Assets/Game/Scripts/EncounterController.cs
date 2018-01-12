@@ -3,7 +3,7 @@
  * File Name: EncounterController.cs
  * Project Name: TheDungeonMaster
  * Creation Date: 01/02/2018
- * Modified Date: 01/05/2018
+ * Modified Date: 01/11/2018
  * Description: The top-level manager for a combat session (battle). 
  */
 
@@ -16,21 +16,25 @@ using UnityEngine;
 /// </summary>
 public class EncounterController : ControllerBehaviour
 {
+    private const int MaximumPlayerHealth = 15;
+
     [SerializeField]
     private RectTransform enemyInstanceParent;
 
     private List<EnemyInstance> enemies;
     private Stack<Card> deck;
-    private Stack<Card> discards;
+    private Stack<Card> discardPile;
 
     private Action onEncounterComplete;
     private bool isPlayerTurn;
 
+    private int playerHealth;
+
     public void BeginEncounter(Action encounterCompleteAction)
     {
+        playerHealth = MaximumPlayerHealth;
         isPlayerTurn = true;
-
-        discards = new Stack<Card>();
+        discardPile = new Stack<Card>();
 
         CardHandController cardHandController = ControllerDatabase.Get<CardHandController>();
         cardHandController.gameObject.SetActive(true);
@@ -45,8 +49,8 @@ public class EncounterController : ControllerBehaviour
 
         enemyInstanceParent.gameObject.SetActive(true);
         ClearEnemies();
-        AddEnemyToEncounter(new Enemy("Orc Grunt", "ME ORC, ME SMASH!", 12));
-        AddEnemyToEncounter(new Enemy("Elessar", "The fantastic shetland sheepdog.", 18));
+        AddEnemyToEncounter(new Enemy("Orc Grunt", "ME ORC, ME SMASH!", 6, 3, 0.5f));
+        AddEnemyToEncounter(new Enemy("Elessar", "The fantastic shetland sheepdog.", 12, 5, 0.5f));
         ControllerDatabase.Get<PlayerController>().CanMove = false;
 
         onEncounterComplete = encounterCompleteAction;
@@ -63,23 +67,15 @@ public class EncounterController : ControllerBehaviour
             }
         }
 
-        // TODO: Actual logic for enemy turn
-        if (Input.GetKeyDown(KeyCode.Space) && !isPlayerTurn)
+        if (!isPlayerTurn)
         {
-            isPlayerTurn = true;
-            CardHandController cardHandController = ControllerDatabase.Get<CardHandController>();
-            if (cardHandController.HandCount < CardHandController.HandLimit)
-            {
-                cardHandController.AddCard(deck.Pop());
-            }
-
-            Debug.Log("enemy turn ended!");
+            HandleEnemyUpdate();
         }
 
         // Debug resurrection
-        if (Input.GetKeyDown(KeyCode.R) && discards.Count > 0)
+        if (Input.GetKeyDown(KeyCode.R) && discardPile.Count > 0)
         {
-            Card card = discards.Pop();
+            Card card = discardPile.Pop();
             ControllerDatabase.Get<CardHandController>().AddCard(card);
         }
 
@@ -90,6 +86,28 @@ public class EncounterController : ControllerBehaviour
         ControllerDatabase.Get<CardHandController>().gameObject.SetActive(false);
         ControllerDatabase.Get<PlayerController>().CanMove = true;
         onEncounterComplete();
+    }
+
+    private void HandleEnemyUpdate()
+    {
+        foreach (EnemyInstance enemyInstance in enemies)
+        {
+            enemyInstance.ExecuteTurn();
+        }
+
+        StartPlayerTurn();
+    }
+
+    private void StartPlayerTurn()
+    {
+        isPlayerTurn = true;
+        CardHandController cardHandController = ControllerDatabase.Get<CardHandController>();
+        if (cardHandController.HandCount < CardHandController.HandLimit)
+        {
+            cardHandController.AddCard(deck.Pop());
+        }
+
+        Debug.Log("enemy turn ended!");
     }
 
     private void UpdateEnemyPositions()
@@ -151,7 +169,7 @@ public class EncounterController : ControllerBehaviour
     {
         if (!enemies.Contains(target) || !isPlayerTurn) return false;
 
-        discards.Push(card.Card);
+        discardPile.Push(card.Card);
 
         // Check if our card can do any damage, if it can't then we bail!
         if (card.Card.AttackPoints <= 0) return false;
@@ -162,5 +180,11 @@ public class EncounterController : ControllerBehaviour
         isPlayerTurn = !isPlayerTurn;
         Debug.Log("player turn ended");
         return true;
+    }
+
+    public void DamagePlayer(int amount, Enemy enemy)
+    {
+        playerHealth -= amount;
+        Debug.Log($"{enemy.Name} attacked the player for {amount} attack points!");
     }
 }
