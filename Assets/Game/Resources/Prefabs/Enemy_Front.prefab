@@ -55,8 +55,8 @@ GameObject:
   m_Component:
   - component: {fileID: 224966330074444652}
   - component: {fileID: 222097196487423552}
-  - component: {fileID: 114598013801569478}
   - component: {fileID: 114416915835868026}
+  - component: {fileID: 114535269546187268}
   m_Layer: 5
   m_Name: Enemy_Front
   m_TagString: Untagged
@@ -615,6 +615,7 @@ MonoBehaviour:
   enemyDescriptionText: {fileID: 114139794774056958}
   enemyCrystalImage: {fileID: 114589084337281016}
   enemyHealthPointsText: {fileID: 114992368411903094}
+  attackPointsText: {fileID: 114342428874558322}
 --- !u!114 &114445257063933648
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -780,6 +781,33 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.303}
   m_EffectDistance: {x: 2, y: -2}
   m_UseGraphicAlpha: 1
+--- !u!114 &114535269546187268
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1066364299914822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
 --- !u!114 &114589084337281016
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -806,33 +834,6 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
---- !u!114 &114598013801569478
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1066364299914822}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4269e3997e4f13e49bb4f43c25bb8fa7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
 --- !u!114 &114615942001713410
 MonoBehaviour:
   m_ObjectHideFlags: 1

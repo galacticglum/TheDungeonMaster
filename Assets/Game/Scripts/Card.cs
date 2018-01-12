@@ -23,21 +23,28 @@ public class Card
     public string Description { get; }
 
     /// <summary>
-    /// The amount of health points this <see cref="Card"/> can subtract from an <see cref="Enemy"/>.
+    /// The amount of damage this <see cref="Card"/> does to an <see cref="Enemy"/>.
     /// </summary>
     public int AttackPoints { get; }
+
+    /// <summary>
+    /// The amount of cards this <see cref="Card"/> will resurrect when it is played.
+    /// </summary>
+    public int ResurrectionAmount { get; }
 
     /// <summary>
     /// Initialize a <see cref="Card"/>.
     /// </summary>
     /// <param name="name">The name of this <see cref="Card"/>.</param>
     /// <param name="description">A description of the behaviour(s) of this <see cref="Card"/>.</param>
-    /// <param name="attackPoints">The amount of health points this <see cref="Card"/> can subtract from an <see cref="Enemy"/>.</param>
-    public Card(string name, string description, int attackPoints = 0)
+    /// <param name="attackPoints">The amount of damage this <see cref="Card"/> does to an <see cref="Enemy"/>.</param>
+    /// <param name="resurrectionAmount">The amount of cards this <see cref="Card"/> will resurrect when it is played.</param>
+    public Card(string name, string description, int attackPoints = 0, int resurrectionAmount = 0)
     {
         Name = name;
         Description = description;
         AttackPoints = attackPoints;
+        ResurrectionAmount = resurrectionAmount;
     }
 
     /// <summary>

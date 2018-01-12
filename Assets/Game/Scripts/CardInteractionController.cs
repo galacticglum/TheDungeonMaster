@@ -3,7 +3,7 @@
  * File Name: CardInteractionController.cs
  * Project Name: TheDungeonMaster
  * Creation Date: 12/26/2017
- * Modified Date: 1/7/2018
+ * Modified Date: 1/11/2018
  * Description: Manages all the interaction between cards and the user.
  */
 
@@ -149,10 +149,10 @@ public class CardInteractionController : ControllerBehaviour
  
         foreach (RaycastResult result in raycastResults)
         {
-            validDropArea = result.gameObject.GetComponent<DropArea>();
+            EnemyInstance enemyInstance = result.gameObject.GetComponent<EnemyInstance>();
+            validDropArea = enemyInstance != null;
             if (!validDropArea) continue;
 
-            EnemyInstance enemyInstance = result.gameObject.GetComponent<EnemyInstance>();
             cardExecuteSuccess = ControllerDatabase.Get<EncounterController>().ExecuteCard(currentDraggingCardInstance, enemyInstance);
 
             break;

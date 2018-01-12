@@ -40,13 +40,13 @@ public class Enemy
     /// <summary>
     /// The amount of damage that this <see cref="Enemy"/> does.
     /// </summary>
-    public int AttackPoints { get; set; }
+    public int AttackPoints { get; }
 
     /// <summary>
     /// The chance that this <see cref="Enemy"/> will attack the player. 
     /// This values is from 0 to 1.
     /// </summary>
-    public float AttackChance { get; set; }
+    public float AttackChance { get; }
 
     /// <summary>
     /// Initialize a <see cref="Enemy"/>.

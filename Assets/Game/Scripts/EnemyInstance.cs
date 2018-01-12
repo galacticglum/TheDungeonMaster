@@ -53,6 +53,7 @@ public class EnemyInstance : MonoBehaviour
         enemyNameText.text = enemy.Name;
         enemyDescriptionText.text = enemy.Description;
         enemyCrystalImage.texture = GetEnemyCrystalFromType(enemy.Type);
+        attackPointsText.text = enemy.AttackPoints.ToString();
     }
 
     private void Update()
@@ -65,7 +66,7 @@ public class EnemyInstance : MonoBehaviour
         // Can we even attack?
         if (Enemy.AttackPoints > 0)
         {
-            if (Random.value > 1 - Enemy.AttackChance)
+            if (Random.value < Enemy.AttackChance)
             {
                 ControllerDatabase.Get<EncounterController>().DamagePlayer(Enemy.AttackPoints, Enemy);
             }
