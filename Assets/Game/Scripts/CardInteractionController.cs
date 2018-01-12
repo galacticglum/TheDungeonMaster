@@ -144,20 +144,14 @@ public class CardInteractionController : ControllerBehaviour
         PointerEventData eventData = new PointerEventData(EventSystem.current) { position = Input.mousePosition, pointerId = -1 };
         graphicRaycaster.Raycast(eventData, raycastResults);
 
-        bool validDropArea = false;
         bool cardExecuteSuccess = false;
  
         foreach (RaycastResult result in raycastResults)
         {
-            EnemyInstance enemyInstance = result.gameObject.GetComponent<EnemyInstance>();
-            validDropArea = enemyInstance != null;
-            if (!validDropArea) continue;
-
-            cardExecuteSuccess = ControllerDatabase.Get<EncounterController>().ExecuteCard(currentDraggingCardInstance, enemyInstance);
-
-            break;
+            cardExecuteSuccess = currentDraggingCardInstance.HandleCardPlayed(result.gameObject);
+            if (cardExecuteSuccess) break;
         }
 
-        EndDrag(!validDropArea || !cardExecuteSuccess);
+        EndDrag(!cardExecuteSuccess);
     }
 }

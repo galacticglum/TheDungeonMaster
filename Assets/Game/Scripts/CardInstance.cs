@@ -64,6 +64,39 @@ public class CardInstance : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     }
 
     /// <summary>
+    /// Handles logic for when this <see cref="Card"/> is played.
+    /// </summary>
+    /// <param name="targetGameObject">The <see cref="GameObject"/> this card was played on. This doesn't have to be an enemy.</param>
+    public bool HandleCardPlayed(GameObject targetGameObject)
+    {
+        EncounterController encounterController = ControllerDatabase.Get<EncounterController>();
+        if (!encounterController.IsPlayerTurn) return false;
+
+        EnemyInstance targetEnemyInstance = targetGameObject.GetComponent<EnemyInstance>();
+        if (targetEnemyInstance == null && Card.RequiresEnemyTarget) return false;
+        if (targetGameObject.name != "Enemy_Spawn_Root" && !Card.RequiresEnemyTarget) return false;
+
+        // Execute any target specific logic.
+        if (targetEnemyInstance)
+        {
+            int damage = Mathf.Max(0, targetEnemyInstance.Enemy.CurrentHealthPoints - Card.AttackPoints);
+            targetEnemyInstance.Enemy.CurrentHealthPoints = damage;
+            encounterController.EndPlayerTurn();
+        }
+
+        Debug.Log($"Rez. {Card.ResurrectionAmount}");
+
+        CardHandController cardHandController = ControllerDatabase.Get<CardHandController>();
+        for (int i = 0; i < Card.ResurrectionAmount; i++)
+        {
+            cardHandController.AddCard(encounterController.GetLastDiscardedCard());
+        }
+
+        encounterController.AddCardToDiscardPile(Card);
+        return true;
+    }
+
+    /// <summary>
     /// Creates a <see cref="CardInstance"/> from a <see cref="global::Card"/>.
     /// </summary>
     /// <param name="card">The <see cref="global::Card"/> to create the <see cref="CardInstance"/> from.</param>

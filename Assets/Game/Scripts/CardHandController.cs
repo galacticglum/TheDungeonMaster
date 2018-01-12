@@ -115,7 +115,7 @@ public class CardHandController : ControllerBehaviour
     /// Adds a card into the hand.
     /// </summary>
     /// <param name="card">The <see cref="Card"/> to add to the hand.</param>
-    public CardInstance AddCard(Card card) => AddCard(card, hand.Count);
+    public CardInstance AddCard(Card card) => card == null ? null : AddCard(card, hand.Count);
 
     /// <summary>
     /// Adds a card into the hand at a specified index.
@@ -124,7 +124,7 @@ public class CardHandController : ControllerBehaviour
     /// <param name="index">The index at which to insert the card</param>
     public CardInstance AddCard(Card card, int index)
     {
-        if (HandCount >= HandLimit) return null;
+        if (HandCount >= HandLimit || card == null) return null;
         CardInstance cardInstance = CardInstance.Create(card, handParentTransform);
 
         hand.Insert(index, cardInstance);

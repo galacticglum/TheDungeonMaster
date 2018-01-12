@@ -95,14 +95,15 @@ public class PlayerController : ControllerBehaviour
             new Card("Punch",
                 "Deals <color=#D5AB5CFF><i>6</i></color> damage to an enemy. ", 2),
 
-            new Card("Power Punch",
-                "Deals <color=#D5AB5CFF><i>6</i></color> damage to an enemy. " +
-                "<color=#D5AB5CFF>Overcharge:</color> 3 cards.", 2),
+            //new Card("Power Punch",
+            //    "Deals <color=#D5AB5CFF><i>6</i></color> damage to an enemy. " +
+            //    "<color=#D5AB5CFF>Overcharge:</color> 3 cards.", 2),
 
-            new Card("Power Kick",
-                "Your kick is mightier than the sun! Deals <color=#D5AB5CFF><i>10</i></color> damage to an enemy.", 4),
+            //new Card("Power Kick",
+            //    "Your kick is mightier than the sun! Deals <color=#D5AB5CFF><i>10</i></color> damage to an enemy.", 4),
 
-            new Card("David", "The scrub", 4), 
+            //new Card("David", "The scrub", 4), 
+            new Card("Resurrection", "<color=#D5AB5CFF>Resurrects:</color> 1 cards.", 0, 1) 
         };
 
         // Initialize a test deck

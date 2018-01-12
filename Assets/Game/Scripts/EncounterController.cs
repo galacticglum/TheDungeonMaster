@@ -16,6 +16,8 @@ using UnityEngine;
 /// </summary>
 public class EncounterController : ControllerBehaviour
 {
+    public bool IsPlayerTurn { get; private set; }
+
     private const int MaximumPlayerHealth = 15;
 
     [SerializeField]
@@ -26,14 +28,18 @@ public class EncounterController : ControllerBehaviour
     private Stack<Card> discardPile;
 
     private Action onEncounterComplete;
-    private bool isPlayerTurn;
-
     private int playerHealth;
+
+    private void Start()
+    {
+        gameObject.SetActive(false);
+    }
 
     public void BeginEncounter(Action encounterCompleteAction)
     {
+        gameObject.SetActive(true);
         playerHealth = MaximumPlayerHealth;
-        isPlayerTurn = true;
+        IsPlayerTurn = true;
         discardPile = new Stack<Card>();
 
         CardHandController cardHandController = ControllerDatabase.Get<CardHandController>();
@@ -67,18 +73,11 @@ public class EncounterController : ControllerBehaviour
             }
         }
 
-        if (!isPlayerTurn)
+        if (!IsPlayerTurn)
         {
             HandleEnemyUpdate();
         }
-
-        // Debug resurrection
-        if (Input.GetKeyDown(KeyCode.R) && discardPile.Count > 0)
-        {
-            Card card = discardPile.Pop();
-            ControllerDatabase.Get<CardHandController>().AddCard(card);
-        }
-
+        
         // Encounter is complete
         if (enemies.Count != 0) return;
 
@@ -86,6 +85,8 @@ public class EncounterController : ControllerBehaviour
         ControllerDatabase.Get<CardHandController>().gameObject.SetActive(false);
         ControllerDatabase.Get<PlayerController>().CanMove = true;
         onEncounterComplete();
+
+        gameObject.SetActive(false);
     }
 
     private void HandleEnemyUpdate()
@@ -100,7 +101,7 @@ public class EncounterController : ControllerBehaviour
 
     private void StartPlayerTurn()
     {
-        isPlayerTurn = true;
+        IsPlayerTurn = true;
         CardHandController cardHandController = ControllerDatabase.Get<CardHandController>();
         if (cardHandController.HandCount < CardHandController.HandLimit)
         {
@@ -108,6 +109,13 @@ public class EncounterController : ControllerBehaviour
         }
 
         Debug.Log("enemy turn ended!");
+    }
+
+    public void EndPlayerTurn()
+    {
+        IsPlayerTurn = false;
+
+        Debug.Log("player turn ended");
     }
 
     private void UpdateEnemyPositions()
@@ -165,26 +173,12 @@ public class EncounterController : ControllerBehaviour
         UpdateEnemyPositions();
     }
 
-    public bool ExecuteCard(CardInstance card, EnemyInstance target)
-    {
-        if (!enemies.Contains(target) || !isPlayerTurn) return false;
-
-        discardPile.Push(card.Card);
-
-        // Check if our card can do any damage, if it can't then we bail!
-        if (card.Card.AttackPoints <= 0) return false;
-
-        int damage = Mathf.Max(0, target.Enemy.CurrentHealthPoints - card.Card.AttackPoints);
-        target.Enemy.CurrentHealthPoints = damage;
-
-        isPlayerTurn = !isPlayerTurn;
-        Debug.Log("player turn ended");
-        return true;
-    }
-
     public void DamagePlayer(int amount, Enemy enemy)
     {
         playerHealth -= amount;
-        Debug.Log($"{enemy.Name} attacked the player for {amount} attack points!");
+        Debug.Log($"{enemy.Name} attacked the player for {amount} attack points! Current health: {playerHealth}");
     }
+
+    public void AddCardToDiscardPile(Card card) => discardPile.Push(card);
+    public Card GetLastDiscardedCard() => discardPile.Count > 0 ? discardPile.Pop() : null;
 }
