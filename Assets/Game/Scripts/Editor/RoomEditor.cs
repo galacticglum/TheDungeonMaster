@@ -3,7 +3,7 @@
  * File Name: RoomEditor.cs
  * Project Name: TheDungeonMaster
  * Creation Date: 12/28/2017
- * Modified Date: 12/29/2017
+ * Modified Date: 1/13/2017
  * Description: Room component inspector.
  */
 
@@ -69,7 +69,6 @@ public class RoomEditor : Editor
         // This initializes the edit mode button and hook into the editor delegate for changing the scene view handle.
         // When the button is pressed, the position handle in the viewport is hidden.
         EditMode.DoEditModeInspectorModeButton(EditMode.SceneViewEditMode.Collider, "Edit Bounds", EditModeButton, () => new Bounds(boxBoundsHandle.center, boxBoundsHandle.size), this);
-
         propertyManager["size"].vector2Value = EditorGUILayout.Vector2Field(new GUIContent("Size"), propertyManager["size"].vector2Value);
 
         // Readonly centre field.
@@ -82,7 +81,7 @@ public class RoomEditor : Editor
 
     /// <summary>
     /// Draw the scene GUI.
-    /// </summary>`
+    /// </summary>
     private void OnSceneGUI()
     {
         Room room = (Room)target;
@@ -105,6 +104,7 @@ public class RoomEditor : Editor
             }
             else
             {
+                // Render the bounds of the room without any modification handles.
                 Vector2 bottomLeft = new Vector2(-sizeProperty.vector2Value.x / 2f, -sizeProperty.vector2Value.y / 2f);
                 Vector2 bottomRight = new Vector2(sizeProperty.vector2Value.x / 2f, -sizeProperty.vector2Value.y / 2f);
 

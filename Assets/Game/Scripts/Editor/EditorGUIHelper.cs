@@ -29,21 +29,25 @@ public static class EditorGUIHelper
     /// <summary>
     /// The <see cref="Color"/> for a splitter.
     /// </summary>
+    /// Handles colour for both dark and light skins.
     private static readonly Color splitterColor = EditorGUIUtility.isProSkin ? new Color(0.157f, 0.157f, 0.157f) : new Color(0.5f, 0.5f, 0.5f);
 
     /// <summary>
     /// The <see cref="Color"/> for the upper-portion of a section box.
     /// </summary>
+    /// Handles colour for both dark and light skins.
     private static readonly Color upperSectionBoxColour = EditorGUIUtility.isProSkin ? new Color(0.278f, 0.278f, 0.278f) : new Color(0.855f, 0.855f, 0.855f);
 
     /// <summary>
     /// The <see cref="Color"/> for the lower-portion of a section box.
     /// </summary>
+    /// Handles colour for both dark and light skins.
     private static readonly Color lowerSectionBoxColour = EditorGUIUtility.isProSkin ? new Color(0.235f, 0.235f, 0.235f) : new Color(0.753f, 0.753f, 0.753f);
 
     /// <summary>
     /// The <see cref="Color"/> for when the section box is not selected.
     /// </summary>
+    /// Handles colour for both dark and light skins.
     private static readonly Color sectionBoxInactiveColour = EditorGUIUtility.isProSkin ? new Color(0.22f, 0.22f, 0.22f) : new Color(0.816f, 0.816f, 0.816f);
 
     /// <summary>

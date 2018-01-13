@@ -3,7 +3,7 @@
  * File Name: ControllerBehaviourEditor.cs
  * Project Name: TheDungeonMaster
  * Creation Date: 12/29/2017
- * Modified Date: 12/29/2017
+ * Modified Date: 1/13/2017
  * Description: The custom inspector for ControllerBehaviours.
  */
 
@@ -18,10 +18,7 @@ public class ControllerBehaviourEditor : Editor
     /// <summary>
     /// Initialize the custom editor.
     /// </summary>
-    private void OnEnable()
-    {
-        EditorApplication.update += Update;
-    }
+    private void OnEnable() => EditorApplication.update -= Update;
 
     /// <summary>
     /// Called every editor frame.
@@ -36,4 +33,10 @@ public class ControllerBehaviourEditor : Editor
 
         DestroyImmediate(controllerBehaviour);
     }
+
+    /// <summary>
+    /// Handle any destruction-related logic.
+    /// Called when this <see cref="ControllerBehaviourEditor"/> is destroyed.
+    /// </summary>
+    private void OnDestroy() => EditorApplication.update -= Update;
 }
