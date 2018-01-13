@@ -31,7 +31,6 @@ public class SokobanPuzzleInstanceEditor : Editor
 
     private bool isEditingBounds;
     private bool isTileSelected;
-    private bool hasBeenDestroyed;
 
     private Vector2Int selectedTileIndex;
 
@@ -45,7 +44,6 @@ public class SokobanPuzzleInstanceEditor : Editor
 
         EditMode.onEditModeStartDelegate += (editor, mode) => isEditingBounds = true;
         EditMode.onEditModeEndDelegate += editor => isEditingBounds = false;
-        EditorApplication.update += Update;
 
         sokobanPuzzleInstance = (SokobanPuzzleInstance)target;
 
@@ -54,20 +52,10 @@ public class SokobanPuzzleInstanceEditor : Editor
         isTileSelected = false;
     }
 
-    private void Update()
-    {
-        if (serializedObject.targetObject == null || hasBeenDestroyed) return;
-
-        Vector2 vector = propertyManager["size"].vector2Value;
-        vector.x = Mathf.Max(2, vector.x);
-        vector.y = Mathf.Max(2, vector.y);
-
-        propertyManager["size"].vector2Value = vector;
-        propertyManager.Target.ApplyModifiedProperties();
-    }
-
     public override void OnInspectorGUI()
     {
+        serializedObject.Update();
+
         EditorGUILayout.BeginHorizontal();
 
         EditorGUI.BeginChangeCheck();
@@ -85,6 +73,7 @@ public class SokobanPuzzleInstanceEditor : Editor
             SokobanPuzzleLevel levelAsset = ScriptableObjectHelper.CreateAsset<SokobanPuzzleLevel>(createAssetFilePath);
             if (levelAsset != null)
             {
+                Undo.RecordObject(serializedObject.targetObject, "Changed level asset of sokoban puzzle instance.");
                 propertyManager["level"].objectReferenceValue = levelAsset;
                 LevelAssetUpdated();
             }
@@ -100,8 +89,18 @@ public class SokobanPuzzleInstanceEditor : Editor
             {
                 EditMode.DoEditModeInspectorModeButton(EditMode.SceneViewEditMode.Collider, "Edit Bounds", EditModeButton, () => new Bounds(boxBoundsHandle.center, boxBoundsHandle.size), this);
 
+                EditorGUI.BeginChangeCheck();
                 propertyManager["size"].vector2Value = EditorGUILayout.Vector2Field(new GUIContent("Size"),
                     propertyManager["size"].vector2Value);
+                if (EditorGUI.EndChangeCheck())
+                {
+                    Vector2 vector = propertyManager["size"].vector2Value;
+                    vector.x = Mathf.Max(2, vector.x);
+                    vector.y = Mathf.Max(2, vector.y);
+
+                    Undo.RecordObject(serializedObject.targetObject, "Changed size of sokoban puzzle instance");
+                    propertyManager["size"].vector2Value = vector;
+                }
 
                 GUI.enabled = false;
                 EditorGUILayout.Vector3Field(new GUIContent("Offset"), sokobanPuzzleInstance.transform.position);
@@ -121,10 +120,9 @@ public class SokobanPuzzleInstanceEditor : Editor
                         "This will remove ALL modifications made to the level settings—including tile setup.", "Yes", "No"))
                     {
                         sokobanPuzzleInstance.Level.GenerateTiles(sokobanPuzzleInstance.RoundedSize);
-                        propertyManager["size"].vector2Value = sokobanPuzzleInstance.RoundedSize;
+                        LevelAssetUpdated();
 
                         showLevelSettings = true;
-
                         EditorGUIHelper.RemoveFocus();
                     }
                 }
@@ -178,6 +176,9 @@ public class SokobanPuzzleInstanceEditor : Editor
         }
 
         propertyManager.Target.ApplyModifiedProperties();
+        Undo.FlushUndoRecordObjects();
+
+        AssetDatabase.SaveAssets();
     }
 
     private void LevelAssetUpdated()
@@ -186,6 +187,8 @@ public class SokobanPuzzleInstanceEditor : Editor
 
         propertyManager["size"].vector2Value = ((SokobanPuzzleLevel)propertyManager["level"].objectReferenceValue).Size;
         propertyManager.Target.ApplyModifiedProperties();
+
+        AssetDatabase.SaveAssets();
     }
 
     private void OnSceneGUI()
@@ -278,12 +281,6 @@ public class SokobanPuzzleInstanceEditor : Editor
         }
 
         propertyManager.Target.ApplyModifiedProperties();
-    }
-
-    private void OnDestroy()
-    {
-        hasBeenDestroyed = true;
-        EditorApplication.update -= Update;
     }
 
     private static void InitializeGizmoColour(int value) => Handles.color = value == 0 ? Color.white : Color.green;

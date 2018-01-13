@@ -8,6 +8,7 @@
  */
 
 using System;
+using UnityEditor;
 using UnityEngine;
 
 /// <summary>
@@ -19,18 +20,23 @@ public class SokobanPuzzleLevel : ScriptableObject
     /// <summary>
     /// The size of our <see cref="SokobanPuzzleLevel"/> in a <see cref="Vector2Int"/>.
     /// </summary>
-    public Vector2Int Size { get; set; } = new Vector2Int(2, 2);
+    public Vector2Int Size => size;
 
     public bool HasGeneratedTiles => tiles != null;
 
-    [HideInInspector]
     [SerializeField]
     private SokobanTileType[] tiles;
-    
+
+    [SerializeField]
+    private Vector2Int size;
+
     public void GenerateTiles(Vector2Int size)
     {
-        Size = size;
-        tiles = new SokobanTileType[Size.x * Size.y];
+        SerializedObject serializedObject = new SerializedObject(this);
+        serializedObject.FindProperty("size").vector2IntValue = size;
+
+        serializedObject.FindProperty("tiles").arraySize = size.x * size.y;
+        serializedObject.ApplyModifiedProperties();
 
         for (int x = 0; x < size.x; x++)
         {
@@ -39,6 +45,7 @@ public class SokobanPuzzleLevel : ScriptableObject
                 SetTileTypeAt(x, y, SokobanTileType.Floor);
             }
         }
+
     }
 
     /// <summary>

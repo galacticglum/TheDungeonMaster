@@ -7,7 +7,6 @@
  * Description: The top-level manager for a sokoban puzzle.
  */
 
-using System;
 using UnityEngine;
 
 /// <inheritdoc />
@@ -81,5 +80,13 @@ public class SokobanPuzzleInstance : MonoBehaviour
     {
         size = new Vector2(2, 2);
         topDownGrid = true;
+    }
+
+    private void Start()
+    {
+        if (level)
+        {
+            size = level.Size;
+        }
     }
 }

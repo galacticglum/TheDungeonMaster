@@ -101,7 +101,6 @@ public class RoomEditor : Editor
 
                 Undo.RecordObject((Room)target, $"Modify {ObjectNames.NicifyVariableName(target.GetType().Name)}");
                 sizeProperty.vector2Value = boxBoundsHandle.size;
-
                 serializedObject.ApplyModifiedProperties();
             }
             else
