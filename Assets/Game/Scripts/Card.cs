@@ -33,10 +33,15 @@ public class Card
     public int ResurrectionAmount { get; }
 
     /// <summary>
+    /// The amount of cards that this <see cref="Card"/> will discard when it is played.
+    /// </summary>
+    public int OverchargeAmount { get; }
+
+    /// <summary>
     /// Determines whether this <see cref="Card"/> requires an <see cref="Enemy"/> target to execute.
     /// </summary>
     /// We only require a target if we need to attack as we need to know what <see cref="Enemy"/> to attack.
-    public bool RequiresEnemyTarget => AttackPoints > 0; 
+    public bool RequiresEnemyTarget => AttackPoints > 0;
 
     /// <summary>
     /// Initialize a <see cref="Card"/>.
@@ -45,12 +50,14 @@ public class Card
     /// <param name="description">A description of the behaviour(s) of this <see cref="Card"/>.</param>
     /// <param name="attackPoints">The amount of damage this <see cref="Card"/> does to an <see cref="Enemy"/>.</param>
     /// <param name="resurrectionAmount">The amount of cards this <see cref="Card"/> will resurrect when it is played.</param>
-    public Card(string name, string description, int attackPoints = 0, int resurrectionAmount = 0)
+    /// <param name="overchargeAmount">The amount of cards that this <see cref="Card"/> will discard when it is played.</param>
+    public Card(string name, string description, int attackPoints = 0, int resurrectionAmount = 0,  int overchargeAmount = 0)
     {
         Name = name;
         Description = description;
         AttackPoints = attackPoints;
         ResurrectionAmount = resurrectionAmount;
+        OverchargeAmount = overchargeAmount;
     }
 
     /// <summary>
@@ -62,6 +69,7 @@ public class Card
         Description = other.Description;
         AttackPoints = other.AttackPoints;
         ResurrectionAmount = other.ResurrectionAmount;
+        OverchargeAmount = other.OverchargeAmount;
     }
 
     /// <summary>

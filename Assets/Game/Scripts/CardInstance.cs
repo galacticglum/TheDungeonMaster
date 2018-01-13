@@ -92,6 +92,16 @@ public class CardInstance : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
             cardHandController.AddCard(encounterController.GetLastDiscardedCard());
         }
 
+        Debug.Log($"Overcharge: {Card.OverchargeAmount}");
+
+        int actualOverchargeAmount = Mathf.Min(Card.OverchargeAmount, cardHandController.HandCount);
+        for (int i = 0; i < actualOverchargeAmount; i++)
+        {
+            CardInstance removedCardInstance = cardHandController.RemoveRandomCard();
+            encounterController.AddCardToDiscardPile(removedCardInstance.Card);
+            Destroy(removedCardInstance.gameObject);
+        }
+
         encounterController.AddCardToDiscardPile(Card);
         return true;
     }

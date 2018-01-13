@@ -134,7 +134,7 @@ public class CardHandController : ControllerBehaviour
     }
 
     /// <summary>
-    /// Removes a card from the hand.
+    /// Removes a <see cref="Card"/> from the hand.
     /// </summary>
     /// <param name="cardInstance">The <see cref="CardInstance"/> to remove from the hand.</param>
     public bool RemoveCard(CardInstance cardInstance)
@@ -143,6 +143,18 @@ public class CardHandController : ControllerBehaviour
         UpdateCardPositions();
 
         return result;
+    }
+
+    /// <summary>
+    /// Removes a random <see cref="Card"/> from thhe hand.
+    /// </summary>
+    public CardInstance RemoveRandomCard()
+    {
+        int index = Random.Range(0, hand.Count);
+        CardInstance cardInstance = hand[index];
+        RemoveCard(cardInstance);
+
+        return cardInstance;
     }
 
     /// <summary>
