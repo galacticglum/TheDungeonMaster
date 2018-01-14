@@ -17,17 +17,22 @@ public class LootInstance : MonoBehaviour
 {
     [SerializeField]
     private TextMeshPro keydownIcon;
+    [SerializeField]
+    private float activationRadius = 2;
+
     private PlayerController playerController;
 
     private void Start()
     {
         playerController = ControllerDatabase.Get<PlayerController>();
+        keydownIcon.enabled = false;
     }
 
     private void Update()
     {
         float distanceFromPlayer = Vector3.Distance(transform.position, playerController.transform.position);
-        keydownIcon.enabled = distanceFromPlayer <= 2;
+        Debug.Log(distanceFromPlayer);
+        keydownIcon.enabled = distanceFromPlayer <= activationRadius;
     }
 
     public static LootInstance Create(Transform parent)
