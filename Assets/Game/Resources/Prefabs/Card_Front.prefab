@@ -967,6 +967,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e303bd2e55bcbe44fa991ecad2db1577, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  respondToEvents: 1
   cardNameText: {fileID: 114781165016360390}
   cardDescriptionText: {fileID: 114425385741548842}
   cardAttackPointsText: {fileID: 114724760318823154}

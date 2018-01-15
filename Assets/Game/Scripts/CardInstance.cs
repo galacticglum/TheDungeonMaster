@@ -35,6 +35,8 @@ public class CardInstance : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public RectTransform RectTransform => rectTransform ?? (rectTransform = GetComponent<RectTransform>());
 
     [SerializeField]
+    private bool respondToEvents = true;
+    [SerializeField]
     private Text cardNameText;
     [SerializeField]
     private Text cardDescriptionText;
@@ -127,17 +129,29 @@ public class CardInstance : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     /// Executed when the pointer is over the <see cref="T:UnityEngine.GameObject" /> pertaining to this <see cref="T:UnityEngine.MonoBehaviour" />.
     /// </summary>
     /// <param name="eventData">The data pertaining to this event.</param>
-    public void OnPointerEnter(PointerEventData eventData) => ControllerDatabase.Get<CardInteractionController>().BeginHover(this);
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (!respondToEvents) return;
+        ControllerDatabase.Get<CardInteractionController>().BeginHover(this);
+    }
 
     /// <summary>
     /// Executed when the pointer leaves the <see cref="T:UnityEngine.GameObject" /> pertaining to this <see cref="T:UnityEngine.MonoBehaviour" />.
     /// </summary>
     /// <param name="eventData">The data pertaining to this event.</param>
-    public void OnPointerExit(PointerEventData eventData) => ControllerDatabase.Get<CardInteractionController>().EndHover(this);
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (!respondToEvents) return;
+        ControllerDatabase.Get<CardInteractionController>().EndHover(this);
+    }
 
     /// <summary>
     /// Executed when the pointer is down on the <see cref="T:UnityEngine.GameObject" /> pertaining to this <see cref="T:UnityEngine.MonoBehaviour" />.
     /// </summary>
     /// <param name="eventData">The data pertaining to this event.</param>
-    public void OnPointerDown(PointerEventData eventData) => ControllerDatabase.Get<CardInteractionController>().BeginDrag(this);
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        if (!respondToEvents) return;
+        ControllerDatabase.Get<CardInteractionController>().BeginDrag(this);
+    }
 }

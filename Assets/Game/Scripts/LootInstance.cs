@@ -7,6 +7,7 @@
  * Description: The visual manager for a loot box.
  */
 
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -38,7 +39,12 @@ public class LootInstance : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E) && isPlayerInRange && !lootWindowController.IsOpen)
         {
-            lootWindowController.Open();
+            lootWindowController.Open(new List<Card>
+            {
+                new Card("Norwegian Brute", "A tall, handsome, brute who comes from an arbitrary Norwegian province.", 10),
+                new Card("German Brute", "A tall but smaller, handsome, brute who comes from an arbitrary German province.", 8),
+                new Card("Dwarven Brute", "A short, hairy, brute who comes from an arbitrary European province.", 8)
+            });
         }
     }
 

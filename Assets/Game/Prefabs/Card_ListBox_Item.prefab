@@ -57,7 +57,6 @@ GameObject:
   - component: {fileID: 222833108965243938}
   - component: {fileID: 114286897997722150}
   - component: {fileID: 114932027399036006}
-  - component: {fileID: 114191293162913320}
   m_Layer: 5
   m_Name: Card_ListBox_Item
   m_TagString: Untagged
@@ -98,20 +97,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Orc Grunt
---- !u!114 &114191293162913320
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1802994557817336}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 610c4ec5e954e9447a51b5e9f00fd307, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  valueText: {fileID: 114028356939508592}
-  iconImage: {fileID: 114619916481904228}
-  defaultIconSprite: {fileID: 0}
 --- !u!114 &114286897997722150
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -121,7 +121,6 @@ GameObject:
   - component: {fileID: 222383855826324394}
   - component: {fileID: 114937238967524894}
   - component: {fileID: 114928191425601672}
-  - component: {fileID: 114696833689150496}
   m_Layer: 5
   m_Name: ListBox
   m_TagString: Untagged
@@ -353,19 +352,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114696833689150496
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1740963532223406}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e01f645d974226b43932f2755eca89f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  listboxItemPrefab: {fileID: 114191293162913320, guid: ae1c7fc29f34dc644a61222aec5c8e03,
-    type: 2}
 --- !u!114 &114841268682017144
 MonoBehaviour:
   m_ObjectHideFlags: 1
