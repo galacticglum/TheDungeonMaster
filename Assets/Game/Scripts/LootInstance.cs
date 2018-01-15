@@ -21,18 +21,25 @@ public class LootInstance : MonoBehaviour
     private float activationRadius = 2;
 
     private PlayerController playerController;
+    private LootWindowController lootWindowController;
 
     private void Start()
     {
         playerController = ControllerDatabase.Get<PlayerController>();
+        lootWindowController = ControllerDatabase.Get<LootWindowController>();
         keydownIcon.enabled = false;
     }
 
     private void Update()
     {
         float distanceFromPlayer = Vector3.Distance(transform.position, playerController.transform.position);
-        Debug.Log(distanceFromPlayer);
-        keydownIcon.enabled = distanceFromPlayer <= activationRadius;
+        bool isPlayerInRange = distanceFromPlayer <= activationRadius;
+        keydownIcon.enabled = isPlayerInRange;
+
+        if (Input.GetKeyDown(KeyCode.E) && isPlayerInRange && !lootWindowController.IsOpen)
+        {
+            lootWindowController.Open();
+        }
     }
 
     public static LootInstance Create(Transform parent)

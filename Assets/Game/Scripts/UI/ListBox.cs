@@ -21,7 +21,7 @@ public class ListBox : MonoBehaviour
     private ListBoxItem listboxItemPrefab;
     private ScrollRect scrollRect;
 
-    private void Start()
+    private void OnEnable()
     {
         scrollRect = GetComponent<ScrollRect>();
 
@@ -31,7 +31,6 @@ public class ListBox : MonoBehaviour
     }
 
     public void AddItem(string value) => AddItem(value, null);
-
     public void AddItem(string value, Sprite icon)
     {
         GameObject itemGameObject = Instantiate(listboxItemPrefab.gameObject);
@@ -41,9 +40,9 @@ public class ListBox : MonoBehaviour
 
     public void Clear()
     {
-        for (int i = scrollRect.content.childCount - 1; i >= 0; i--)
+        foreach (Transform child in scrollRect.content)
         {
-            Destroy(scrollRect.content.GetChild(i).gameObject);
+            Destroy(child.gameObject);
         }
     }
 }
