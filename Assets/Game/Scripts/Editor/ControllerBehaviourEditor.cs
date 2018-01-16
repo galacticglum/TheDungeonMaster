@@ -3,7 +3,7 @@
  * File Name: ControllerBehaviourEditor.cs
  * Project Name: TheDungeonMaster
  * Creation Date: 12/29/2017
- * Modified Date: 1/13/2017
+ * Modified Date: 1/15/2018
  * Description: The custom inspector for ControllerBehaviours.
  */
 
@@ -15,17 +15,22 @@ using UnityEditor;
 [CustomEditor(typeof(ControllerBehaviour), true)]
 public class ControllerBehaviourEditor : Editor
 {
+    private ControllerBehaviour controllerBehaviour;
+
     /// <summary>
     /// Initialize the custom editor.
     /// </summary>
-    private void OnEnable() => EditorApplication.update -= Update;
+    private void OnEnable()
+    {
+        controllerBehaviour = (ControllerBehaviour)target;
+        EditorApplication.update += Update;
+    }
 
     /// <summary>
     /// Called every editor frame.
     /// </summary>
     private void Update()
     {
-        ControllerBehaviour controllerBehaviour = (ControllerBehaviour)target;
         if (!controllerBehaviour.ShouldDestroy) return;
 
         EditorUtility.DisplayDialog("Can't add controller!", "Can't add controller because it already exists in the world.", "Okay");

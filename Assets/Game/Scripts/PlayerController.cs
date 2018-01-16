@@ -103,6 +103,7 @@ public class PlayerController : ControllerBehaviour
             //    "Your kick is mightier than the sun! Deals <color=#D5AB5CFF><i>10</i></color> damage to an enemy.", 4),
 
             //new Card("David", "The scrub", 4), 
+            new Card("Jimmy the Scrawny", "Cis-gendered asian boi", 10, 0, 5), 
             new Card("Resurrection", "<color=#D5AB5CFF>Resurrects:</color> 1 cards.", 0, 1) 
         };
 

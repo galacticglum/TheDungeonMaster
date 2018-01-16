@@ -61,7 +61,7 @@ public class LootWindowController : ControllerBehaviour
     private void OnLootSelected(Card card)
     {
         gameObject.SetActive(false);
-        ControllerDatabase.Get<PlayerController>().Deck.Add(card);
+        ControllerDatabase.Get<PlayerController>().Deck.Add(card.Clone());
         Debug.Log($"selected {card.Name} as loot");
     }
 }

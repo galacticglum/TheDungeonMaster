@@ -21,6 +21,7 @@ public class LootInstance : MonoBehaviour
     [SerializeField]
     private float activationRadius = 2;
 
+    private bool hasOpened;
     private PlayerController playerController;
     private LootWindowController lootWindowController;
 
@@ -37,15 +38,14 @@ public class LootInstance : MonoBehaviour
         bool isPlayerInRange = distanceFromPlayer <= activationRadius;
         keydownIcon.enabled = isPlayerInRange;
 
-        if (Input.GetKeyDown(KeyCode.E) && isPlayerInRange && !lootWindowController.IsOpen)
+        if (!Input.GetKeyDown(KeyCode.E) || !isPlayerInRange) return;
+        lootWindowController.Open(new List<Card>
         {
-            lootWindowController.Open(new List<Card>
-            {
-                new Card("Norwegian Brute", "A tall, handsome, brute who comes from an arbitrary Norwegian province.", 10),
-                new Card("German Brute", "A tall but smaller, handsome, brute who comes from an arbitrary German province.", 8),
-                new Card("Dwarven Brute", "A short, hairy, brute who comes from an arbitrary European province.", 8)
-            });
-        }
+            new Card("Norwegian Brute", "A tall, handsome, brute who comes from an arbitrary Norwegian province.", 10),
+            new Card("German Brute", "A tall but smaller, handsome, brute who comes from an arbitrary German province.", 8),
+            new Card("Dwarven Brute", "A short, hairy, brute who comes from an arbitrary European province.", 8)
+        });
+        hasOpened = true;
     }
 
     public static LootInstance Create(Transform parent)

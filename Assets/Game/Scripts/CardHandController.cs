@@ -3,7 +3,7 @@
  * File Name: CardHandController.cs
  * Project Name: TheDungeonMaster
  * Creation Date: 12/25/2017
- * Modified Date: 1/2/2018
+ * Modified Date: 1/15/2018
  * Description: Manages the players hand.
  */
 
@@ -18,6 +18,8 @@ public class CardHandController : ControllerBehaviour
 {
     public const int HandLimit = 5;
 
+    public CanvasGroup CanvasGroup => handCanvasGroup;
+
     /// <summary>
     /// The amount of cards in the hand.
     /// </summary>
@@ -28,6 +30,9 @@ public class CardHandController : ControllerBehaviour
     /// </summary>
     [SerializeField]
     private RectTransform handParentTransform;
+    [SerializeField]
+    private CanvasGroup handCanvasGroup;
+
     private List<CardInstance> hand;
 
     /// <summary>

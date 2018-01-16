@@ -43,10 +43,10 @@ public class EncounterController : ControllerBehaviour
         discardPile = new Stack<Card>();
 
         CardHandController cardHandController = ControllerDatabase.Get<CardHandController>();
-        cardHandController.gameObject.SetActive(true);
+        cardHandController.Clear();
+        cardHandController.CanvasGroup.SetVisibility(true);
 
         deck = new Stack<Card>(ControllerDatabase.Get<PlayerController>().Deck.CloneShuffled());
-        cardHandController.Clear();
 
         for (int i = 0; i < CardHandController.HandLimit; i++)
         {
@@ -82,7 +82,7 @@ public class EncounterController : ControllerBehaviour
         if (enemies.Count != 0) return;
 
         enemyInstanceParent.gameObject.SetActive(false);
-        ControllerDatabase.Get<CardHandController>().gameObject.SetActive(false);
+        ControllerDatabase.Get<CardHandController>().CanvasGroup.SetVisibility(false);
         ControllerDatabase.Get<PlayerController>().CanMove = true;
         onEncounterComplete();
 

@@ -38,11 +38,11 @@ public class ControllerDatabase : MonoBehaviour
     [RuntimeInitializeOnLoadMethod]
     private static void RuntimeInitialize()
     {
-        if (FindObjectOfType<ControllerDatabase>() == null)
-        {
-            // Instantiate an empty gameobject with a ControllerDatabase object on it.
-            new GameObject("_CONTROLLER_DATABASE_", typeof(ControllerDatabase));
-        }
+        if (FindObjectOfType<ControllerDatabase>() != null) return;
+
+        // Instantiate an empty gameobject with a ControllerDatabase object on it.
+        GameObject controllerDatabaseGameObject = new GameObject("_CONTROLLER_DATABASE_");
+        controllerDatabaseGameObject.AddComponent<ControllerDatabase>();
     }
 
     /// <summary>

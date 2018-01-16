@@ -387,12 +387,12 @@ Prefab:
     - target: {fileID: 224755053693624264, guid: 57285f727e670064090569b09f93f011,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000011444092
+      value: 0.000019073486
       objectReference: {fileID: 0}
     - target: {fileID: 224755053693624264, guid: 57285f727e670064090569b09f93f011,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 36
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114434333003282748, guid: 57285f727e670064090569b09f93f011,
         type: 2}
@@ -402,7 +402,7 @@ Prefab:
     - target: {fileID: 224480516522725432, guid: 57285f727e670064090569b09f93f011,
         type: 2}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 0.000000059604645
       objectReference: {fileID: 0}
     - target: {fileID: 1503378898285310, guid: 57285f727e670064090569b09f93f011, type: 2}
       propertyPath: m_Name
@@ -1854,6 +1854,7 @@ GameObject:
   - component: {fileID: 997111360}
   - component: {fileID: 997111364}
   - component: {fileID: 997111365}
+  - component: {fileID: 997111366}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1962,6 +1963,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardPopupInstance: {fileID: 353542859}
   dragCardParent: {fileID: 472354605}
+--- !u!114 &997111366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 997111359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 258497dfafb572249a941d82094c1c48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  handParentTransform: {fileID: 2137729428}
+  handCanvasGroup: {fileID: 2137729429}
 --- !u!1 &1012430798
 GameObject:
   m_ObjectHideFlags: 0
@@ -3764,7 +3778,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1980545219}
   - component: {fileID: 1980545220}
-  - component: {fileID: 1980545221}
   m_Layer: 5
   m_Name: Combat UI
   m_TagString: Untagged
@@ -3807,18 +3820,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyInstanceParent: {fileID: 1895009085}
---- !u!114 &1980545221
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1980545218}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 258497dfafb572249a941d82094c1c48, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  handParentTransform: {fileID: 2137729428}
 --- !u!1 &2033769347
 GameObject:
   m_ObjectHideFlags: 0
@@ -3988,6 +3989,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 2137729428}
+  - component: {fileID: 2137729429}
   m_Layer: 5
   m_Name: Hand
   m_TagString: Untagged
@@ -4014,3 +4016,14 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &2137729429
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2137729427}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0

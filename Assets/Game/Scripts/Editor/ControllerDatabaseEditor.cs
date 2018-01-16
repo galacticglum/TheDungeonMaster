@@ -3,7 +3,7 @@
  * File Name: ControllerDatabaseEditor.cs
  * Project Name: TheDungeonMaster
  * Creation Date: 12/29/2017
- * Modified Date: 12/29/2017
+ * Modified Date: 1/15/2018
  * Description: Custom editor for the ControllerDatabase.
  */
 
@@ -17,11 +17,6 @@ using UnityEngine;
 [CustomEditor(typeof(ControllerDatabase))]
 public class ControllerDatabaseEditor : Editor
 {
-    /// <summary>
-    /// The <see cref="ControllerDatabase"/> component that this <see cref="Editor"/> is working under.
-    /// </summary>
-    private ControllerDatabase controllerDatabase;
-
     /// <summary>
     /// The visibility states of all the <see cref="ControllerBehaviour"/> elements.
     /// </summary>

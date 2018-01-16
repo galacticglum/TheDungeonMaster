@@ -220,7 +220,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   topDownGrid: 1
   level: {fileID: 11400000, guid: 1f266738cbc99844aab8250429e0cfdf, type: 2}
-  size: {x: 20, y: 20}
+  size: {x: 10, y: 10}
 --- !u!1 &1829369079
 GameObject:
   m_ObjectHideFlags: 0
