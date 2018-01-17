@@ -51,6 +51,20 @@ public class PlayerController : ControllerBehaviour
     public event PlayerControllerEventHandler PositionChanged;
 
     /// <summary>
+    /// Raise the player-position-changed event.
+    /// </summary>
+    private void OnPositionChanged() => PositionChanged?.Invoke(this, new PlayerControllerEventArgs(this));
+    /// <summary>
+    /// This event is raised when the walking animation triggers a footstep.
+    /// </summary>
+    public event PlayerControllerEventHandler FootstepTriggered;
+
+    /// <summary>
+    /// Raise the footstep-triggered event.
+    /// </summary>
+    public void OnFootstepTriggered() => FootstepTriggered?.Invoke(this, new PlayerControllerEventArgs(this));
+
+    /// <summary>
     /// Determines whether the player can move.
     /// </summary>
     public bool CanMove
@@ -71,6 +85,11 @@ public class PlayerController : ControllerBehaviour
     }
 
     /// <summary>
+    /// Determines whether the player is moving currently.
+    /// </summary>
+    public bool IsMoving => thirdPersonController.speed != 0;
+
+    /// <summary>
     /// Internal "tracking" variable for CanMove.
     /// </summary>
     private bool canMove = true;
@@ -87,7 +106,7 @@ public class PlayerController : ControllerBehaviour
     private void Start()
     {
         thirdPersonController = GetComponent<vThirdPersonController>();
-        OnPositionChangedEventHandler();
+        OnPositionChanged();
 
         Deck = new CardDeck();
         Card[] cards = 
@@ -119,16 +138,7 @@ public class PlayerController : ControllerBehaviour
     /// </summary>
     private void FixedUpdate()
     {
-        if (thirdPersonController.speed == 0) return;
-        OnPositionChangedEventHandler();
-    }
-
-    /// <summary>
-    /// Raise the player-position-changed event.
-    /// </summary>
-    private void OnPositionChangedEventHandler()
-    {
-        PlayerControllerEventArgs args = new PlayerControllerEventArgs(this);
-        PositionChanged?.Invoke(this, args);
+        if (!IsMoving) return;
+        OnPositionChanged();
     }
 }
