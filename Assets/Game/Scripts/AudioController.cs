@@ -33,7 +33,7 @@ public class AudioController : ControllerBehaviour
 
     /// <summary>
     /// Handle the player footstep-triggered event.
-    /// Plays a footstep sound at a specified position.
+    /// Plays a footstep sound at the player controller position.
     /// </summary>
     private void OnFootstepTriggered(object sender, PlayerControllerEventArgs args)
     {
