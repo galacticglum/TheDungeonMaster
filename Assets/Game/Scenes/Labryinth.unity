@@ -387,12 +387,12 @@ Prefab:
     - target: {fileID: 224755053693624264, guid: 57285f727e670064090569b09f93f011,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000019073486
+      value: -0.000011444092
       objectReference: {fileID: 0}
     - target: {fileID: 224755053693624264, guid: 57285f727e670064090569b09f93f011,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 36
       objectReference: {fileID: 0}
     - target: {fileID: 114434333003282748, guid: 57285f727e670064090569b09f93f011,
         type: 2}
@@ -402,7 +402,7 @@ Prefab:
     - target: {fileID: 224480516522725432, guid: 57285f727e670064090569b09f93f011,
         type: 2}
       propertyPath: m_AnchorMin.y
-      value: 0.000000059604645
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1503378898285310, guid: 57285f727e670064090569b09f93f011, type: 2}
       propertyPath: m_Name
@@ -4142,7 +4142,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -4186,7 +4186,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   spreadCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -4210,7 +4210,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
 --- !u!1 &1444367935
 GameObject:
   m_ObjectHideFlags: 0

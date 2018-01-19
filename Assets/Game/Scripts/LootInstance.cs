@@ -25,6 +25,9 @@ public class LootInstance : MonoBehaviour
     private PlayerController playerController;
     private LootWindowController lootWindowController;
 
+    /// <summary>
+    /// Called when the component is created and placed into the world.
+    /// </summary>
     private void Start()
     {
         playerController = ControllerDatabase.Get<PlayerController>();
@@ -32,8 +35,17 @@ public class LootInstance : MonoBehaviour
         keydownIcon.enabled = false;
     }
 
+    /// <summary>
+    /// Called every frame.
+    /// </summary>
     private void Update()
     {
+        if (hasOpened)
+        {
+            keydownIcon.enabled = false;
+            return;
+        }
+
         float distanceFromPlayer = Vector3.Distance(transform.position, playerController.transform.position);
         bool isPlayerInRange = distanceFromPlayer <= activationRadius;
         keydownIcon.enabled = isPlayerInRange;
@@ -45,9 +57,14 @@ public class LootInstance : MonoBehaviour
             new Card("German Brute", "A tall but smaller, handsome, brute who comes from an arbitrary German province.", 8),
             new Card("Dwarven Brute", "A short, hairy, brute who comes from an arbitrary European province.", 8)
         });
+
         hasOpened = true;
     }
 
+    /// <summary>
+    /// Creates a <see cref="LootInstance"/> an assigns it to the specified parent <see cref="Transform"/>.
+    /// </summary>
+    /// <param name="parent">The <see cref="Transform"/> to parent the <see cref="LootInstance"/> to.</param>
     public static LootInstance Create(Transform parent)
     {
         GameObject lootPrefab = Resources.Load<GameObject>("Prefabs/Loot_Box");

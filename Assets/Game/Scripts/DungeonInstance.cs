@@ -3,7 +3,7 @@
  * File Name: DungeonInstance.cs
  * Project Name: TheDungeonMaster
  * Creation Date: 12/28/2017
- * Modified Date: 1/5/2018
+ * Modified Date: 1/18/2018
  * Description: The top-level manager for a dungeon.
  */
 
@@ -58,7 +58,7 @@ public class DungeonInstance : MonoBehaviour
         }
 
         // If the boss encounter is completed and we haven't opened the dungeon door yet, let's open it!
-        if (bossRoom.IsComplete() && dungeonDoor.activeInHierarchy)
+        if (bossRoom.IsComplete && dungeonDoor.activeInHierarchy)
         {
             dungeonDoor.SetActive(false);
             entryRoom.PlayerEntered -= OnPlayerEnterEntryRoom;
@@ -70,5 +70,5 @@ public class DungeonInstance : MonoBehaviour
     /// The player is ready when all encounters in the dungeon are complete.
     /// </summary>
     /// <returns></returns>
-    private bool IsReadyForBoss() => encounters.All(encounterRoom => encounterRoom.IsComplete());
+    private bool IsReadyForBoss() => encounters.All(encounterRoom => encounterRoom.IsComplete);
 }

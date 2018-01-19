@@ -3,7 +3,7 @@
  * File Name: EnemyInstance.cs
  * Project Name: TheDungeonMaster
  * Creation Date: 12/27/2017
- * Modified Date: 1/11/2018
+ * Modified Date: 1/18/2018
  * Description: The interface between the enemy data and the enemy visuals.
  */
 
@@ -16,6 +16,7 @@ using Random = UnityEngine.Random;
 /// The interface between the enemy data and the enemy visuals.
 /// </summary>
 [RequireComponent(typeof(RectTransform))]
+[RequireComponent(typeof(Animator))]
 public class EnemyInstance : MonoBehaviour
 {
     /// <summary>
@@ -39,7 +40,11 @@ public class EnemyInstance : MonoBehaviour
     [SerializeField]
     private Text attackPointsText;
 
+    private Animator animator;
     private RectTransform rectTransform;
+    private EncounterController encounterController;
+
+    private string currentAnimation;
 
     /// <summary>
     /// Initializes this <see cref="EnemyInstance"/> from an <see cref="Enemy"/>.
@@ -56,21 +61,96 @@ public class EnemyInstance : MonoBehaviour
         attackPointsText.text = enemy.AttackPoints.ToString();
     }
 
+    /// <summary>
+    /// Called when the component is created and placed into the world.
+    /// </summary>
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+        encounterController = ControllerDatabase.Get<EncounterController>();
+    }
+
+    /// <summary>
+    /// Called every frame.
+    /// </summary>
     private void Update()
     {
         enemyHealthPointsText.text = Enemy.CurrentHealthPoints.ToString();
+
+        // Check if death animation is done playing
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Dead"))
+        {
+            encounterController.RemoveEnemyFromEncounter(this);
+        }
     }
 
+    /// <summary>
+    /// Handle the turn logic for this enemy.
+    /// </summary>
     public void ExecuteTurn()
     {
+        // If we don't have any health then let's skip this turn.
+        if (Enemy.CurrentHealthPoints <= 0) return;
+
         // Can we even attack?
-        if (Enemy.AttackPoints > 0)
+        // If we can't attack then let's bail.
+        if (Enemy.AttackPoints <= 0) return;
+        
+        if (!(Random.value < Enemy.AttackChance)) return;
+
+        encounterController.DamagePlayer(Enemy.AttackPoints, Enemy);
+        PlayAnimation("Attack");
+    }
+
+    /// <summary>
+    /// Inflict damage upon this enemy.
+    /// </summary>
+    /// <param name="amount">The amount of damage to inflict on this enemy.</param>
+    public void TakeDamage(int amount)
+    {
+        // Make sure that our HP does not go below 0.
+        int newHealthPoints = Mathf.Max(0, Enemy.CurrentHealthPoints - amount);
+        Enemy.CurrentHealthPoints = newHealthPoints;
+
+        if (Enemy.CurrentHealthPoints <= 0)
         {
-            if (Random.value < Enemy.AttackChance)
-            {
-                ControllerDatabase.Get<EncounterController>().DamagePlayer(Enemy.AttackPoints, Enemy);
-            }
+            Die();
         }
+    }
+
+    /// <summary>
+    /// Plays an animation.
+    /// </summary>
+    private void PlayAnimation(string animation)
+    {
+        currentAnimation = animation;
+        animator.SetBool(currentAnimation, true);
+
+        encounterController.EnqueueAnimation(HandleAnimation);
+    }
+
+    /// <summary>
+    /// Handle the logic for animation this <see cref="EnemyInstance"/>.
+    /// </summary>
+    private bool HandleAnimation()
+    {
+        if (animator == null) return false;
+        if (!animator.GetCurrentAnimatorStateInfo(0).IsTag("SinglePlay"))
+        {
+            return animator.GetBool(currentAnimation);
+        }
+
+        animator.SetBool(currentAnimation, false);
+        return true;
+
+    }
+
+    /// <summary>
+    /// Handle the death logic.
+    /// </summary>
+    private void Die()
+    {
+        animator.SetTrigger("Die");
     }
 
     /// <summary>

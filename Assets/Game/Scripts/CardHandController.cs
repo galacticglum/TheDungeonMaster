@@ -16,8 +16,14 @@ using UnityEngine;
 /// </summary>
 public class CardHandController : ControllerBehaviour
 {
+    /// <summary>
+    /// The max amount of cards which may be in the hand at once.
+    /// </summary>
     public const int HandLimit = 5;
 
+    /// <summary>
+    /// The canvas group of the card hand.
+    /// </summary>
     public CanvasGroup CanvasGroup => handCanvasGroup;
 
     /// <summary>

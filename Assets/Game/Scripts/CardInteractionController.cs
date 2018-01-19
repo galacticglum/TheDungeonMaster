@@ -24,7 +24,12 @@ public class CardInteractionController : ControllerBehaviour
     private Transform dragCardParent;
 
     private CardInstance currentDraggingCardInstance;
+    /// <summary>
+    /// The position of the <see cref="CardInstance"/> we are currently dragging in the hand.
+    /// We use this to return the card back to it's position before dragging if needed.
+    /// </summary>  
     private int indexOfDraggedCardInHand;
+
     private GraphicRaycaster graphicRaycaster;
 
     /// <summary>
@@ -41,6 +46,7 @@ public class CardInteractionController : ControllerBehaviour
     /// </summary>
     private void Update()
     {
+        // Let's bail if we aren't dragging anything.
         if (currentDraggingCardInstance == null) return;
 
         // Make the card follow the mouse position.
@@ -127,6 +133,7 @@ public class CardInteractionController : ControllerBehaviour
         if (currentDraggingCardInstance == null) return;
         if (cancelled)
         {
+            // Return the card back to hand at it's original position.
             ControllerDatabase.Get<CardHandController>().AddCard(currentDraggingCardInstance.Card, indexOfDraggedCardInHand);
         }
 
@@ -140,12 +147,12 @@ public class CardInteractionController : ControllerBehaviour
     /// </summary>
     private void HandleDrop()
     {
+        // Perform a raycast from the mouse cursor and find the first valid target gameobject.
         List<RaycastResult> raycastResults = new List<RaycastResult>();
         PointerEventData eventData = new PointerEventData(EventSystem.current) { position = Input.mousePosition, pointerId = -1 };
         graphicRaycaster.Raycast(eventData, raycastResults);
 
         bool cardExecuteSuccess = false;
- 
         foreach (RaycastResult result in raycastResults)
         {
             cardExecuteSuccess = currentDraggingCardInstance.HandleCardPlayed(result.gameObject);

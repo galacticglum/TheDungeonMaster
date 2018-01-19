@@ -29,6 +29,5 @@ public static class ScriptableObjectHelper
         AssetDatabase.Refresh();
 
         return asset;
-        //Selection.activeObject = asset;
     }
 }

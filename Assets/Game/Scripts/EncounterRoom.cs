@@ -3,7 +3,7 @@
  * File Name: EncounterRoom.cs
  * Project Name: TheDungeonMaster
  * Creation Date: 12/28/2017
- * Modified Date: 1/14/2018
+ * Modified Date: 1/18/2018
  * Description: A room for an encounter.
  */
 
@@ -12,27 +12,24 @@
 /// </summary>
 public class EncounterRoom : Room
 {
-    private bool isComplete;
+    /// <inheritdoc />
+    public override bool IsComplete { get; protected set; }
 
-    private void OnEnable()
+    /// <summary>
+    /// Handle the logic for when the player enters this <see cref="Room"/>.
+    /// </summary>
+    protected override void OnPlayerEntered()
     {
-        PlayerEntered += OnPlayerEntered;
-    }
-
-    private void OnPlayerEntered(object sender, RoomEventArgs args)
-    {
-        if (isComplete) return;
+        if (IsComplete) return;
         ControllerDatabase.Get<EncounterController>().BeginEncounter(OnEncounterComplete);
     }
 
+    /// <summary>
+    /// Called when the encounter began by this <see cref="Room"/> has been completed.
+    /// </summary>
     private void OnEncounterComplete()
     {
-        isComplete = true;
+        IsComplete = true;
         LootInstance.Create(transform);
-    }
-
-    public override bool IsComplete()
-    {
-        return isComplete;
     }
 }

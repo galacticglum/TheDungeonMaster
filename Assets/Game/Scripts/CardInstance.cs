@@ -34,12 +34,19 @@ public class CardInstance : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     /// </summary>
     public RectTransform RectTransform => rectTransform ?? (rectTransform = GetComponent<RectTransform>());
 
+    [Tooltip("Determines whether this card instance responds to even if it can block raycasts.")]
     [SerializeField]
     private bool respondToEvents = true;
+
+    [Tooltip("The text component which renders the card name.")]
     [SerializeField]
     private Text cardNameText;
+
+    [Tooltip("The text component which renders the card description.")]
     [SerializeField]
     private Text cardDescriptionText;
+
+    [Tooltip("The text component which renders the card attack points.")]
     [SerializeField]
     private Text cardAttackPointsText;
 
@@ -69,21 +76,30 @@ public class CardInstance : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     /// Handles logic for when this <see cref="Card"/> is played.
     /// </summary>
     /// <param name="targetGameObject">The <see cref="GameObject"/> this card was played on. This doesn't have to be an enemy.</param>
+    /// <returns>A boolean indicating whether this card was successfully played.</returns>
     public bool HandleCardPlayed(GameObject targetGameObject)
     {
         EncounterController encounterController = ControllerDatabase.Get<EncounterController>();
+
+        // Make sure that it is the player's turn. If it is not, then we cannot play any cards at this time!
         if (!encounterController.IsPlayerTurn) return false;
 
         EnemyInstance targetEnemyInstance = targetGameObject.GetComponent<EnemyInstance>();
+
+        // If we haven't targeted a specific enemy yet we require that we target an, enemy 
+        // then we bail as we haven't met the critera for this card to be played.
         if (targetEnemyInstance == null && Card.RequiresEnemyTarget) return false;
+
+        // If we have targeted the container gameobject for all enemies (but not a specific enemy)
+        // yet we require that we target an enemy, then we bail as we haven't met the critera for 
+        // this card to be played.
         if (targetGameObject.name != "Enemy_Spawn_Root" && !Card.RequiresEnemyTarget) return false;
 
-        // Execute any target specific logic.
+        // If we have targeted an enemy, then let's execute any target-specific logic.
         if (targetEnemyInstance)
         {
-            int damage = Mathf.Max(0, targetEnemyInstance.Enemy.CurrentHealthPoints - Card.AttackPoints);
-            targetEnemyInstance.Enemy.CurrentHealthPoints = damage;
-            encounterController.EndPlayerTurn();
+            // Attack the targeted enemy.
+            targetEnemyInstance.TakeDamage(Card.AttackPoints);
         }
 
         Debug.Log($"Rez. {Card.ResurrectionAmount}");
@@ -96,6 +112,7 @@ public class CardInstance : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
         Debug.Log($"Overcharge: {Card.OverchargeAmount}");
 
+        // Let's make sure that we don't overcharge more than the amount of cards that we have in our hand.
         int actualOverchargeAmount = Mathf.Min(Card.OverchargeAmount, cardHandController.HandCount);
         for (int i = 0; i < actualOverchargeAmount; i++)
         {
@@ -105,6 +122,7 @@ public class CardInstance : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         }
 
         encounterController.AddCardToDiscardPile(Card);
+        encounterController.EndPlayerTurn();
         return true;
     }
 

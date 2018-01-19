@@ -3,7 +3,7 @@
  * File Name: SokobanPuzzleLevel.cs
  * Project Name: TheDungeonMaster
  * Creation Date: 01/08/18
- * Modified Date: 01/08/18
+ * Modified Date: 01/18/18
  * Description: Data structure for Sokoban levels. 
  */
 
@@ -22,6 +22,9 @@ public class SokobanPuzzleLevel : ScriptableObject
     /// </summary>
     public Vector2Int Size => size;
 
+    /// <summary>
+    /// Indicates whether the tilemap has been built.
+    /// </summary>
     public bool HasGeneratedTiles => tiles != null;
 
     [SerializeField]
@@ -30,7 +33,10 @@ public class SokobanPuzzleLevel : ScriptableObject
     [SerializeField]
     private Vector2Int size;
 
-    public void GenerateTiles(Vector2Int size)
+    /// <summary>
+    /// Builds an empty tilemap.
+    /// </summary>
+    public void GenerateTiles(Vector2Int size, SokobanTileType defaulType = SokobanTileType.Floor)
     {
         SerializedObject serializedObject = new SerializedObject(this);
         serializedObject.FindProperty("size").vector2IntValue = size;
@@ -38,11 +44,12 @@ public class SokobanPuzzleLevel : ScriptableObject
         serializedObject.FindProperty("tiles").arraySize = size.x * size.y;
         serializedObject.ApplyModifiedProperties();
 
+        // Initialize each tile
         for (int x = 0; x < size.x; x++)
         {
             for (int y = 0; y < size.y; y++)
             {
-                SetTileTypeAt(x, y, SokobanTileType.Floor);
+                SetTileTypeAt(x, y, defaulType);
             }
         }
 

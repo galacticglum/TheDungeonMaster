@@ -52,6 +52,6 @@ public class CameraMovement : MonoBehaviour
     {
         Vector3 destination = args.NewRoom.Centre + CameraOffset;
         cameraTransitionLerpInformation = new LerpInformation<Vector3>(transform.position, destination, transitionDuration, GradualCurve.Interpolate);
-        cameraTransitionLerpInformation.Finished += (o, eventArgs) => cameraTransitionLerpInformation = null;
+        cameraTransitionLerpInformation.Finished += (obj, eventArgs) => cameraTransitionLerpInformation = null;
     }
 }

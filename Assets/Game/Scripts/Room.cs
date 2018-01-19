@@ -3,7 +3,7 @@
  * File Name: Room.cs
  * Project Name: TheDungeonMaster
  * Creation Date: 12/28/2017
- * Modified Date: 12/28/2017
+ * Modified Date: 1/18/2018
  * Description: A rectangular area.
  */
 
@@ -74,16 +74,35 @@ public class Room : MonoBehaviour
 
     /// <summary>
     /// Indicates whether this room is complete.
+    /// This value is true by default.
     /// </summary>
-    public virtual bool IsComplete() => true;
+    public virtual bool IsComplete { get; protected set; } = true;
 
     /// <summary>
     /// Raise the PlayerEntered event.
     /// </summary>
-    public void OnPlayerEnter() => PlayerEntered?.Invoke(this, new RoomEventArgs(this));
+    public void OnPlayerEnter()
+    {
+        PlayerEntered?.Invoke(this, new RoomEventArgs(this));
+        OnPlayerEntered();
+    }
 
     /// <summary>
     /// Raise the PlayerExited event.
     /// </summary>
-    public void OnPlayerExit() => PlayerExited?.Invoke(this, new RoomEventArgs(this));
+    public void OnPlayerExit()
+    {
+        PlayerExited?.Invoke(this, new RoomEventArgs(this));
+        OnPlayerExited();
+    }
+
+    /// <summary>
+    /// Called when the player enters this <see cref="Room"/>.
+    /// </summary>
+    protected virtual void OnPlayerEntered() {}
+
+    /// <summary>
+    /// Called when the player exits this <see cref="Room"/>.
+    /// </summary>
+    protected virtual void OnPlayerExited() {}
 }
