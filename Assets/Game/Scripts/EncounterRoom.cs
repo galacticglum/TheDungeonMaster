@@ -3,7 +3,7 @@
  * File Name: EncounterRoom.cs
  * Project Name: TheDungeonMaster
  * Creation Date: 12/28/2017
- * Modified Date: 1/18/2018
+ * Modified Date: 1/19/2018
  * Description: A room for an encounter.
  */
 
@@ -12,8 +12,14 @@
 /// </summary>
 public class EncounterRoom : Room
 {
-    /// <inheritdoc />
-    public override bool IsComplete { get; protected set; }
+    /// <summary>
+    /// Called when the <see cref="Room"/> is created and is placed into the world.
+    /// </summary>
+    protected override void Start()
+    {
+        base.Start();
+        IsComplete = false;
+    }
 
     /// <summary>
     /// Handle the logic for when the player enters this <see cref="Room"/>.

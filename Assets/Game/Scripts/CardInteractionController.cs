@@ -3,7 +3,7 @@
  * File Name: CardInteractionController.cs
  * Project Name: TheDungeonMaster
  * Creation Date: 12/26/2017
- * Modified Date: 1/11/2018
+ * Modified Date: 1/19/2018
  * Description: Manages all the interaction between cards and the user.
  */
 

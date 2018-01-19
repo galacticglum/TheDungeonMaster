@@ -3,7 +3,7 @@
  * File Name: Room.cs
  * Project Name: TheDungeonMaster
  * Creation Date: 12/28/2017
- * Modified Date: 1/18/2018
+ * Modified Date: 1/19/2018
  * Description: A rectangular area.
  */
 
@@ -42,6 +42,17 @@ public delegate void RoomEventHandler(object sender, RoomEventArgs args);
 public class Room : MonoBehaviour
 {
     /// <summary>
+    /// Indicates whether this room is complete.
+    /// This value is true by default.
+    /// </summary>
+    public bool IsComplete { get; protected set; } = true;
+
+    /// <summary>
+    /// The centre point of this room.
+    /// </summary>
+    public Vector3 Centre => transform.position;
+
+    /// <summary>
     /// This event is raised when the player enters this <see cref="Room"/>.
     /// </summary>
     public event RoomEventHandler PlayerEntered;
@@ -51,11 +62,6 @@ public class Room : MonoBehaviour
     /// </summary>
     public event RoomEventHandler PlayerExited;
 
-    /// <summary>
-    /// The centre point of this room.
-    /// </summary>
-    public Vector3 Centre => transform.position;
-    
     /// <summary>
     /// The size (of the bounds) of this room.
     /// </summary>
@@ -67,16 +73,10 @@ public class Room : MonoBehaviour
     /// <summary>
     /// Called when the component is created and placed into the world.
     /// </summary>
-    private void Start()
+    protected virtual void Start()
     {
         ControllerDatabase.Get<RoomController>().RoomManager.Add(this);
     }
-
-    /// <summary>
-    /// Indicates whether this room is complete.
-    /// This value is true by default.
-    /// </summary>
-    public virtual bool IsComplete { get; protected set; } = true;
 
     /// <summary>
     /// Raise the PlayerEntered event.
