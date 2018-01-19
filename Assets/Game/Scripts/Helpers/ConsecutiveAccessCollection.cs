@@ -82,7 +82,7 @@ public class ConsecutiveAccessCollection<T> : IEnumerable<T>
     public bool Contains(T item) => data.Contains(item);
 
     /// <summary>
-    /// Copies the entire <see cref="FixedList{T}"/> to a compatible one-dimensional array, starting at the specified index of the target array.
+    /// Copies the entire <see cref="ConsecutiveAccessCollection{T}"/> to a compatible one-dimensional array, starting at the specified index of the target array.
     /// </summary>
     /// <param name="array">The one-dimensional <see cref="Array"/> that is the destination of the elements from <see cref="ConsecutiveAccessCollection{T}"/>. 
     /// The <see cref="Array"/> must have zero-based indexing.</param>

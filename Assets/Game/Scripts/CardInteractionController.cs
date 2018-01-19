@@ -20,6 +20,8 @@ public class CardInteractionController : ControllerBehaviour
 {
     [SerializeField]
     private CardInstance cardPopupInstance;
+
+    [Tooltip("The object which contains the card which is currently being dragged.")]
     [SerializeField]
     private Transform dragCardParent;
 
@@ -31,6 +33,7 @@ public class CardInteractionController : ControllerBehaviour
     private int indexOfDraggedCardInHand;
 
     private GraphicRaycaster graphicRaycaster;
+    private CardHandController cardHandController;
 
     /// <summary>
     /// Called when the component is created and placed into the world.
@@ -39,6 +42,7 @@ public class CardInteractionController : ControllerBehaviour
     {
         cardPopupInstance.CanvasGroup.SetVisibility(false);
         graphicRaycaster = GetComponent<GraphicRaycaster>();
+        cardHandController = ControllerDatabase.Get<CardHandController>();
     }
 
     /// <summary>
@@ -111,16 +115,25 @@ public class CardInteractionController : ControllerBehaviour
     /// <param name="cardInstance">The <see cref="CardInstance"/> to drag.</param>
     public void BeginDrag(CardInstance cardInstance)
     {
-        if (cardInstance == null || currentDraggingCardInstance != null) return;
+        // We can drag if it is our players turn; we have been given a 
+        // valid card instance; and we aren't currently dragging.
+        bool canDrag = ControllerDatabase.Get<EncounterController>().IsPlayerTurn && cardInstance != null &&
+                       currentDraggingCardInstance == null;
 
-        indexOfDraggedCardInHand = ControllerDatabase.Get<CardHandController>().GetIndexOfCard(cardInstance);
+        if (!canDrag) return;
 
+        indexOfDraggedCardInHand = cardHandController.GetIndexOfCard(cardInstance);
+
+        // Let's make sure that the transformational properties
+        // of our card is all "kosher." Basically, we reset
+        // our card instance to the default transform properties
+        // and parent it to our card drag container.
         currentDraggingCardInstance = cardInstance;
         currentDraggingCardInstance.RectTransform.rotation = Quaternion.identity;
         currentDraggingCardInstance.transform.SetParent(dragCardParent, false);
         currentDraggingCardInstance.CanvasGroup.blocksRaycasts = false;
 
-        ControllerDatabase.Get<CardHandController>().RemoveCard(cardInstance);    
+        cardHandController.RemoveCard(cardInstance);    
         EndHover(cardInstance);
     }
 
@@ -134,7 +147,7 @@ public class CardInteractionController : ControllerBehaviour
         if (cancelled)
         {
             // Return the card back to hand at it's original position.
-            ControllerDatabase.Get<CardHandController>().AddCard(currentDraggingCardInstance.Card, indexOfDraggedCardInHand);
+            cardHandController.AddCard(currentDraggingCardInstance.Card, indexOfDraggedCardInHand);
         }
 
         // We destroy our original hand-card as we create a clone of the card if it is returned to the hand.
