@@ -65,7 +65,11 @@ public class Room : MonoBehaviour
     /// <summary>
     /// The size (of the bounds) of this room.
     /// </summary>
-    public Vector2Int Size => size;
+    public Vector2Int Size
+    {
+        get { return size; }
+        protected set { size = value; }
+    }
 
     [HideInInspector]
     [SerializeField]

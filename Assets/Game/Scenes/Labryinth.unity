@@ -977,10 +977,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 456701015}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0430784bc9fb48ff822bcfc908be320b, type: 3}
+  m_Script: {fileID: 11500000, guid: b8d8e138838782b489cba39549e69446, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   size: {x: 10, y: 10}
+  level: {fileID: 11400000, guid: 1f266738cbc99844aab8250429e0cfdf, type: 2}
 --- !u!4 &456701017
 Transform:
   m_ObjectHideFlags: 0

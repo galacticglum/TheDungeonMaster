@@ -3,7 +3,7 @@
  * File Name: SokobanPuzzleInstanceEditor.cs
  * Project Name: TheDungeonMaster
  * Creation Date: 01/07/2018
- * Modified Date: 01/13/2018
+ * Modified Date: 01/20/2018
  * Description: Custom editor for a SokobanPuzzleInstance.
  */
 
@@ -14,14 +14,14 @@ using UnityEditorInternal;
 using UnityEngine;
 
 /// <summary>
-/// Custom editor for a <see cref="SokobanPuzzleInstance"/>.
+/// Custom editor for a <see cref="SokobanPuzzleRoom"/>.
 /// </summary>
-[CustomEditor(typeof(SokobanPuzzleInstance))]
-public class SokobanPuzzleInstanceEditor : Editor
+[CustomEditor(typeof(SokobanPuzzleRoom))]
+public class SokobanPuzzleRoomEditor : Editor
 {
     private static GUIContent EditModeButton => EditorGUIUtility.IconContent("EditCollider");
 
-    private SokobanPuzzleInstance sokobanPuzzleInstance;
+    private SokobanPuzzleRoom sokobanPuzzleRoom;
     private SerializedPropertyManager propertyManager;
     private BoxBoundsHandle boxBoundsHandle;
 
@@ -45,7 +45,7 @@ public class SokobanPuzzleInstanceEditor : Editor
         EditMode.onEditModeStartDelegate += (editor, mode) => isEditingBounds = true;
         EditMode.onEditModeEndDelegate += editor => isEditingBounds = false;
 
-        sokobanPuzzleInstance = (SokobanPuzzleInstance)target;
+        sokobanPuzzleRoom = (SokobanPuzzleRoom)target;
 
         selectedTileIndex = Vector2Int.zero;
         showEditTileSettings = false;
@@ -90,24 +90,21 @@ public class SokobanPuzzleInstanceEditor : Editor
                 EditMode.DoEditModeInspectorModeButton(EditMode.SceneViewEditMode.Collider, "Edit Bounds", EditModeButton, () => new Bounds(boxBoundsHandle.center, boxBoundsHandle.size), this);
 
                 EditorGUI.BeginChangeCheck();
-                propertyManager["size"].vector2Value = EditorGUILayout.Vector2Field(new GUIContent("Size"),
-                    propertyManager["size"].vector2Value);
+                propertyManager["size"].vector2IntValue = EditorGUILayout.Vector2IntField(new GUIContent("Size"),
+                    propertyManager["size"].vector2IntValue);
                 if (EditorGUI.EndChangeCheck())
                 {
-                    Vector2 vector = propertyManager["size"].vector2Value;
+                    Vector2Int vector = propertyManager["size"].vector2IntValue;
                     vector.x = Mathf.Max(2, vector.x);
                     vector.y = Mathf.Max(2, vector.y);
 
                     Undo.RecordObject(serializedObject.targetObject, "Changed size of sokoban puzzle instance");
-                    propertyManager["size"].vector2Value = vector;
+                    propertyManager["size"].vector2IntValue = vector;
                 }
 
                 GUI.enabled = false;
-                EditorGUILayout.Vector3Field(new GUIContent("Offset"), sokobanPuzzleInstance.transform.position);
+                EditorGUILayout.Vector3Field(new GUIContent("Centre"), sokobanPuzzleRoom.Centre);
                 GUI.enabled = true;
-
-                propertyManager["topDownGrid"].boolValue = EditorGUILayout.Toggle(new GUIContent("Is Topdown Grid", "Determines the orientation of the grid."),
-                    propertyManager["topDownGrid"].boolValue);
 
                 EditorGUILayout.BeginHorizontal();
                 Rect buttonRect = GUILayoutUtility.GetRect(new GUIContent("Generate Tile Map"), GUI.skin.button);
@@ -119,7 +116,7 @@ public class SokobanPuzzleInstanceEditor : Editor
                         "Are you sure you want to regenerate the tile map? " +
                         "This will remove ALL modifications made to the level settings—including tile setup.", "Yes", "No"))
                     {
-                        sokobanPuzzleInstance.Level.GenerateTiles(sokobanPuzzleInstance.RoundedSize);
+                        sokobanPuzzleRoom.Level.GenerateTiles(sokobanPuzzleRoom.Size);
                         LevelAssetUpdated();
 
                         showLevelSettings = true;
@@ -168,9 +165,9 @@ public class SokobanPuzzleInstanceEditor : Editor
                     int selectedX = selectedTileIndex.x;
                     int selectedY = selectedTileIndex.y;
 
-                    SokobanTileType newSokobanTileType = (SokobanTileType)EditorGUILayout.EnumPopup("Type", sokobanPuzzleInstance.Level.GetTileTypeAt(selectedX, selectedY));
+                    SokobanTileType newSokobanTileType = (SokobanTileType)EditorGUILayout.EnumPopup("Type", sokobanPuzzleRoom.Level.GetTileTypeAt(selectedX, selectedY));
 
-                    sokobanPuzzleInstance.Level.SetTileTypeAt(selectedX, selectedY, newSokobanTileType);
+                    sokobanPuzzleRoom.Level.SetTileTypeAt(selectedX, selectedY, newSokobanTileType);
                 });
             }
         }
@@ -185,7 +182,7 @@ public class SokobanPuzzleInstanceEditor : Editor
     {
         if (propertyManager["level"].objectReferenceValue == null) return;
 
-        propertyManager["size"].vector2Value = ((SokobanPuzzleLevel)propertyManager["level"].objectReferenceValue).Size;
+        propertyManager["size"].vector2IntValue = ((SokobanPuzzleLevel)propertyManager["level"].objectReferenceValue).Size;
         propertyManager.Target.ApplyModifiedProperties();
 
         AssetDatabase.SaveAssets();
@@ -193,26 +190,27 @@ public class SokobanPuzzleInstanceEditor : Editor
 
     private void OnSceneGUI()
     {
-        if (sokobanPuzzleInstance.Level == null) return;
-        using (new Handles.DrawingScope(sokobanPuzzleInstance.GridViewMatrix))
+        if (sokobanPuzzleRoom.Level == null) return;
+        using (new Handles.DrawingScope(sokobanPuzzleRoom.GridViewMatrix))
         {
             if (isEditingBounds)
             {
                 boxBoundsHandle.center = Vector3.zero;
-                boxBoundsHandle.size = propertyManager["size"].vector2Value;
+                boxBoundsHandle.size = (Vector2)propertyManager["size"].vector2IntValue;
 
                 EditorGUI.BeginChangeCheck();
                 boxBoundsHandle.DrawHandle();
                 if (EditorGUI.EndChangeCheck())
                 {
-                    Undo.RecordObject((SokobanPuzzleInstance)target,
+                    Undo.RecordObject((SokobanPuzzleRoom)target,
                         $"Modify {ObjectNames.NicifyVariableName(target.GetType().Name)}");
 
-                    propertyManager["size"].vector2Value = boxBoundsHandle.size;
+                    Vector3Int handleSize = boxBoundsHandle.size.FloorToInt();
+                    propertyManager["size"].vector2IntValue = new Vector2Int(handleSize.x, handleSize.y);
                 }
             }
 
-            Vector2Int roundedSize = sokobanPuzzleInstance.RoundedSize;
+            Vector2Int roundedSize = sokobanPuzzleRoom.Size;
 
             int halfWidth = roundedSize.x / 2;
             int halfHeight = roundedSize.y / 2;
@@ -238,10 +236,10 @@ public class SokobanPuzzleInstanceEditor : Editor
                 Handles.DrawLine(a, b);
             }
 
-            if (!isEditingBounds && sokobanPuzzleInstance.Level.HasGeneratedTiles)
+            if (!isEditingBounds && sokobanPuzzleRoom.Level.HasGeneratedTiles)
             {
-                int tileMapHalfWidth = sokobanPuzzleInstance.Level.Size.x / 2;
-                int tileMapHalfHeight = sokobanPuzzleInstance.Level.Size.y / 2;
+                int tileMapHalfWidth = sokobanPuzzleRoom.Level.Size.x / 2;
+                int tileMapHalfHeight = sokobanPuzzleRoom.Level.Size.y / 2;
 
                 // Reset tint
                 Handles.color = Color.white;
@@ -252,7 +250,7 @@ public class SokobanPuzzleInstanceEditor : Editor
                         Vector2Int tileIndex = new Vector2Int(x + tileMapHalfWidth, y + tileMapHalfHeight);
                         Vector3 position = new Vector3(x, y, 0);
 
-                        Color faceColour = GetTileColour(sokobanPuzzleInstance.Level.GetTileTypeAt(tileIndex.x, tileIndex.y));
+                        Color faceColour = GetTileColour(sokobanPuzzleRoom.Level.GetTileTypeAt(tileIndex.x, tileIndex.y));
                         if (x < -halfWidth || x >= halfWidth || y < -halfHeight || y >= halfHeight)
                         {
                             faceColour = new Color(1, 0, 0, 0.05f);
