@@ -65,10 +65,11 @@ public class Room : MonoBehaviour
     /// <summary>
     /// The size (of the bounds) of this room.
     /// </summary>
-    public Vector2 Size => size;
+    public Vector2Int Size => size;
 
+    [HideInInspector]
     [SerializeField]
-    private Vector2 size = Vector2.one;
+    private Vector2Int size = new Vector2Int(1, 1);
 
     /// <summary>
     /// Called when the component is created and placed into the world.

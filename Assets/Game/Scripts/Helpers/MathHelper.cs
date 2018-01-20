@@ -3,7 +3,7 @@
  * File Name: MathHelper.cs
  * Project Name: TheDungeonMaster
  * Creation Date: 12/28/2017
- * Modified Date: 1/14/2018
+ * Modified Date: 1/20/2018
  * Description: Extension functions related to mathematics.
  */
 
@@ -57,4 +57,24 @@ public static class MathHelper
     /// integers greater to or equal to the respective component in <paramref name="vector"/>.
     /// </summary>
     public static Vector3 CeilToEven(this Vector3 vector) => new Vector3(vector.x.CeilToEven(), vector.y.CeilToEven(), vector.z.CeilToEven());
+
+    /// <summary>
+    /// Returns the largest integer smaller to or equal to <paramref name="vector"/>.
+    /// </summary>
+    public static Vector2Int FloorToInt(this Vector2 vector) => new Vector2Int(Mathf.FloorToInt(vector.x), Mathf.FloorToInt(vector.y));
+
+    /// <summary>
+    /// Returns the smallest integer greater to or equal to <paramref name="vector"/>.
+    /// </summary>
+    public static Vector2Int CeilToInt(this Vector2 vector) => new Vector2Int(Mathf.CeilToInt(vector.x), Mathf.CeilToInt(vector.y));
+
+    /// <summary>
+    /// Returns the largest integer smaller to or equal to <paramref name="vector"/>.
+    /// </summary>
+    public static Vector3Int FloorToInt(this Vector3 vector) => new Vector3Int(Mathf.FloorToInt(vector.x), Mathf.FloorToInt(vector.y), Mathf.FloorToInt(vector.z));
+
+    /// <summary>
+    /// Returns the smallest integer greater to or equal to <paramref name="vector"/>.
+    /// </summary>
+    public static Vector3Int CeilToInt(this Vector3 vector) => new Vector3Int(Mathf.CeilToInt(vector.x), Mathf.CeilToInt(vector.y), Mathf.CeilToInt(vector.z));
 }

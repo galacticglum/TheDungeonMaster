@@ -107,7 +107,9 @@ public class CardInstance : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         CardHandController cardHandController = ControllerDatabase.Get<CardHandController>();
         for (int i = 0; i < Card.ResurrectionAmount; i++)
         {
-            cardHandController.AddCard(encounterController.GetLastDiscardedCard());
+            Card card = encounterController.GetLastDiscardedCard();
+            Debug.Log($"Resurrected: {card.Name}");
+            cardHandController.AddCard(card);
         }
 
         Debug.Log($"Overcharge: {Card.OverchargeAmount}");

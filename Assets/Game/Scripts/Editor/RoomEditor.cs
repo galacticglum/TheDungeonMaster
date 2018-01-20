@@ -69,7 +69,7 @@ public class RoomEditor : Editor
         // This initializes the edit mode button and hook into the editor delegate for changing the scene view handle.
         // When the button is pressed, the position handle in the viewport is hidden.
         EditMode.DoEditModeInspectorModeButton(EditMode.SceneViewEditMode.Collider, "Edit Bounds", EditModeButton, () => new Bounds(boxBoundsHandle.center, boxBoundsHandle.size), this);
-        propertyManager["size"].vector2Value = EditorGUILayout.Vector2Field(new GUIContent("Size"), propertyManager["size"].vector2Value);
+        propertyManager["size"].vector2IntValue = EditorGUILayout.Vector2IntField(new GUIContent("Size"), propertyManager["size"].vector2IntValue);
 
         // Readonly centre field.
         GUI.enabled = false;
@@ -91,7 +91,7 @@ public class RoomEditor : Editor
         {
             if (canEditBounds)
             {
-                boxBoundsHandle.size = sizeProperty.vector2Value;
+                boxBoundsHandle.size = (Vector2)sizeProperty.vector2IntValue;
                 boxBoundsHandle.center = Vector3.zero;
 
                 EditorGUI.BeginChangeCheck();
@@ -99,17 +99,19 @@ public class RoomEditor : Editor
                 if (!EditorGUI.EndChangeCheck()) return;
 
                 Undo.RecordObject((Room)target, $"Modify {ObjectNames.NicifyVariableName(target.GetType().Name)}");
-                sizeProperty.vector2Value = boxBoundsHandle.size;
+
+                Vector3Int handleSize = boxBoundsHandle.size.FloorToInt();
+                sizeProperty.vector2IntValue = new Vector2Int(handleSize.x, handleSize.y);
                 serializedObject.ApplyModifiedProperties();
             }
             else
             {
                 // Render the bounds of the room without any modification handles.
-                Vector2 bottomLeft = new Vector2(-sizeProperty.vector2Value.x / 2f, -sizeProperty.vector2Value.y / 2f);
-                Vector2 bottomRight = new Vector2(sizeProperty.vector2Value.x / 2f, -sizeProperty.vector2Value.y / 2f);
+                Vector2 bottomLeft = new Vector2(-sizeProperty.vector2IntValue.x / 2f, -sizeProperty.vector2IntValue.y / 2f);
+                Vector2 bottomRight = new Vector2(sizeProperty.vector2IntValue.x / 2f, -sizeProperty.vector2IntValue.y / 2f);
 
-                Vector2 topLeft = new Vector2(-sizeProperty.vector2Value.x / 2f, sizeProperty.vector2Value.y / 2f);
-                Vector2 topRight = new Vector2(sizeProperty.vector2Value.x / 2f, sizeProperty.vector2Value.y / 2f);
+                Vector2 topLeft = new Vector2(-sizeProperty.vector2IntValue.x / 2f, sizeProperty.vector2IntValue.y / 2f);
+                Vector2 topRight = new Vector2(sizeProperty.vector2IntValue.x / 2f, sizeProperty.vector2IntValue.y / 2f);
 
                 Handles.DrawLine(bottomLeft, bottomRight);
                 Handles.DrawLine(bottomLeft, topLeft);
