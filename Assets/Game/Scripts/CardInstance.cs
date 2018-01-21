@@ -102,13 +102,12 @@ public class CardInstance : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
             targetEnemyInstance.TakeDamage(Card.AttackPoints);
         }
 
-        Debug.Log($"Rez. {Card.ResurrectionAmount}");
-
         CardHandController cardHandController = ControllerDatabase.Get<CardHandController>();
+
+        Debug.Log($"Rez. {Card.ResurrectionAmount}");
         for (int i = 0; i < Card.ResurrectionAmount; i++)
         {
             Card card = encounterController.GetLastDiscardedCard();
-            Debug.Log($"Resurrected: {card.Name}");
             cardHandController.AddCard(card);
         }
 
