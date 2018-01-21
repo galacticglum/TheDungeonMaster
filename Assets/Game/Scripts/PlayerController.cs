@@ -131,6 +131,8 @@ public class PlayerController : ControllerBehaviour
         {
             Deck.Add(cards[Random.Range(0, cards.Length)].Clone());
         }
+
+        ControllerDatabase.Get<GameController>().PauseStateChanged += (sender, args) => CanMove = args.WasPaused;
     }
 
     /// <summary>

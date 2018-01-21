@@ -3,7 +3,7 @@
  * File Name: CameraMovement.cs
  * Project Name: TheDungeonMaster
  * Creation Date: 12/28/2017
- * Modified Date: 12/29/2017
+ * Modified Date: 1/21/2018
  * Description: Manages all camera movement.
  */
 
@@ -18,11 +18,9 @@ public class CameraMovement : MonoBehaviour
     [SerializeField]
     private float transitionDuration = 1f;
     [SerializeField]
-    private float cameraFollowHeight = 9f;
-    [SerializeField]
-    private float cameraZOffset = 6.2f;
+    private Vector3 offset;
 
-    private Vector3 CameraOffset => new Vector3(0, cameraFollowHeight, cameraZOffset);
+    private PlayerController playerController;
     private LerpInformation<Vector3> cameraTransitionLerpInformation;
 
     /// <summary>
@@ -30,7 +28,9 @@ public class CameraMovement : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        transform.position = CameraOffset;
+        playerController = ControllerDatabase.Get<PlayerController>();
+
+        transform.position = offset;
         ControllerDatabase.Get<RoomController>().CurrentRoomChanged += OnCurrentRoomChanged;
     }
 
@@ -50,7 +50,7 @@ public class CameraMovement : MonoBehaviour
     /// <param name="args">The arguments pertaining to the event.</param>
     private void OnCurrentRoomChanged(object sender, CurrentRoomChangedEventArgs args)
     {
-        Vector3 destination = args.NewRoom.Centre + CameraOffset;
+        Vector3 destination = args.NewRoom.Centre + offset;
         cameraTransitionLerpInformation = new LerpInformation<Vector3>(transform.position, destination, transitionDuration, GradualCurve.Interpolate);
         cameraTransitionLerpInformation.Finished += (obj, eventArgs) => cameraTransitionLerpInformation = null;
     }
