@@ -14,6 +14,11 @@ using UnityEngine;
 /// </summary>
 public class InputController : ControllerBehaviour
 {
+    [SerializeField]
+    private Texture2D cursorNormal;
+    [SerializeField]
+    private Texture2D cursorClosed;
+
     private GameController gameController;
     private GamePauseMenuController gamePauseMenuController;
     private EncounterController encounterController;
@@ -23,12 +28,11 @@ public class InputController : ControllerBehaviour
         gameController = ControllerDatabase.Get<GameController>();
         gamePauseMenuController = ControllerDatabase.Get<GamePauseMenuController>();
         encounterController = ControllerDatabase.Get<EncounterController>();
-
-        Cursor.lockState = CursorLockMode.None;
     }
 
     private void Update()
     {
+        Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = gameController.IsPaused || encounterController.IsPlayerInsideEncounter;
 
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -38,7 +42,16 @@ public class InputController : ControllerBehaviour
             {
                 gameController.TogglePause();
             }
+        }
 
+        if (Input.GetMouseButtonDown(0))
+        {
+            Cursor.SetCursor(cursorClosed, Vector2.zero, CursorMode.Auto);
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            Cursor.SetCursor(cursorNormal, Vector2.zero, CursorMode.Auto);
         }
     }
 }
