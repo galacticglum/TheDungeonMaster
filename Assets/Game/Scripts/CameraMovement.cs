@@ -18,6 +18,8 @@ public class CameraMovement : MonoBehaviour
     [SerializeField]
     private float transitionDuration = 1f;
     [SerializeField]
+    private float rotationDuration = 1f;
+    [SerializeField]
     private float cameraHeight = 9f;
     [SerializeField]
     private float cameraDistance = 4f;
@@ -30,6 +32,7 @@ public class CameraMovement : MonoBehaviour
     private RoomController roomController;
 
     private LerpInformation<Vector3> cameraTransitionLerpInformation;
+    private LerpInformation<Quaternion> cameraRotateLerpInformation;
 
     private float cameraRotationTimestamp = -10f;
     private Quaternion targetCameraRotation;
@@ -53,11 +56,16 @@ public class CameraMovement : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        if (transform.rotation != targetCameraRotation)
+        /*if (transform.rotation != targetCameraRotation)
         {
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetCameraRotation, cameraRotationSpeed * Time.deltaTime);
             transform.position = CalculateCameraPosition(roomController.CurrentRoom);
             return;
+        }*/
+        if (cameraRotateLerpInformation != null)
+        {
+            transform.rotation = cameraRotateLerpInformation.Step(Time.deltaTime);
+            transform.position = CalculateCameraPosition(roomController.CurrentRoom);
         }
 
         if (cameraTransitionLerpInformation == null) return;
@@ -79,6 +87,8 @@ public class CameraMovement : MonoBehaviour
     public void SetRotation(float rotation)
     {
         targetCameraRotation = Quaternion.Euler(new Vector3(cameraAngle, rotation, 0));
+        cameraRotateLerpInformation = new LerpInformation<Quaternion>(transform.rotation, targetCameraRotation, rotationDuration, GradualCurve.Interpolate);
+        cameraRotateLerpInformation.Finished += (obj, eventArgs) => cameraRotateLerpInformation = null;
     }
 
     private Vector3 CalculateCameraPosition(Room room)
