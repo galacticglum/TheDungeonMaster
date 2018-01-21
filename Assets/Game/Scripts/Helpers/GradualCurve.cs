@@ -20,6 +20,8 @@ public static class GradualCurve
     /// </summary>
     public static float Interpolate(float a, float b, float t) => a + (b - a) * (float)(3 * Math.Pow(t, 2) - 2 * Math.Pow(t, 3));
 
+    public static Quaternion Interpolate(Quaternion a, Quaternion b, float t) => Quaternion.Slerp(a, b, (float)(3 * Math.Pow(t, 2) - 2 * Math.Pow(t, 3)));
+
     /// <summary>
     /// Interpolates between a and b using a sigmoid curve.
     /// </summary>
