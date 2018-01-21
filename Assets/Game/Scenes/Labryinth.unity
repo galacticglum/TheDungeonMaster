@@ -2504,6 +2504,7 @@ Transform:
   - {fileID: 1589277348}
   - {fileID: 597260982}
   - {fileID: 1200577968}
+  - {fileID: 1851643278}
   m_Father: {fileID: 1530003797}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8115,7 +8116,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transitionDuration: 1
-  offset: {x: 0, y: 9, z: -3.95}
+  cameraHeight: 9
+  cameraDistance: 4
+  cameraAngle: 70
+  cameraRotationSpeed: 180
 --- !u!1 &1187800286
 GameObject:
   m_ObjectHideFlags: 0
@@ -14011,6 +14015,59 @@ Prefab:
 Transform:
   m_PrefabParentObject: {fileID: 400000, guid: 673666e06fbfc764f8fdf02b55154edb, type: 2}
   m_PrefabInternal: {fileID: 1847380641}
+--- !u!1 &1851643277
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1851643278}
+  - component: {fileID: 1851643279}
+  - component: {fileID: 1851643280}
+  m_Layer: 0
+  m_Name: rotation_trigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1851643278
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1851643277}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -5, y: 0, z: 1.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 400955024}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!65 &1851643279
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1851643277}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.9941204, y: 1, z: 0.31327757}
+  m_Center: {x: 0.99706054, y: 0, z: -0.23748288}
+--- !u!114 &1851643280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1851643277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d1e907dadf86a648809d7b452278833, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1853952708
 Prefab:
   m_ObjectHideFlags: 0

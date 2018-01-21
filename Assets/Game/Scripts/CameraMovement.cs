@@ -27,11 +27,12 @@ public class CameraMovement : MonoBehaviour
     private float cameraRotationSpeed = 180f;
 
     private PlayerController playerController;
+    private RoomController roomController;
+
     private LerpInformation<Vector3> cameraTransitionLerpInformation;
 
-    private Vector3 RoomPosition;
-    private float CameraRotationTimestamp = -10f;
-    private Quaternion TargetCameraRotation = Quaternion.Euler(60, 0, 0);
+    private float cameraRotationTimestamp = -10f;
+    private Quaternion targetCameraRotation;
 
     /// <summary>
     /// Called when the component is created and placed into the world.
@@ -39,10 +40,12 @@ public class CameraMovement : MonoBehaviour
     private void Start()
     {
         playerController = ControllerDatabase.Get<PlayerController>();
+        roomController = ControllerDatabase.Get<RoomController>();
 
         transform.position = new Vector3(0, cameraHeight, -cameraDistance);
         transform.rotation = Quaternion.Euler(cameraAngle, 0, 0);
-        ControllerDatabase.Get<RoomController>().CurrentRoomChanged += OnCurrentRoomChanged;
+        roomController.CurrentRoomChanged += OnCurrentRoomChanged;
+        targetCameraRotation = Quaternion.Euler(cameraAngle, 0, 0);
     }
 
     /// <summary>
@@ -50,16 +53,13 @@ public class CameraMovement : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        if (transform.rotation != TargetCameraRotation)
+        if (transform.rotation != targetCameraRotation)
         {
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, TargetCameraRotation, cameraRotationSpeed * Time.deltaTime);
-
-            Vector3 transformDirection = transform.forward;
-            transformDirection.y = 0;
-            transformDirection.Normalize();
-            transformDirection *= cameraDistance;
-            transform.position = RoomPosition + new Vector3(0, cameraHeight, 0) - transformDirection;
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetCameraRotation, cameraRotationSpeed * Time.deltaTime);
+            transform.position = CalculateCameraPosition(roomController.CurrentRoom);
+            return;
         }
+
         if (cameraTransitionLerpInformation == null) return;
         transform.position = cameraTransitionLerpInformation.Step(Time.deltaTime);
     }
@@ -71,15 +71,22 @@ public class CameraMovement : MonoBehaviour
     /// <param name="args">The arguments pertaining to the event.</param>
     private void OnCurrentRoomChanged(object sender, CurrentRoomChangedEventArgs args)
     {
-        RoomPosition = args.NewRoom.Centre;
-        //Vector3 destination = args.NewRoom.Centre + offset;
-        //cameraTransitionLerpInformation = new LerpInformation<Vector3>(transform.position, destination, transitionDuration, GradualCurve.Interpolate);
-        //cameraTransitionLerpInformation.Finished += (obj, eventArgs) => cameraTransitionLerpInformation = null;
+        Vector3 destination = CalculateCameraPosition(args.NewRoom);
+        cameraTransitionLerpInformation = new LerpInformation<Vector3>(transform.position, destination, transitionDuration, GradualCurve.Interpolate);
+        cameraTransitionLerpInformation.Finished += (obj, eventArgs) => cameraTransitionLerpInformation = null;
     }
 
     public void SetRotation(float rotation)
     {
-        Debug.Log($"Setting rotation {rotation}");
-        TargetCameraRotation = Quaternion.Euler(new Vector3(cameraAngle, rotation, 0));
+        targetCameraRotation = Quaternion.Euler(new Vector3(cameraAngle, rotation, 0));
+    }
+
+    private Vector3 CalculateCameraPosition(Room room)
+    {
+        Vector3 transformDirection = transform.forward;
+        transformDirection.y = 0;
+        transformDirection.Normalize();
+        transformDirection *= cameraDistance;
+        return room.Centre + new Vector3(0, cameraHeight, 0) - transformDirection;
     }
 }
