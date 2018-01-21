@@ -3,7 +3,7 @@
  * File Name: EncounterController.cs
  * Project Name: TheDungeonMaster
  * Creation Date: 01/02/2018
- * Modified Date: 01/18/2018
+ * Modified Date: 01/21/2018
  * Description: The top-level manager for a combat session (battle). 
  */
 
@@ -21,6 +21,11 @@ public class EncounterController : ControllerBehaviour
     /// Indicates whether the current turn belongs to the player.
     /// </summary>
     public bool IsPlayerTurn { get; private set; }
+
+    /// <summary>
+    /// Indicates whether the player is currently in an encounter.
+    /// </summary>
+    public bool IsPlayerInsideEncounter => gameObject.activeInHierarchy;
 
     /// <summary>
     /// The maximum (and starting) health of the player.

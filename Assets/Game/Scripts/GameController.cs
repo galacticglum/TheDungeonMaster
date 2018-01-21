@@ -31,14 +31,6 @@ public class GameController : ControllerBehaviour
     public bool IsPaused { get; private set; }
     public event PauseStateChangedEventHandler PauseStateChanged;
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            TogglePause();
-        }
-    }
-
     public void TogglePause()
     {
         IsPaused = !IsPaused;
