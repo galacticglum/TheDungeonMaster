@@ -3,7 +3,7 @@
  * File Name: RoomController.cs
  * Project Name: TheDungeonMaster
  * Creation Date: 12/28/2017
- * Modified Date: 12/29/2017
+ * Modified Date: 1/20/2018
  * Description: Manages all rooms and keeps track of the current room the player is in.
  */
 
@@ -122,9 +122,6 @@ public class RoomController : ControllerBehaviour
     public Room GetRoomFromPosition(Vector3 position)
     {
         // If the position is WITHIN the bounds of our room, we have a match!
-        return RoomManager.FirstOrDefault(room => position.x >= room.Centre.x - room.Size.x / 2f && 
-                                            position.x <= room.Centre.x + room.Size.x / 2f && 
-                                            position.z >= room.Centre.z - room.Size.y / 2f && 
-                                            position.z <= room.Centre.z + room.Size.y / 2f);
+        return RoomManager.FirstOrDefault(room => room.ContainsPosition(position));
     }
 }

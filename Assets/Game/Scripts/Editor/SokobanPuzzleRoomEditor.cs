@@ -85,6 +85,13 @@ public class SokobanPuzzleRoomEditor : Editor
         {
             EditorGUIHelper.Splitter();
 
+            if (GUILayout.Button("Load Level From File"))
+            {
+                string levelFilePath = EditorUtility.OpenFilePanel("Select Level File", Application.dataPath, "png");
+                sokobanPuzzleRoom.Level.LoadFromFile(levelFilePath);
+                LevelAssetUpdated();
+            }
+
             showGeneralSettings = EditorGUIHelper.DrawSectionBox(new GUIContent("General Settings"), showGeneralSettings, () =>
             {
                 EditMode.DoEditModeInspectorModeButton(EditMode.SceneViewEditMode.Collider, "Edit Bounds", EditModeButton, () => new Bounds(boxBoundsHandle.center, boxBoundsHandle.size), this);
@@ -125,7 +132,6 @@ public class SokobanPuzzleRoomEditor : Editor
                 }
 
                 GUI.enabled = true;
-
                 EditorGUILayout.EndHorizontal();
             });
 
@@ -165,9 +171,10 @@ public class SokobanPuzzleRoomEditor : Editor
                     int selectedX = selectedTileIndex.x;
                     int selectedY = selectedTileIndex.y;
 
-                    SokobanTileType newSokobanTileType = (SokobanTileType)EditorGUILayout.EnumPopup("Type", sokobanPuzzleRoom.Level.GetTileTypeAt(selectedX, selectedY));
+                    SokobanPuzzleTile tile = sokobanPuzzleRoom.Level.GetTileAt(selectedX, selectedY);
 
-                    sokobanPuzzleRoom.Level.SetTileTypeAt(selectedX, selectedY, newSokobanTileType);
+                    tile.Type = (SokobanTileType)EditorGUILayout.EnumPopup("Type", tile.Type);
+                    tile.SpawnCrate = EditorGUILayout.Toggle("Should Spawn Crate", tile.SpawnCrate);
                 });
             }
         }
@@ -250,19 +257,21 @@ public class SokobanPuzzleRoomEditor : Editor
                         Vector2Int tileIndex = new Vector2Int(x + tileMapHalfWidth, y + tileMapHalfHeight);
                         Vector3 position = new Vector3(x, y, 0);
 
-                        Color faceColour = GetTileColour(sokobanPuzzleRoom.Level.GetTileTypeAt(tileIndex.x, tileIndex.y));
+                        Color faceColour = GetTileColour(sokobanPuzzleRoom.Level.GetTileAt(tileIndex.x, tileIndex.y));
                         if (x < -halfWidth || x >= halfWidth || y < -halfHeight || y >= halfHeight)
                         {
                             faceColour = new Color(1, 0, 0, 0.05f);
                         }
 
                         // Draw tile
-                        Handles.DrawSolidRectangleWithOutline(new Rect(position, new Vector2(1, 1)), faceColour, Color.green);
+                        Handles.DrawSolidRectangleWithOutline(new Rect(position, Vector2.one), faceColour, Color.green);
 
-                        //// Draw picker inner
-                        //Handles.DrawSolidRectangleWithOutline(new Rect(position + new Vector3(0.375f, 0.375f), new Vector2(0.25f, 0.25f)), new Color(0, 1, 0, 0.2f), new Color(0, 0, 0, 1));
+                        SokobanPuzzleTile tile = sokobanPuzzleRoom.Level.GetTileAt(tileIndex.x, tileIndex.y);
+                        if (tile.SpawnCrate)
+                        {
+                            Handles.Label(position, Resources.Load<Texture>("Images/GUI/wooden_crate"));
+                        }
 
-                        
                         if (!Handles.Button(position + new Vector3(0.5f, 0.5f), Quaternion.identity, 0.125f, 0.125f,
                             Handles.DotHandleCap)) continue;
 
@@ -283,9 +292,9 @@ public class SokobanPuzzleRoomEditor : Editor
 
     private static void InitializeGizmoColour(int value) => Handles.color = value == 0 ? Color.white : Color.green;
 
-    private static Color GetTileColour(SokobanTileType type)
+    private static Color GetTileColour(SokobanPuzzleTile tile)
     {
-        switch (type)
+        switch (tile.Type)
         {
             case SokobanTileType.Floor:
                 return new Color(0.933f, 0.95f, 0.25f, 0.1f);
@@ -294,7 +303,7 @@ public class SokobanPuzzleRoomEditor : Editor
             case SokobanTileType.Goal:
                 return new Color(0, 2, 0, 0.1f);
             default:
-                throw new ArgumentOutOfRangeException(nameof(type), type, null);
+                throw new ArgumentOutOfRangeException(nameof(tile.Type), tile.Type, null);
         }
     }
 }

@@ -3,11 +3,12 @@
  * File Name: SokobanPuzzleLevel.cs
  * Project Name: TheDungeonMaster
  * Creation Date: 01/08/18
- * Modified Date: 01/18/18
+ * Modified Date: 01/20/18
  * Description: Data structure for Sokoban levels. 
  */
 
 using System;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 
@@ -17,6 +18,11 @@ using UnityEngine;
 [CreateAssetMenu]
 public class SokobanPuzzleLevel : ScriptableObject
 {
+    private const float MetadataCrateAlpha = 128 / 255f; 
+
+    private static readonly Color WallTileColour = Color.black; 
+    private static readonly Color GoalTileColour = Color.green;  
+
     /// <summary>
     /// The size of our <see cref="SokobanPuzzleLevel"/> in a <see cref="Vector2Int"/>.
     /// </summary>
@@ -28,7 +34,7 @@ public class SokobanPuzzleLevel : ScriptableObject
     public bool HasGeneratedTiles => tiles != null;
 
     [SerializeField]
-    private SokobanTileType[] tiles;
+    private SokobanPuzzleTile[] tiles;
 
     [SerializeField]
     private Vector2Int size;
@@ -38,28 +44,69 @@ public class SokobanPuzzleLevel : ScriptableObject
     /// </summary>
     public void GenerateTiles(Vector2Int size, SokobanTileType defaulType = SokobanTileType.Floor)
     {
-        SerializedObject serializedObject = new SerializedObject(this);
-        serializedObject.FindProperty("size").vector2IntValue = size;
-
-        serializedObject.FindProperty("tiles").arraySize = size.x * size.y;
-        serializedObject.ApplyModifiedProperties();
+        tiles = new SokobanPuzzleTile[size.x * size.y];
 
         // Initialize each tile
         for (int x = 0; x < size.x; x++)
         {
             for (int y = 0; y < size.y; y++)
             {
-                SetTileTypeAt(x, y, defaulType);
+                tiles[y * Size.x + x] = new SokobanPuzzleTile(defaulType);
             }
         }
 
+        EditorUtility.SetDirty(this);
+    }
+
+    public void LoadFromFile(string filePath)
+    {
+        // Load the file into a texture
+        byte[] imageBytes = File.ReadAllBytes(filePath);
+        Texture2D imageTexture = new Texture2D(2, 2);
+
+        if (!imageTexture.LoadImage(imageBytes))
+        {
+            Debug.LogError("LevelLoader::Load: Could not load level because file is invalid!");
+            Application.Quit();
+            return;
+        }
+
+        GenerateTiles(new Vector2Int(imageTexture.width, imageTexture.height));
+
+        Color[] colours = imageTexture.GetPixels();
+        for (int x = 0; x < imageTexture.width; x++)
+        {
+            for (int y = 0; y < imageTexture.height; y++)
+            {
+                Color colour = colours[x + imageTexture.width * y];
+                float alpha = colour.a;
+
+                colour.a = 1;
+
+                SokobanPuzzleTile tile = GetTileAt(x, y);
+                SokobanTileType type = SokobanTileType.Floor;
+                if (colour == WallTileColour)
+                {
+                    type = SokobanTileType.Wall;
+                }
+                else if (colour == GoalTileColour)
+                {
+                    type = SokobanTileType.Goal;
+                }
+
+                tile.Type = type;
+                tile.SpawnCrate = alpha == MetadataCrateAlpha && IsValidSpawn(type);
+            }
+        }
+
+        EditorUtility.SetDirty(this);
     }
 
     /// <summary>
     /// Get a tile at a specified coordinate.
     /// </summary>
     /// <exception cref="IndexOutOfRangeException">Thrown if the coordinate is out of range.</exception>
-    public SokobanTileType GetTileTypeAt(int x, int y)
+    public SokobanPuzzleTile GetTileAt(int x, int y)
     {
         if (IsOutOfRange(x, y))
         {
@@ -70,21 +117,9 @@ public class SokobanPuzzleLevel : ScriptableObject
     }
 
     /// <summary>
-    /// Set a tile at a specified coordinate.
-    /// </summary>
-    /// <exception cref="IndexOutOfRangeException">Thrown if the coordinate is out of range.</exception>
-    public void SetTileTypeAt(int x, int y, SokobanTileType value)
-    {
-        if (IsOutOfRange(x, y))
-        {
-            throw new IndexOutOfRangeException();
-        }
-
-        tiles[y * Size.x + x] = value;
-    }
-
-    /// <summary>
     /// Checks if the specified position is out-of-range range of the tile array.
     /// </summary>
-    private bool IsOutOfRange(int x, int y) => x < 0 || x >= Size.x || y < 0 || y >= Size.y;
+    public bool IsOutOfRange(int x, int y) => x < 0 || x >= Size.x || y < 0 || y >= Size.y;
+
+    private static bool IsValidSpawn(SokobanTileType type) => type != SokobanTileType.Wall;
 }

@@ -13,7 +13,6 @@ using UnityEngine;
 /// <summary>
 /// The top-level manager for a sokoban puzzle.
 /// </summary>
-[ExecuteInEditMode]
 public class SokobanPuzzleRoom : Room
 {
     /// <summary>
@@ -47,6 +46,7 @@ public class SokobanPuzzleRoom : Room
 
     [SerializeField]
     private SokobanPuzzleLevel level;
+    private PlayerController playerController;
 
     protected override void Start()
     {
@@ -55,5 +55,34 @@ public class SokobanPuzzleRoom : Room
         {
             Size = level.Size;
         }
+
+        playerController = ControllerDatabase.Get<PlayerController>();
+        for (int x = 0; x < level.Size.x; x++)
+        {
+            for (int y = 0; y < level.Size.y; y++)
+            {
+                SokobanPuzzleTile tile = level.GetTileAt(x, y);
+                if (!tile.SpawnCrate) continue;
+
+                GameObject crateGameObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                crateGameObject.transform.position = GetWorldCoordinates(x, y) + new Vector3(-crateGameObject.transform.localScale.x / 2f,
+                                                         crateGameObject.transform.localScale.y / 2f, -crateGameObject.transform.localScale.z / 2f);
+            }
+        }
     }
+
+    private void Update()
+    {
+        if (!ContainsPosition(playerController.transform.position)) return;
+    }
+
+    private SokobanPuzzleTile GetTileAtWorldCoordinates(Vector3 worldCoordinates)
+    {
+        Vector3 coordinatesRelativeToRoom = Centre - worldCoordinates + new Vector3(Size.x / 2f, 0, Size.y / 2f);
+        Vector2Int tilePosition = new Vector2Int(Mathf.FloorToInt(coordinatesRelativeToRoom.x), Mathf.FloorToInt(coordinatesRelativeToRoom.y));
+
+        return level.GetTileAt(tilePosition.x, tilePosition.y);
+    }
+
+    private Vector3 GetWorldCoordinates(int x, int y) => new Vector3(Size.x / 2f - x, 0, Size.y / 2f - y) + Centre;
 }

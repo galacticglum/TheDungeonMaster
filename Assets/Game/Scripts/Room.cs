@@ -3,7 +3,7 @@
  * File Name: Room.cs
  * Project Name: TheDungeonMaster
  * Creation Date: 12/28/2017
- * Modified Date: 1/19/2018
+ * Modified Date: 1/20/2018
  * Description: A rectangular area.
  */
 
@@ -100,6 +100,16 @@ public class Room : MonoBehaviour
         PlayerExited?.Invoke(this, new RoomEventArgs(this));
         OnPlayerExited();
     }
+
+    /// <summary>
+    /// Determines whether the specified position is inside this <see cref="Room"/>.
+    /// </summary>
+    /// <param name="position"></param>
+    /// <returns></returns>
+    public bool ContainsPosition(Vector3 position) => position.x >= Centre.x - Size.x / 2f &&
+                                              position.x <= Centre.x + Size.x / 2f &&
+                                              position.z >= Centre.z - Size.y / 2f &&
+                                              position.z <= Centre.z + Size.y / 2f;
 
     /// <summary>
     /// Called when the player enters this <see cref="Room"/>.

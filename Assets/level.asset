@@ -11,5 +11,205 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f308511678f068e4b86efcbfc71cbcd3, type: 3}
   m_Name: level
   m_EditorClassIdentifier: 
-  tiles: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  tiles:
+  - type: 1
+    spawnCrate: 0
+  - type: 1
+    spawnCrate: 0
+  - type: 1
+    spawnCrate: 0
+  - type: 1
+    spawnCrate: 0
+  - type: 1
+    spawnCrate: 0
+  - type: 1
+    spawnCrate: 0
+  - type: 1
+    spawnCrate: 0
+  - type: 1
+    spawnCrate: 0
+  - type: 1
+    spawnCrate: 0
+  - type: 1
+    spawnCrate: 0
+  - type: 1
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 1
+    spawnCrate: 0
+  - type: 1
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 1
+    spawnCrate: 0
+  - type: 1
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 1
+    spawnCrate: 0
+  - type: 1
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 1
+  - type: 0
+    spawnCrate: 0
+  - type: 1
+    spawnCrate: 0
+  - type: 1
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 1
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 1
+    spawnCrate: 0
+  - type: 1
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 1
+    spawnCrate: 0
+  - type: 1
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 1
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 1
+    spawnCrate: 0
+  - type: 1
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 0
+    spawnCrate: 0
+  - type: 1
+    spawnCrate: 0
+  - type: 1
+    spawnCrate: 0
+  - type: 1
+    spawnCrate: 0
+  - type: 1
+    spawnCrate: 0
+  - type: 1
+    spawnCrate: 0
+  - type: 1
+    spawnCrate: 0
+  - type: 1
+    spawnCrate: 0
+  - type: 1
+    spawnCrate: 0
+  - type: 1
+    spawnCrate: 0
+  - type: 1
+    spawnCrate: 0
+  - type: 1
+    spawnCrate: 0
   size: {x: 10, y: 10}
