@@ -66,6 +66,8 @@ public class RoomEditor : Editor
     /// </summary>
     public override void OnInspectorGUI()
     {
+        base.OnInspectorGUI();
+
         // This initializes the edit mode button and hook into the editor delegate for changing the scene view handle.
         // When the button is pressed, the position handle in the viewport is hidden.
         EditMode.DoEditModeInspectorModeButton(EditMode.SceneViewEditMode.Collider, "Edit Bounds", EditModeButton, () => new Bounds(boxBoundsHandle.center, boxBoundsHandle.size), this);

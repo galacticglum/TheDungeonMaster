@@ -1842,6 +1842,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: {x: 10, y: 10}
+  lootCards: []
 --- !u!1001 &292925572
 Prefab:
   m_ObjectHideFlags: 0
@@ -7156,6 +7157,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: {x: 10, y: 10}
+  lootCards: []
 --- !u!1 &1024655401
 GameObject:
   m_ObjectHideFlags: 0
@@ -9078,6 +9080,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: {x: 10, y: 10}
+  lootCards: []
 --- !u!1001 &1261642931
 Prefab:
   m_ObjectHideFlags: 0
@@ -10244,6 +10247,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 769f2b1f02b35d44498d3bcf5b4c5eaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startupDeck:
+  - {fileID: 11400000, guid: 12bca3383eb463846aec56c8d85be4de, type: 2}
+  - {fileID: 11400000, guid: dac274c94e9c88245960027056ff6a26, type: 2}
+  - {fileID: 11400000, guid: 88e8849248b28fb4bbba379c733e62f7, type: 2}
+  - {fileID: 11400000, guid: f81e48e7408e6a94bbdaa6203023ab71, type: 2}
+  - {fileID: 11400000, guid: bae909213eafa0e46a357f7d16d3697f, type: 2}
+  - {fileID: 11400000, guid: 307dbbe1436cbe14c9ce6de230152e33, type: 2}
 --- !u!82 &1358627683
 AudioSource:
   m_ObjectHideFlags: 0
@@ -12819,6 +12829,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: {x: 10, y: 10}
+  lootCards: []
 --- !u!1 &1646302805
 GameObject:
   m_ObjectHideFlags: 0
@@ -13853,6 +13864,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: {x: 10, y: 10}
+  lootCards: []
 --- !u!1001 &1832700764
 Prefab:
   m_ObjectHideFlags: 0
@@ -14996,6 +15008,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: {x: 10, y: 10}
+  lootCards: []
 --- !u!1001 &1969644258
 Prefab:
   m_ObjectHideFlags: 0

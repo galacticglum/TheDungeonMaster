@@ -26,12 +26,10 @@ public class CameraMovement : MonoBehaviour
     [SerializeField]
     private float cameraRotationSpeed = 180f;
 
-    private PlayerController playerController;
     private RoomController roomController;
 
     private LerpInformation<Vector3> cameraTransitionLerpInformation;
 
-    private float cameraRotationTimestamp = -10f;
     private Quaternion targetCameraRotation;
 
     /// <summary>
@@ -39,7 +37,6 @@ public class CameraMovement : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        playerController = ControllerDatabase.Get<PlayerController>();
         roomController = ControllerDatabase.Get<RoomController>();
 
         transform.position = new Vector3(0, cameraHeight, -cameraDistance);

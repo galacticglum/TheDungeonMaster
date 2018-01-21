@@ -7,11 +7,17 @@
  * Description: A room for an encounter.
  */
 
+using System.Collections.Generic;
+using UnityEngine;
+
 /// <summary>
 /// A room for an encounter.
 /// </summary>
 public class EncounterRoom : Room
 {
+    [SerializeField]
+    private List<Card> lootCards;
+
     /// <summary>
     /// Called when the <see cref="Room"/> is created and is placed into the world.
     /// </summary>
@@ -36,6 +42,6 @@ public class EncounterRoom : Room
     private void OnEncounterComplete()
     {
         IsComplete = true;
-        LootInstance.Create(transform);
+        LootInstance.Create(transform, lootCards);
     }
 }

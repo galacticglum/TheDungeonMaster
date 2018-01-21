@@ -3,7 +3,7 @@
  * File Name: LootInstance.cs
  * Project Name: TheDungeonMaster
  * Creation Date: 01/14/2018
- * Modified Date: 01/14/2018
+ * Modified Date: 01/21/2018
  * Description: The visual manager for a loot box.
  */
 
@@ -24,6 +24,7 @@ public class LootInstance : MonoBehaviour
     private bool hasOpened;
     private PlayerController playerController;
     private LootWindowController lootWindowController;
+    private List<Card> lootCards;
 
     /// <summary>
     /// Called when the component is created and placed into the world.
@@ -51,12 +52,7 @@ public class LootInstance : MonoBehaviour
         keydownIcon.enabled = isPlayerInRange;
 
         if (!Input.GetKeyDown(KeyCode.E) || !isPlayerInRange) return;
-        lootWindowController.Open(new List<Card>
-        {
-            new Card("Norwegian Brute", "A tall, handsome, brute who comes from an arbitrary Norwegian province.", 10),
-            new Card("German Brute", "A tall but smaller, handsome, brute who comes from an arbitrary German province.", 8),
-            new Card("Dwarven Brute", "A short, hairy, brute who comes from an arbitrary European province.", 8)
-        });
+        lootWindowController.Open(lootCards);
 
         hasOpened = true;
     }
@@ -65,7 +61,7 @@ public class LootInstance : MonoBehaviour
     /// Creates a <see cref="LootInstance"/> an assigns it to the specified parent <see cref="Transform"/>.
     /// </summary>
     /// <param name="parent">The <see cref="Transform"/> to parent the <see cref="LootInstance"/> to.</param>
-    public static LootInstance Create(Transform parent)
+    public static LootInstance Create(Transform parent, List<Card> lootCards)
     {
         GameObject lootPrefab = Resources.Load<GameObject>("Prefabs/Loot_Box");
         Vector3 spawnPosition = parent.position;
@@ -74,6 +70,9 @@ public class LootInstance : MonoBehaviour
         GameObject lootGameObject = Instantiate(lootPrefab, spawnPosition, Quaternion.identity);
         lootGameObject.transform.SetParent(parent);
 
-        return lootGameObject.GetComponent<LootInstance>();
+        LootInstance lootInstance = lootGameObject.GetComponent<LootInstance>();
+        lootInstance.lootCards = lootCards;
+
+        return lootInstance;
     }
 }

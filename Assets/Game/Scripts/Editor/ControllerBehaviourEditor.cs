@@ -20,7 +20,7 @@ public class ControllerBehaviourEditor : Editor
     /// <summary>
     /// Initialize the custom editor.
     /// </summary>
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         controllerBehaviour = (ControllerBehaviour)target;
         EditorApplication.update += Update;
@@ -29,7 +29,7 @@ public class ControllerBehaviourEditor : Editor
     /// <summary>
     /// Called every editor frame.
     /// </summary>
-    private void Update()
+    protected virtual void Update()
     {
         if (!controllerBehaviour.ShouldDestroy) return;
 
@@ -43,5 +43,5 @@ public class ControllerBehaviourEditor : Editor
     /// Handle any destruction-related logic.
     /// Called when this <see cref="ControllerBehaviourEditor"/> is destroyed.
     /// </summary>
-    private void OnDestroy() => EditorApplication.update -= Update;
+    protected virtual void OnDestroy() => EditorApplication.update -= Update;
 }

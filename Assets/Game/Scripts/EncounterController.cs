@@ -10,6 +10,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using UnityEngine;
 
 /// <summary>
@@ -26,6 +27,11 @@ public class EncounterController : ControllerBehaviour
     /// Indicates whether the player is currently in an encounter.
     /// </summary>
     public bool IsPlayerInsideEncounter => gameObject.activeInHierarchy;
+
+    /// <summary>
+    /// All the enemies on the board.
+    /// </summary>
+    public ReadOnlyCollection<EnemyInstance> EnemiesOnBoard => new ReadOnlyCollection<EnemyInstance>(enemies);
 
     /// <summary>
     /// The maximum (and starting) health of the player.
@@ -197,7 +203,7 @@ public class EncounterController : ControllerBehaviour
         IsPlayerTurn = true;
 
         // If we have available space in the hand, then let's draw a new card.
-        if (cardHandController.HandCount < CardHandController.HandLimit)
+        if (cardHandController.HandCount < CardHandController.HandLimit && deck.Count > 0)
         {
             cardHandController.AddCard(deck.Pop());
         }

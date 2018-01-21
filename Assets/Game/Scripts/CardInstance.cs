@@ -7,6 +7,7 @@
  * Description: The interface between the card data and the card visuals.
  */
 
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -86,7 +87,7 @@ public class CardInstance : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
         EnemyInstance targetEnemyInstance = targetGameObject.GetComponent<EnemyInstance>();
 
-        // If we haven't targeted a specific enemy yet we require that we target an, enemy 
+        // If we haven't targeted a specific enemy yet we require that we target an enemy 
         // then we bail as we haven't met the critera for this card to be played.
         if (targetEnemyInstance == null && Card.RequiresEnemyTarget) return false;
 
@@ -95,11 +96,22 @@ public class CardInstance : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         // this card to be played.
         if (targetGameObject.name != "Enemy_Spawn_Root" && !Card.RequiresEnemyTarget) return false;
 
-        // If we have targeted an enemy, then let's execute any target-specific logic.
-        if (targetEnemyInstance)
+        switch (Card.DamageType)
         {
-            // Attack the targeted enemy.
-            targetEnemyInstance.TakeDamage(Card.AttackPoints);
+            case CardDamageType.EnemyTarget:
+                // At this point, our target enemy instance should never be null as we should
+                // have checked for that case above but it's still good to check anyways.
+                if (targetEnemyInstance == null) break;
+
+                // Attack the targeted enemy.
+                targetEnemyInstance.TakeDamage(Card.AttackPoints);
+                break;
+            case CardDamageType.AreaOfEffect:
+                foreach (EnemyInstance enemyInstance in encounterController.EnemiesOnBoard)
+                {
+                    enemyInstance.TakeDamage(Card.AttackPoints);
+                }
+                break;
         }
 
         CardHandController cardHandController = ControllerDatabase.Get<CardHandController>();
