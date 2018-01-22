@@ -246,16 +246,20 @@ public class EncounterController : ControllerBehaviour
     /// </summary>
     private void HandleEncounterCompleted()
     {
+        if (onEncounterComplete == null) return;
+
         enemyInstanceParent.gameObject.SetActive(false);
         ControllerDatabase.Get<CardHandController>().CanvasGroup.SetVisibility(false);
         ControllerDatabase.Get<PlayerController>().CanMove = true;
         onEncounterComplete();
 
-        fadeLerpInformation = new LerpInformation<float>(0, 1, fadeDuration, Mathf.Lerp, null, (sender, args) =>
+        fadeLerpInformation = new LerpInformation<float>(1, 0, fadeDuration, Mathf.Lerp, null, (sender, args) =>
         {
             fadeLerpInformation = null;
             gameObject.SetActive(false);
         });
+
+        onEncounterComplete = null;
     }
 
     /// <summary>
@@ -297,11 +301,13 @@ public class EncounterController : ControllerBehaviour
     /// <summary>
     /// Adds an enemy to the current encounter.
     /// </summary>
-    private void AddEnemyToEncounter(Enemy enemy)
+    public EnemyInstance AddEnemyToEncounter(Enemy enemy)
     {
         EnemyInstance enemyInstance = EnemyInstance.Create(enemy.Clone(), enemyInstanceParent);
         enemies.Add(enemyInstance);
         UpdateEnemyPositions();
+
+        return enemyInstance;
     }
 
     /// <summary>
@@ -343,7 +349,6 @@ public class EncounterController : ControllerBehaviour
     public void DamagePlayer(int amount, Enemy enemy)
     {
         PlayerHealth -= amount;
-        Debug.Log($"{enemy.Name} attacked the player for {amount} attack points! Current health: {PlayerHealth}");
     }
 
     /// <summary>
@@ -352,7 +357,6 @@ public class EncounterController : ControllerBehaviour
     public void HealPlayer(int amount)
     {
         PlayerHealth = Mathf.Clamp(PlayerHealth + amount, 0, MaximumPlayerHealth);
-        Debug.Log($"Healed the player for {amount} hp");
     }
 
     /// <summary>

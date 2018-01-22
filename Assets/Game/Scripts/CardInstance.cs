@@ -114,8 +114,13 @@ public class CardInstance : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
                 break;
         }
 
-        targetEnemyInstance?.Effects.AddEffect(EffectType.Stun, Card.StunPoints);
-        encounterController.PlayerEffects.AddEffect(EffectType.Shield, Card.ShieldPoints);
+        if (targetEnemyInstance != null)
+        {
+            targetEnemyInstance.Effects.AddEffect(EffectType.Poison, Card.PoisonPoints);
+            targetEnemyInstance.PoisonDamage = Card.AttackPoints;
+            targetEnemyInstance.Effects.AddEffect(EffectType.Stun, Card.StunPoints);
+            encounterController.PlayerEffects.AddEffect(EffectType.Shield, Card.ShieldPoints);
+        }
 
         CardHandController cardHandController = ControllerDatabase.Get<CardHandController>();
 
@@ -137,6 +142,7 @@ public class CardInstance : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
             Destroy(removedCardInstance.gameObject);
         }
         
+        encounterController.DamagePlayer(Card.HealthCost, null);
         encounterController.HealPlayer(Card.HealPoints);
         encounterController.AddCardToDiscardPile(Card);
         encounterController.EndPlayerTurn();

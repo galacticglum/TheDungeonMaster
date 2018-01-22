@@ -9,6 +9,7 @@
 
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// The event args pertaining to the <see cref="RoomEventHandler"/>.

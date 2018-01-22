@@ -51,10 +51,11 @@ public class LootInstance : MonoBehaviour
         bool isPlayerInRange = distanceFromPlayer <= activationRadius;
         keydownIcon.enabled = isPlayerInRange;
 
-        if (!Input.GetKeyDown(KeyCode.E) || !isPlayerInRange) return;
-        lootWindowController.Open(lootCards);
-
-        hasOpened = true;
+        if (Input.GetKeyDown(KeyCode.E) && isPlayerInRange && !hasOpened)
+        {
+            lootWindowController.Open(lootCards);
+            hasOpened = true;
+        }
     }
 
     /// <summary>

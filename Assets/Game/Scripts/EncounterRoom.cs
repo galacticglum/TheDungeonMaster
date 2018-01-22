@@ -9,6 +9,7 @@
 
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// A room for an encounter.
@@ -19,6 +20,9 @@ public class EncounterRoom : Room
     private List<Enemy> enemies;
     [SerializeField]
     private List<Card> lootCards;
+
+    [SerializeField]
+    private UnityEvent onCompleted;
 
     /// <summary>
     /// Called when the <see cref="Room"/> is created and is placed into the world.
@@ -45,5 +49,6 @@ public class EncounterRoom : Room
     {
         IsComplete = true;
         LootInstance.Create(transform, lootCards);
+        onCompleted.Invoke();
     }
 }

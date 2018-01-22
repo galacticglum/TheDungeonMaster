@@ -7,6 +7,7 @@
  * Description: An entity which the user fights against.
  */
 
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -51,8 +52,18 @@ public class Enemy : ScriptableObject
     /// </summary>
     public float AttackChance => attackChance;
 
+    /// <summary>
+    /// The amount of attack that poison does.
+    /// </summary>
     public int PoisonAttackPoints => poisonAttackPoints;
+    /// <summary>
+    /// The amount of turns that the poison lasts for.
+    /// </summary>
     public int PoisonTurnDuration => poisonTurnDuration;
+
+    /// <summary>
+    /// The chance that this <see cref="Enemy"/> will poison the player.
+    /// </summary>
     public float PoisonChance => poisonChance;
 
     /// <summary>
@@ -65,6 +76,16 @@ public class Enemy : ScriptableObject
     /// This value is from 0 to 1.
     /// </summary>
     public float HealingChance => healingChance;
+
+    /// <summary>
+    /// The enemies to spawn.
+    /// </summary>
+    public List<Enemy> EnemiesToSpawn => enemiesToSpawn;
+
+    /// <summary>
+    /// The chance that this <see cref="Enemy"/> will spawn cards.
+    /// </summary>
+    public float SpawnChance => spawnChance;
 
     /// <summary>
     /// Determines whether this <see cref="Enemy"/> can heal and attack on the same turn.
@@ -107,6 +128,13 @@ public class Enemy : ScriptableObject
     [SerializeField]
     private float healingChance;
 
+    [Header("Spawn")]
+    [SerializeField]
+    private List<Enemy> enemiesToSpawn;
+    [Range(0, 1)]
+    [SerializeField]
+    private float spawnChance;
+
     /// <summary>
     /// Called when this object is enabled.
     /// </summary>
@@ -135,10 +163,13 @@ public class Enemy : ScriptableObject
         copy.poisonTurnDuration = PoisonTurnDuration;
         copy.poisonChance = PoisonChance;
 
+        copy.canSimultaneousHealAttack = CanSimultaneousHealAttack;
+
         copy.healingPoints = HealingPoints;
         copy.healingChance = HealingChance;
 
-        copy.canSimultaneousHealAttack = CanSimultaneousHealAttack;
+        copy.enemiesToSpawn = EnemiesToSpawn;
+        copy.spawnChance = SpawnChance;
 
         return copy;
     }

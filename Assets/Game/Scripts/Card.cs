@@ -66,10 +66,17 @@ public class Card : ScriptableObject
     public int ShieldPoints => shieldPoints;
 
     /// <summary>
+    /// The amount of turns this <see cref="Card"/> will poison an enemy for.
+    /// </summary>
+    public int PoisonPoints => poisonPoints;
+
+    public int HealthCost => healthCost;
+
+    /// <summary>
     /// Determines whether this <see cref="Card"/> requires an <see cref="Enemy"/> target to execute.
     /// </summary>
     /// We only require a target if we need to attack as we need to know what <see cref="Enemy"/> to attack.
-    public bool RequiresEnemyTarget => AttackPoints > 0 && damageType == CardDamageType.EnemyTarget || StunPoints > 0;
+    public bool RequiresEnemyTarget => AttackPoints > 0 && damageType == CardDamageType.EnemyTarget || StunPoints > 0 || PoisonPoints > 0;
 
     [SerializeField]
     private new string name;
@@ -91,6 +98,10 @@ public class Card : ScriptableObject
     [SerializeField]
     private int shieldPoints;
     [SerializeField]
+    private int poisonPoints;
+    [SerializeField]
+    private int healthCost;
+    [SerializeField]
     private CardRarity rarity;
 
     /// <summary>
@@ -107,6 +118,8 @@ public class Card : ScriptableObject
         copy.overchargeAmount = OverchargeAmount;
         copy.healPoints = HealPoints;
         copy.shieldPoints = ShieldPoints;
+        copy.poisonPoints = PoisonPoints;
+        copy.healthCost = HealthCost;
         copy.rarity = Rarity;
 
         return copy;

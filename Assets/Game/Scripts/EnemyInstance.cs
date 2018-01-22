@@ -8,7 +8,6 @@
  */
 
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -35,6 +34,11 @@ public class EnemyInstance : MonoBehaviour
     /// </summary>
     public RectTransform RectTransform => rectTransform ?? (rectTransform = GetComponent<RectTransform>());
 
+    /// <summary>
+    /// The amount of damage this enemy takes in poison.
+    /// </summary>
+    public int PoisonDamage{ get; set; }
+
     [SerializeField]
     private Text enemyNameText;
     [SerializeField]
@@ -52,6 +56,9 @@ public class EnemyInstance : MonoBehaviour
     private RectTransform rectTransform;
     private EncounterController encounterController;
     private bool didHealLastTurn = true;
+    private int spawnCount;
+
+    private Action onDead;
 
     private string currentAnimation;
 
@@ -137,6 +144,7 @@ public class EnemyInstance : MonoBehaviour
         }
 
         ExecutePoison();
+        ExecuteSpawn();
     }
 
     /// <summary>
@@ -168,6 +176,11 @@ public class EnemyInstance : MonoBehaviour
     /// </summary>
     private void ExecutePoison()
     {
+        if (Effects.RemoveEffect(EffectType.Poison))
+        {
+            TakeDamage(PoisonDamage);
+        }
+
         if (encounterController.PlayerEffects.RemoveEffect(EffectType.Poison))
         {
             encounterController.DamagePlayer(Enemy.PoisonAttackPoints, Enemy);
@@ -176,6 +189,24 @@ public class EnemyInstance : MonoBehaviour
 
         if (!(Random.value < Enemy.PoisonChance)) return;
         encounterController.PlayerEffects.AddEffect(EffectType.Poison, Enemy.PoisonTurnDuration);
+    }
+
+    /// <summary>
+    /// Handle the logic for spawning.
+    /// </summary>
+    private void ExecuteSpawn()
+    {
+        int amountToSpawn = Enemy.EnemiesToSpawn.Count - spawnCount;
+        if (amountToSpawn <= 0 || !(Random.value < Enemy.SpawnChance)) return;
+
+        for (int i = 0; i < amountToSpawn; i++)
+        {
+            PlayAnimation("Cast");
+            EnemyInstance spawnedEnemyInstance = encounterController.AddEnemyToEncounter(Enemy.EnemiesToSpawn[i]);
+
+            // We need to decrement the spawn count when the spawned enemy dies so we may spawn another one of it.
+            spawnedEnemyInstance.onDead += () => spawnCount -= 1;
+        }
     }
 
     /// <summary>
@@ -227,6 +258,7 @@ public class EnemyInstance : MonoBehaviour
     private void Die()
     {
         animator.SetTrigger("Die");
+        onDead?.Invoke();
     }
 
     /// <summary>
