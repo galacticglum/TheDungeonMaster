@@ -4,4 +4,10 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Game/Scenes/Main Menu.unity
+    guid: 9c168d6b84802cb4ebb74ce1a7d9902c
+  - enabled: 1
+    path: Assets/Game/Scenes/Labryinth.unity
+    guid: 99a8b4271b51c884ab48a1ec0c6c854c

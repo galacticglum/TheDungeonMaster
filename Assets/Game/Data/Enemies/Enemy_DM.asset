@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 900dc641f5a66a34fa73c93e11a0e01f, type: 3}
+  m_Name: Enemy_DM
+  m_EditorClassIdentifier: 
+  name: The Dungeon Master
+  description: The all mighty!
+  type: 1
+  maximumHealthPoints: 15
+  attackPoints: 4
+  attackChance: 0.6
+  canSimultaneousHealAttack: 1
+  poisonAttackPoints: 0
+  poisonTurnDuration: 0
+  poisonChance: 0
+  healingPoints: 2
+  healingChance: 0.3
+  enemiesToSpawn:
+  - {fileID: 11400000, guid: db075b52be5ed4747aa0a4c5aab858ca, type: 2}
+  - {fileID: 11400000, guid: dff548c6d6713c34aa0a83ebbc75970d, type: 2}
+  - {fileID: 11400000, guid: 0e74960f119a756438279662ad81bd8f, type: 2}
+  spawnChance: 0.1

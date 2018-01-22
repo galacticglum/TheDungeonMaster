@@ -12,13 +12,13 @@ using UnityEngine;
 /// <summary>
 /// The top-level manager for all audio within the game.
 /// </summary>
-[RequireComponent(typeof(AudioSource))]
 public class AudioController : ControllerBehaviour
 {
     [Tooltip("The audio source that footsteps should come from.")]
     [SerializeField]
     private AudioSource footstepAudioSource;
-    private AudioSource mainAudioSource;
+    [SerializeField]
+    private AudioSource soundEffectAudioSource;
 
     private ConsecutiveAccessCollection<AudioClip> footstepAudioClips;
     private PlayerController playerController;
@@ -28,8 +28,6 @@ public class AudioController : ControllerBehaviour
     /// </summary>
     private void Start()
     {
-        mainAudioSource = GetComponent<AudioSource>();
-
         // Load all audio clips in the Footsteps resource folder into a consecutive access collection.
         footstepAudioClips = new ConsecutiveAccessCollection<AudioClip>(Resources.LoadAll<AudioClip>("Audio/Footsteps"));
 

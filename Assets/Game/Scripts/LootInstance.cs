@@ -43,7 +43,7 @@ public class LootInstance : MonoBehaviour
     {
         if (hasOpened)
         {
-            keydownIcon.enabled = false;
+            Destroy(gameObject);
             return;
         }
 
