@@ -15,6 +15,8 @@ using UnityEngine;
 [RequireComponent(typeof(Camera))]
 public class CameraMovement : MonoBehaviour
 {
+    public float RotationDuration => rotationDuration;
+
     [SerializeField]
     private float transitionDuration = 1f;
     [SerializeField]
@@ -25,10 +27,9 @@ public class CameraMovement : MonoBehaviour
     private float cameraDistance = 4f;
     [SerializeField]
     private float cameraAngle = 70f;
-    [SerializeField]
-    private float cameraRotationSpeed = 180f;
 
     private RoomController roomController;
+    private bool roomHasChanged;
 
     private LerpInformation<Vector3> cameraTransitionLerpInformation;
     private LerpInformation<Quaternion> cameraRotateLerpInformation;
@@ -53,16 +54,19 @@ public class CameraMovement : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        /*if (transform.rotation != targetCameraRotation)
-        {
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetCameraRotation, cameraRotationSpeed * Time.deltaTime);
-            transform.position = CalculateCameraPosition(roomController.CurrentRoom);
-            return;
-        }*/
         if (cameraRotateLerpInformation != null)
         {
             transform.rotation = cameraRotateLerpInformation.Step(Time.deltaTime);
             transform.position = CalculateCameraPosition(roomController.CurrentRoom);
+            return;
+        }
+
+        if (roomHasChanged)
+        {
+            roomHasChanged = false;
+            Vector3 destination = CalculateCameraPosition(roomController.CurrentRoom);
+            cameraTransitionLerpInformation = new LerpInformation<Vector3>(transform.position, destination, transitionDuration, GradualCurve.Interpolate);
+            cameraTransitionLerpInformation.Finished += (obj, eventArgs) => cameraTransitionLerpInformation = null;
         }
 
         if (cameraTransitionLerpInformation == null) return;
@@ -76,9 +80,7 @@ public class CameraMovement : MonoBehaviour
     /// <param name="args">The arguments pertaining to the event.</param>
     private void OnCurrentRoomChanged(object sender, CurrentRoomChangedEventArgs args)
     {
-        Vector3 destination = CalculateCameraPosition(args.NewRoom);
-        cameraTransitionLerpInformation = new LerpInformation<Vector3>(transform.position, destination, transitionDuration, GradualCurve.Interpolate);
-        cameraTransitionLerpInformation.Finished += (obj, eventArgs) => cameraTransitionLerpInformation = null;
+        roomHasChanged = true;
     }
 
     public void SetRotation(float rotation)

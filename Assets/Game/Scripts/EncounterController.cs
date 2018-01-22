@@ -24,6 +24,11 @@ public class EncounterController : ControllerBehaviour
     public bool IsPlayerTurn { get; private set; }
 
     /// <summary>
+    /// The health of the player in the current encounter.
+    /// </summary>
+    public int PlayerHealth { get; private set; }
+
+    /// <summary>
     /// Indicates whether the player is currently in an encounter.
     /// </summary>
     public bool IsPlayerInsideEncounter => gameObject.activeInHierarchy;
@@ -38,19 +43,30 @@ public class EncounterController : ControllerBehaviour
     /// </summary>
     private const int MaximumPlayerHealth = 15;
 
+    /// <summary>
+    /// All the effects on the player.
+    /// </summary>
+    public EffectsCollection PlayerEffects { get; private set; }
+
     [SerializeField]
     private RectTransform enemyInstanceParent;
+    [SerializeField]
+    private RectTransform playerEffectsParent;
+    [SerializeField]
+    private float fadeDuration = 0.5f;
 
     private Queue<Func<bool>> animationQueue;
     private Func<bool> currentAnimation;
     private bool isAnimating;
+
+    private CanvasGroup canvasGroup;
+    private LerpInformation<float> fadeLerpInformation;
 
     private List<EnemyInstance> enemies;
     private Stack<Card> deck;
     private Stack<Card> discardPile;
 
     private Action onEncounterComplete;
-    private int playerHealth;
 
     private CardHandController cardHandController;
 
@@ -59,6 +75,7 @@ public class EncounterController : ControllerBehaviour
     /// </summary>
     private void Start()
     {
+        canvasGroup = GetComponent<CanvasGroup>();
         cardHandController = ControllerDatabase.Get<CardHandController>();
         gameObject.SetActive(false);
     }
@@ -66,13 +83,16 @@ public class EncounterController : ControllerBehaviour
     /// <summary>
     /// Starts an encounter.
     /// </summary>
-    public void BeginEncounter(Action encounterCompleteAction)
+    public void BeginEncounter(List<Enemy> enemies, Action encounterCompleteAction)
     {
+        fadeLerpInformation = new LerpInformation<float>(0, 1, fadeDuration, Mathf.Lerp, null, (sender, args) => fadeLerpInformation = null);
+
         // Reset any gameplay data.
-        playerHealth = MaximumPlayerHealth;
+        PlayerHealth = MaximumPlayerHealth;
         IsPlayerTurn = true;
         discardPile = new Stack<Card>();
         animationQueue = new Queue<Func<bool>>();
+        PlayerEffects = new EffectsCollection(playerEffectsParent);
 
         cardHandController.Clear();
         cardHandController.CanvasGroup.SetVisibility(true);
@@ -87,8 +107,10 @@ public class EncounterController : ControllerBehaviour
 
         ClearEnemies();
 
-        AddEnemyToEncounter(new Enemy("Orc Grunt", "ME ORC, ME SMASH!", 6, 3));
-        AddEnemyToEncounter(new Enemy("Elessar", "The fantastic shetland sheepdog.", 12, 5));
+        foreach (Enemy enemy in enemies)
+        {
+            AddEnemyToEncounter(enemy);
+        }
 
         // We don't want to allow our player to move whilst they are in an encounter, therefore we lock them!
         ControllerDatabase.Get<PlayerController>().CanMove = false;
@@ -102,6 +124,14 @@ public class EncounterController : ControllerBehaviour
     /// </summary>
     private void Update()
     {
+        // Perform fade
+        if (fadeLerpInformation != null)
+        {
+            canvasGroup.alpha = fadeLerpInformation.Step(Time.deltaTime);
+        }
+
+        PlayerEffects.Update();
+
         // We want to stop any update logic from running when we are animating. 
         // Effectively, we halt the encounter. If we are still animating, let's
         // make sure to update the isAnimating variable and bail from here.
@@ -117,7 +147,7 @@ public class EncounterController : ControllerBehaviour
         // If we have NO (zero) enemies in the encounter, that means that we are done!
         // Let's check too see if our encounter is complete, if it is we will run any
         // completion logic; otherwise, let's bail!
-        if (enemies.Count != 0) return;
+        if (enemies.Count != 0) return; 
         HandleEncounterCompleted();
     }
 
@@ -221,7 +251,11 @@ public class EncounterController : ControllerBehaviour
         ControllerDatabase.Get<PlayerController>().CanMove = true;
         onEncounterComplete();
 
-        gameObject.SetActive(false);
+        fadeLerpInformation = new LerpInformation<float>(0, 1, fadeDuration, Mathf.Lerp, null, (sender, args) =>
+        {
+            fadeLerpInformation = null;
+            gameObject.SetActive(false);
+        });
     }
 
     /// <summary>
@@ -265,7 +299,7 @@ public class EncounterController : ControllerBehaviour
     /// </summary>
     private void AddEnemyToEncounter(Enemy enemy)
     {
-        EnemyInstance enemyInstance = EnemyInstance.Create(enemy, enemyInstanceParent);
+        EnemyInstance enemyInstance = EnemyInstance.Create(enemy.Clone(), enemyInstanceParent);
         enemies.Add(enemyInstance);
         UpdateEnemyPositions();
     }
@@ -308,8 +342,17 @@ public class EncounterController : ControllerBehaviour
     /// </summary>
     public void DamagePlayer(int amount, Enemy enemy)
     {
-        playerHealth -= amount;
-        Debug.Log($"{enemy.Name} attacked the player for {amount} attack points! Current health: {playerHealth}");
+        PlayerHealth -= amount;
+        Debug.Log($"{enemy.Name} attacked the player for {amount} attack points! Current health: {PlayerHealth}");
+    }
+
+    /// <summary>
+    /// Heals the player.
+    /// </summary>
+    public void HealPlayer(int amount)
+    {
+        PlayerHealth = Mathf.Clamp(PlayerHealth + amount, 0, MaximumPlayerHealth);
+        Debug.Log($"Healed the player for {amount} hp");
     }
 
     /// <summary>

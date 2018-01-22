@@ -114,6 +114,9 @@ public class CardInstance : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
                 break;
         }
 
+        targetEnemyInstance?.Effects.AddEffect(EffectType.Stun, Card.StunPoints);
+        encounterController.PlayerEffects.AddEffect(EffectType.Shield, Card.ShieldPoints);
+
         CardHandController cardHandController = ControllerDatabase.Get<CardHandController>();
 
         Debug.Log($"Rez. {Card.ResurrectionAmount}");
@@ -133,7 +136,8 @@ public class CardInstance : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
             encounterController.AddCardToDiscardPile(removedCardInstance.Card);
             Destroy(removedCardInstance.gameObject);
         }
-
+        
+        encounterController.HealPlayer(Card.HealPoints);
         encounterController.AddCardToDiscardPile(Card);
         encounterController.EndPlayerTurn();
         return true;

@@ -61,6 +61,7 @@ public class LootInstance : MonoBehaviour
     /// Creates a <see cref="LootInstance"/> an assigns it to the specified parent <see cref="Transform"/>.
     /// </summary>
     /// <param name="parent">The <see cref="Transform"/> to parent the <see cref="LootInstance"/> to.</param>
+    /// <param name="lootCards">The loot which is displayed in the <see cref="LootWindowController"/>.</param>
     public static LootInstance Create(Transform parent, List<Card> lootCards)
     {
         GameObject lootPrefab = Resources.Load<GameObject>("Prefabs/Loot_Box");

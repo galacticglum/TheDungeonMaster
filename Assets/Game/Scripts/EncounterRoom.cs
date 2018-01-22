@@ -16,6 +16,8 @@ using UnityEngine;
 public class EncounterRoom : Room
 {
     [SerializeField]
+    private List<Enemy> enemies;
+    [SerializeField]
     private List<Card> lootCards;
 
     /// <summary>
@@ -33,7 +35,7 @@ public class EncounterRoom : Room
     protected override void OnPlayerEntered()
     {
         if (IsComplete) return;
-        ControllerDatabase.Get<EncounterController>().BeginEncounter(OnEncounterComplete);
+        ControllerDatabase.Get<EncounterController>().BeginEncounter(enemies, OnEncounterComplete);
     }
 
     /// <summary>

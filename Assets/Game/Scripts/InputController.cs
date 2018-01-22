@@ -21,19 +21,21 @@ public class InputController : ControllerBehaviour
 
     private GameController gameController;
     private GamePauseMenuController gamePauseMenuController;
+    private LootWindowController lootWindowController;
     private EncounterController encounterController;
 
     private void Start()
     {
         gameController = ControllerDatabase.Get<GameController>();
         gamePauseMenuController = ControllerDatabase.Get<GamePauseMenuController>();
+        lootWindowController = ControllerDatabase.Get<LootWindowController>(); 
         encounterController = ControllerDatabase.Get<EncounterController>();
     }
 
     private void Update()
     {
         Cursor.lockState = CursorLockMode.Confined;
-        Cursor.visible = gameController.IsPaused || encounterController.IsPlayerInsideEncounter;
+        Cursor.visible = gameController.IsPaused || encounterController.IsPlayerInsideEncounter || lootWindowController.IsOpen;
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {

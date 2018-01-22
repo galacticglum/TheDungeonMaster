@@ -8,12 +8,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b60c1ad433bfdab48b1a5ac992fcf98b, type: 3}
-  m_Name: Card_Divine Spirit
+  m_Script: {fileID: 11500000, guid: 900dc641f5a66a34fa73c93e11a0e01f, type: 3}
+  m_Name: Enemy_Orc Grunt
   m_EditorClassIdentifier: 
-  name: Divine Spirit
-  description: 'Resurrect: 1 card.'
-  attackPoints: 0
-  resurrectionAmount: 1
-  overchargeAmount: 0
-  rarity: 1
+  name: Orc Grunt
+  description: A big, fat, green orc; attacks infrequently.
+  type: 0
+  maximumHealthPoints: 2
+  attackPoints: 1
+  attackChance: 0.5

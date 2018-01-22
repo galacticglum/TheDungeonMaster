@@ -46,15 +46,30 @@ public class Card : ScriptableObject
     public int OverchargeAmount => overchargeAmount;
 
     /// <summary>
+    /// The amount of health points that this <see cref="Card"/> can heal the player.
+    /// </summary>
+    public int HealPoints => healPoints;
+
+    /// <summary>
     /// The rarity of this <see cref="Card"/>.
     /// </summary>
     public CardRarity Rarity => rarity;
 
     /// <summary>
+    /// The amount of turns this <see cref="Card"/> will stun an enemy for.
+    /// </summary>
+    public int StunPoints => stunPoints;
+
+    /// <summary>
+    /// The amount of attacks the player will shield from.
+    /// </summary>
+    public int ShieldPoints => shieldPoints;
+
+    /// <summary>
     /// Determines whether this <see cref="Card"/> requires an <see cref="Enemy"/> target to execute.
     /// </summary>
     /// We only require a target if we need to attack as we need to know what <see cref="Enemy"/> to attack.
-    public bool RequiresEnemyTarget => AttackPoints > 0 && damageType == CardDamageType.EnemyTarget;
+    public bool RequiresEnemyTarget => AttackPoints > 0 && damageType == CardDamageType.EnemyTarget || StunPoints > 0;
 
     [SerializeField]
     private new string name;
@@ -70,6 +85,12 @@ public class Card : ScriptableObject
     [SerializeField]
     private int overchargeAmount;
     [SerializeField]
+    private int healPoints;
+    [SerializeField]
+    private int stunPoints;
+    [SerializeField]
+    private int shieldPoints;
+    [SerializeField]
     private CardRarity rarity;
 
     /// <summary>
@@ -84,6 +105,8 @@ public class Card : ScriptableObject
         copy.damageType = DamageType;
         copy.resurrectionAmount = ResurrectionAmount;
         copy.overchargeAmount = OverchargeAmount;
+        copy.healPoints = HealPoints;
+        copy.shieldPoints = ShieldPoints;
         copy.rarity = Rarity;
 
         return copy;

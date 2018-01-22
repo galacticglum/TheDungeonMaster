@@ -16,6 +16,7 @@ MonoBehaviour:
 
     Overcharge: 4 cards.'
   attackPoints: 0
+  damageType: 0
   resurrectionAmount: 3
   overchargeAmount: 4
   rarity: 2

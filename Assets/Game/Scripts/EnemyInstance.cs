@@ -3,11 +3,12 @@
  * File Name: EnemyInstance.cs
  * Project Name: TheDungeonMaster
  * Creation Date: 12/27/2017
- * Modified Date: 1/18/2018
+ * Modified Date: 1/21/2018
  * Description: The interface between the enemy data and the enemy visuals.
  */
 
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -25,6 +26,11 @@ public class EnemyInstance : MonoBehaviour
     public Enemy Enemy { get; private set; }
 
     /// <summary>
+    /// All the effects on this <see cref="global::Enemy"/>.
+    /// </summary>
+    public EffectsCollection Effects { get; private set; }
+
+    /// <summary>
     /// The <see cref="RectTransform"/> of this <see cref="EnemyInstance"/>.
     /// </summary>
     public RectTransform RectTransform => rectTransform ?? (rectTransform = GetComponent<RectTransform>());
@@ -39,10 +45,13 @@ public class EnemyInstance : MonoBehaviour
     private Text enemyHealthPointsText;
     [SerializeField]
     private Text attackPointsText;
+    [SerializeField]
+    private RectTransform effectsParent;
 
     private Animator animator;
     private RectTransform rectTransform;
     private EncounterController encounterController;
+    private bool didHealLastTurn = true;
 
     private string currentAnimation;
 
@@ -59,6 +68,8 @@ public class EnemyInstance : MonoBehaviour
         enemyDescriptionText.text = enemy.Description;
         enemyCrystalImage.texture = GetEnemyCrystalFromType(enemy.Type);
         attackPointsText.text = enemy.AttackPoints.ToString();
+
+        Effects = new EffectsCollection(effectsParent);
     }
 
     /// <summary>
@@ -82,6 +93,8 @@ public class EnemyInstance : MonoBehaviour
         {
             encounterController.RemoveEnemyFromEncounter(this);
         }
+
+        Effects.Update();
     }
 
     /// <summary>
@@ -91,15 +104,78 @@ public class EnemyInstance : MonoBehaviour
     {
         // If we don't have any health then let's skip this turn.
         if (Enemy.CurrentHealthPoints <= 0) return;
+        if (Effects.RemoveEffect(EffectType.Stun)) return;
 
-        // Can we even attack?
-        // If we can't attack then let's bail.
-        if (Enemy.AttackPoints <= 0) return;
-        
+        if (Enemy.AttackPoints > 0 && Enemy.HealingPoints > 0)
+        {
+            if (Enemy.CanSimultaneousHealAttack)
+            {
+                ExecuteAttack();
+                ExecuteHealing();
+            }
+            else 
+            {
+                if (didHealLastTurn)
+                {
+                    ExecuteAttack();
+                }
+                else
+                {
+                    ExecuteHealing();
+                }
+
+                didHealLastTurn = !didHealLastTurn;
+            }
+        }
+        else if(Enemy.AttackPoints > 0)
+        {
+            ExecuteAttack();
+        }
+        else if (Enemy.HealingPoints > 0)
+        {
+            ExecuteHealing();
+        }
+
+        ExecutePoison();
+    }
+
+    /// <summary>
+    /// Handle the logic for attacking the player.
+    /// </summary>
+    private void ExecuteAttack()
+    {
+        if (encounterController.PlayerEffects.RemoveEffect(EffectType.Shield)) return;
         if (!(Random.value < Enemy.AttackChance)) return;
 
         encounterController.DamagePlayer(Enemy.AttackPoints, Enemy);
         PlayAnimation("Attack");
+    }
+
+    /// <summary>
+    /// Handle the logic for healing the <see cref="global::Enemy"/>.
+    /// </summary>
+    private void ExecuteHealing()
+    {
+        if (!(Random.value < Enemy.HealingChance)) return;
+
+        int newHealth = Mathf.Clamp(Enemy.CurrentHealthPoints + Enemy.HealingPoints, 0, Enemy.MaximumHealthPoints);
+        Enemy.CurrentHealthPoints = newHealth;
+        PlayAnimation("Cast");
+    }
+
+    /// <summary>
+    /// Handle the logic for poison.
+    /// </summary>
+    private void ExecutePoison()
+    {
+        if (encounterController.PlayerEffects.RemoveEffect(EffectType.Poison))
+        {
+            encounterController.DamagePlayer(Enemy.PoisonAttackPoints, Enemy);
+            return;
+        }
+
+        if (!(Random.value < Enemy.PoisonChance)) return;
+        encounterController.PlayerEffects.AddEffect(EffectType.Poison, Enemy.PoisonTurnDuration);
     }
 
     /// <summary>

@@ -9,13 +9,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b60c1ad433bfdab48b1a5ac992fcf98b, type: 3}
-  m_Name: Card_Kick
+  m_Name: Card_Divine Spirit
   m_EditorClassIdentifier: 
-  name: Kick
-  description: 'Deals 2 damage to an enemy.
-
-    Overcharge: 1 card.'
-  attackPoints: 2
-  resurrectionAmount: 0
-  overchargeAmount: 1
-  rarity: 0
+  name: Divine Spirit
+  description: 'Resurrect: 1 card.'
+  attackPoints: 0
+  damageType: 0
+  resurrectionAmount: 1
+  overchargeAmount: 0
+  rarity: 1

@@ -77,17 +77,17 @@ public class PlayerController : ControllerBehaviour
 
             if (!canMove)
             {
-                thirdPersonController.input = Vector3.zero;
+                ThirdPersonController.input = Vector3.zero;
             }
 
-            thirdPersonController.lockMovement = !canMove;
+            ThirdPersonController.lockMovement = !canMove;
         }
     }
 
     /// <summary>
     /// Determines whether the player is moving currently.
     /// </summary>
-    public bool IsMoving => thirdPersonController.speed != 0;
+    public bool IsMoving => ThirdPersonController.speed != 0;
 
     /// <summary>
     /// The cards which belong to the player.
@@ -95,10 +95,14 @@ public class PlayerController : ControllerBehaviour
     public CardDeck Deck { get; private set; }
 
     /// <summary>
+    /// The character motor for the player.
+    /// </summary>
+    public vThirdPersonController ThirdPersonController { get; private set; }
+
+    /// <summary>
     /// Internal "tracking" variable for CanMove.
     /// </summary>
     private bool canMove = true;
-    private vThirdPersonController thirdPersonController;
 
     [SerializeField]
     private List<Card> startupDeck;
@@ -108,7 +112,7 @@ public class PlayerController : ControllerBehaviour
     /// </summary>
     private void Start()
     {
-        thirdPersonController = GetComponent<vThirdPersonController>();
+        ThirdPersonController = GetComponent<vThirdPersonController>();
         OnPositionChanged();
 
         Deck = new CardDeck(startupDeck.ToArray());

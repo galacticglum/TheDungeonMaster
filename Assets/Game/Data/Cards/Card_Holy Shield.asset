@@ -9,11 +9,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b60c1ad433bfdab48b1a5ac992fcf98b, type: 3}
-  m_Name: Card_Power Punch
+  m_Name: Card_Holy Shield
   m_EditorClassIdentifier: 
-  name: Power Punch
-  description: Deals 2 damage to an enemy.
-  attackPoints: 2
+  name: Holy Shield
+  description: Shields you from 1 enemy attack.
+  attackPoints: 0
+  damageType: 0
   resurrectionAmount: 0
   overchargeAmount: 0
-  rarity: 1
+  healPoints: 0
+  stunPoints: 0
+  shieldPoints: 1
+  rarity: 0
