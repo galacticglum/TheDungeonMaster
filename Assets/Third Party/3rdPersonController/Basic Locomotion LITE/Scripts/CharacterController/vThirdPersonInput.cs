@@ -71,7 +71,6 @@ namespace Invector.CharacterController
 
         protected virtual void InputHandle()
         {
-            ExitGameInput();
             CameraInput();
 
             if (!cc.lockMovement)

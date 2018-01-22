@@ -40,12 +40,12 @@ public class InputController : ControllerBehaviour
     /// Called every frame.
     /// </summary>
     private void Update()
-    {
-        // Make sure that the cursor settings are correct.
-        Cursor.lockState = CursorLockMode.Confined;
-
+    {   
         // Are cursor is visible when the game is either paused, in combat, or when a loot window is open.
         Cursor.visible = gameController.IsPaused || encounterController.IsPlayerInsideEncounter || lootWindowController.IsOpen;
+
+        // If our cursor is visible, we unlock our cursor, otherwise we lock it.
+        Cursor.lockState = Cursor.visible ? CursorLockMode.None : CursorLockMode.Locked;
 
         // When we press escape and we are not in the ending game screen, pause the game.
         if (Input.GetKeyDown(KeyCode.Escape) && !gameController.HasWon && !encounterController.HasLost)
