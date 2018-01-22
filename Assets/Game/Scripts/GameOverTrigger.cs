@@ -27,10 +27,13 @@ public class GameOverTrigger : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         fadeLerpInformation = new LerpInformation<float>(0, 1, fadeDuration, Mathf.Lerp, null, (sender, args) => fadeLerpInformation = null);
+        winScreenCanvasGroup.blocksRaycasts = true;
+
+        ControllerDatabase.Get<GameController>().HasWon = true;
     }
 
     /// <summary>
-    /// Called every frame.
+    /// Called every frame.s
     /// </summary>
     private void Update()
     {

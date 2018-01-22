@@ -28,9 +28,24 @@ public class PauseStateEventArgs : EventArgs
 /// </summary>
 public class GameController : ControllerBehaviour
 {
+    /// <summary>
+    /// Indicates whether the player has escaped the labyrinth.
+    /// </summary>
+    public bool HasWon { get; set; }
+
+    /// <summary>
+    /// Determines whether the game is paused.
+    /// </summary>
     public bool IsPaused { get; private set; }
+    
+    /// <summary>
+    /// Event which is raised when the pause state changes.
+    /// </summary>
     public event PauseStateChangedEventHandler PauseStateChanged;
 
+    /// <summary>
+    /// Toggles between paused and unapused.
+    /// </summary>
     public void TogglePause()
     {
         IsPaused = !IsPaused;

@@ -14,12 +14,14 @@ MonoBehaviour:
   name: King Makaio
   description: The yuge tarantula spider! Beware of his poisonous venom!
   type: 1
-  maximumHealthPoints: 10
-  attackPoints: 4
-  attackChance: 0.6
+  maximumHealthPoints: 5
+  attackPoints: 2
+  attackChance: 0.3
   canSimultaneousHealAttack: 0
   poisonAttackPoints: 1
   poisonTurnDuration: 3
-  poisonChance: 0.2
+  poisonChance: 0.6
   healingPoints: 0
   healingChance: 0
+  enemiesToSpawn: []
+  spawnChance: 0

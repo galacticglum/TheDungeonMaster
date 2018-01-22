@@ -116,12 +116,12 @@ public class CardInstance : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
         if (targetEnemyInstance != null)
         {
-            targetEnemyInstance.Effects.AddEffect(EffectType.Poison, Card.PoisonPoints);
             targetEnemyInstance.PoisonDamage = Card.AttackPoints;
+            targetEnemyInstance.Effects.AddEffect(EffectType.Poison, Card.PoisonPoints);
             targetEnemyInstance.Effects.AddEffect(EffectType.Stun, Card.StunPoints);
-            encounterController.PlayerEffects.AddEffect(EffectType.Shield, Card.ShieldPoints);
         }
 
+        encounterController.PlayerEffects.AddEffect(EffectType.Shield, Card.ShieldPoints);
         CardHandController cardHandController = ControllerDatabase.Get<CardHandController>();
 
         Debug.Log($"Rez. {Card.ResurrectionAmount}");

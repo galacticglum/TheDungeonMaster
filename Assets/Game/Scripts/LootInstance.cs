@@ -21,9 +21,11 @@ public class LootInstance : MonoBehaviour
     [SerializeField]
     private float activationRadius = 2;
 
-    private bool hasOpened;
     private PlayerController playerController;
     private LootWindowController lootWindowController;
+    private AudioController audioController;
+
+    private bool hasOpened;
     private List<Card> lootCards;
 
     /// <summary>
@@ -31,6 +33,7 @@ public class LootInstance : MonoBehaviour
     /// </summary>
     private void Start()
     {
+        audioController = ControllerDatabase.Get<AudioController>();
         playerController = ControllerDatabase.Get<PlayerController>();
         lootWindowController = ControllerDatabase.Get<LootWindowController>();
         keydownIcon.enabled = false;
@@ -51,11 +54,12 @@ public class LootInstance : MonoBehaviour
         bool isPlayerInRange = distanceFromPlayer <= activationRadius;
         keydownIcon.enabled = isPlayerInRange;
 
-        if (Input.GetKeyDown(KeyCode.E) && isPlayerInRange && !hasOpened)
-        {
-            lootWindowController.Open(lootCards);
-            hasOpened = true;
-        }
+        // If our player ISN'T in range, already opened the chest, or hasn't pressed the interact key (E), let's bail!
+        if (!Input.GetKeyDown(KeyCode.E) || !isPlayerInRange || hasOpened) return;
+
+        lootWindowController.Open(lootCards);
+        hasOpened = true;
+        audioController.PlaySoundEffect(Resources.Load<AudioClip>("Audio/Chest_open"));
     }
 
     /// <summary>

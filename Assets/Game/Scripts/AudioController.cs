@@ -14,11 +14,22 @@ using UnityEngine;
 /// </summary>
 public class AudioController : ControllerBehaviour
 {
+    [SerializeField]
+    private GameSettings gameSettings;
+
     [Tooltip("The audio source that footsteps should come from.")]
     [SerializeField]
     private AudioSource footstepAudioSource;
     [SerializeField]
     private AudioSource soundEffectAudioSource;
+    [SerializeField]
+    private AudioSource musicAudioSource;
+
+    // Cache the original values of the audio sources so we can scale
+    // the volume by it.
+    private float footstepOriginalVolume;
+    private float soundEffectOriginalVolume;
+    private float musicOriginalVolume;
 
     private ConsecutiveAccessCollection<AudioClip> footstepAudioClips;
     private PlayerController playerController;
@@ -35,6 +46,21 @@ public class AudioController : ControllerBehaviour
         // Doing this has negligible performance increase but it is still good to get rid of redudant code.
         playerController = ControllerDatabase.Get<PlayerController>();
         playerController.FootstepTriggered += OnFootstepTriggered;
+
+        footstepOriginalVolume = footstepAudioSource.volume;
+        soundEffectOriginalVolume = soundEffectAudioSource.volume;
+        musicOriginalVolume = musicAudioSource.volume;
+    }
+
+    /// <summary>
+    /// Called every frame.
+    /// </summary>
+    private void Update()
+    {
+        // Update the volumes
+        soundEffectAudioSource.volume = gameSettings.MasterVolume * gameSettings.SoundEffectVolume * soundEffectOriginalVolume;
+        footstepAudioSource.volume = gameSettings.MasterVolume * gameSettings.SoundEffectVolume * footstepOriginalVolume;
+        musicAudioSource.volume = gameSettings.MasterVolume * gameSettings.MusicVolume * musicOriginalVolume;
     }
 
     /// <summary>
@@ -48,5 +74,13 @@ public class AudioController : ControllerBehaviour
         // player controller whether it is currently moving.
         if (!args.PlayerController.IsMoving) return;
         footstepAudioSource.PlayOneShot(footstepAudioClips.GetNext());
+    }
+
+    /// <summary>
+    /// Plays a sound effect.
+    /// </summary>
+    public void PlaySoundEffect(AudioClip clip)
+    {
+        soundEffectAudioSource.PlayOneShot(clip);
     }
 }

@@ -37,7 +37,7 @@ public class InputController : ControllerBehaviour
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = gameController.IsPaused || encounterController.IsPlayerInsideEncounter || lootWindowController.IsOpen;
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && !gameController.HasWon && !encounterController.HasLost)
         {
             gamePauseMenuController.HideActiveMenu();
             if (gamePauseMenuController.MenuStackCount == 0)

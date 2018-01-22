@@ -81,7 +81,12 @@ public class CardInteractionController : ControllerBehaviour
     /// <param name="cardInstance">The <see cref="CardInstance"/> to magnify (popup).</param>
     public void BeginHover(CardInstance cardInstance)
     {
-        if (cardInstance == null || currentDraggingCardInstance != null) return;
+        // We can hover if: it is our (player) turn; we have been given a 
+        // valid card instance; and we aren't currently dragging.
+        bool canHover = ControllerDatabase.Get<EncounterController>().IsPlayerTurn && cardInstance != null &&
+                       currentDraggingCardInstance == null;
+
+        if (!canHover) return;
 
         // We hide the original hand-card as we use a clone of the hovered card for the popup.
         cardInstance.CanvasGroup.SetVisibility(false);
@@ -93,7 +98,6 @@ public class CardInteractionController : ControllerBehaviour
 
         // Nudge the card "up-a-bit" so that it is not COMPLETELY aligned with the bottom of the screen.
         position.y = 0.05f * cardInstance.RectTransform.rect.height * cardInstance.RectTransform.localScale.y;
-
         cardPopupInstance.RectTransform.anchoredPosition = position;
     }
 
@@ -115,7 +119,7 @@ public class CardInteractionController : ControllerBehaviour
     /// <param name="cardInstance">The <see cref="CardInstance"/> to drag.</param>
     public void BeginDrag(CardInstance cardInstance)
     {
-        // We can drag if it is our players turn; we have been given a 
+        // We can drag if it is our (player) turn; we have been given a 
         // valid card instance; and we aren't currently dragging.
         bool canDrag = ControllerDatabase.Get<EncounterController>().IsPlayerTurn && cardInstance != null &&
                        currentDraggingCardInstance == null;
