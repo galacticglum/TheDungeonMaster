@@ -59,7 +59,6 @@ public class EnemyInstance : MonoBehaviour
     private int spawnCount;
 
     private Action onDead;
-
     private string currentAnimation;
 
     /// <summary>
@@ -203,13 +202,13 @@ public class EnemyInstance : MonoBehaviour
     /// </summary>
     private void ExecuteSpawn()
     {
-        int amountToSpawn = Enemy.EnemiesToSpawn.Count - spawnCount;
-        if (amountToSpawn <= 0 || !(Random.value < Enemy.SpawnChance)) return;
+        // We can only spawn when all the spawned enemies have been killed.
+        if (spawnCount > 0 || !(Random.value < Enemy.SpawnChance)) return;
 
-        for (int i = 0; i < amountToSpawn; i++)
+        foreach (Enemy enemy in Enemy.EnemiesToSpawn)
         {
             PlayAnimation("Cast");
-            EnemyInstance spawnedEnemyInstance = encounterController.AddEnemyToEncounter(Enemy.EnemiesToSpawn[i]);
+            EnemyInstance spawnedEnemyInstance = encounterController.AddEnemyToEncounter(enemy);
 
             // We need to decrement the spawn count when the spawned enemy dies so we may spawn another one of it.
             spawnedEnemyInstance.onDead += () => spawnCount -= 1;
@@ -265,7 +264,7 @@ public class EnemyInstance : MonoBehaviour
     private void Die()
     {
         animator.SetTrigger("Die");
-        onDead?.Invoke();
+        onDead();
     }
 
     /// <summary>

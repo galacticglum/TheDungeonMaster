@@ -14,7 +14,7 @@ MonoBehaviour:
   name: Bear
   description: A big, bad bear!
   type: 0
-  maximumHealthPoints: 3
+  maximumHealthPoints: 2
   attackPoints: 2
   attackChance: 0.8
   canSimultaneousHealAttack: 0

@@ -7,6 +7,7 @@
  * Description: Starts the game.
  */
 
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -15,8 +16,15 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class StartGame : MonoBehaviour
 {
+    [SerializeField]
+    private RectTransform loadingScreenRectTransform;
+
     /// <summary>
     /// Loads the main game scene.
     /// </summary>
-    public void Execute() => SceneManager.LoadSceneAsync(1);
+    public void Execute()
+    {
+        SceneManager.LoadSceneAsync(1);
+        loadingScreenRectTransform.gameObject.SetActive(true);
+    }
 }

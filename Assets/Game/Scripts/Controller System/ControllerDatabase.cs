@@ -11,7 +11,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using UnityEditor;
 using UnityEngine;
 
 /// <inheritdoc />
@@ -43,16 +42,6 @@ public class ControllerDatabase : MonoBehaviour
         // Instantiate an empty gameobject with a ControllerDatabase object on it.
         GameObject controllerDatabaseGameObject = new GameObject("_CONTROLLER_DATABASE_");
         controllerDatabaseGameObject.AddComponent<ControllerDatabase>();
-    }
-
-    /// <summary>
-    /// Initialize this <see cref="ControllerDatabase"/> in the editor.
-    /// This is called when the editor is loaded.
-    /// </summary>
-    [InitializeOnLoadMethod]
-    private static void EditorInitialize()
-    {
-        EditorApplication.update += HandleUpdate;
     }
 
     /// <summary>
@@ -92,6 +81,11 @@ public class ControllerDatabase : MonoBehaviour
     /// </summary>
     private void Awake()
     {
+        // Make sure that our data structures are cleared so that we can re-scan.
+        // If we don't do this, our controller database will be filled with NULL values.
+        controllers = null;
+        controllerBehavioursType = null;
+
         ScanForControllers();
     }
 
@@ -104,7 +98,7 @@ public class ControllerDatabase : MonoBehaviour
     /// <summary>
     /// The actual logic for the update method.
     /// </summary>
-    private static void HandleUpdate()
+    public static void HandleUpdate()
     {
         // If our controllers dictionary is uninitialized, let's initialize it by scanning through the scene for controllers.
         if (controllers == null)

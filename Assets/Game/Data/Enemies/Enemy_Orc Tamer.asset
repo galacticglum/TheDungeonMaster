@@ -25,4 +25,4 @@ MonoBehaviour:
   healingChance: 0
   enemiesToSpawn:
   - {fileID: 11400000, guid: 9697efdac61b73f4c954e64a2ed34878, type: 2}
-  spawnChance: 0
+  spawnChance: 0.2

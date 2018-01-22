@@ -129,22 +129,6 @@ public class EncounterController : ControllerBehaviour
     /// </summary>
     private void Update()
     {
-        // Check for gameover condition
-        // If we have no more actions (that means no cards in the deck or hand) 
-        // or we don't have anymore health then it's gameover!
-        // Also check if HasLost is false, we don't want to re-execute this if we've already done it.
-        if ((PlayerHealth <= 0 || deck.Count == 0 && cardHandController.HandCount == 0) && !HasLost)
-        {
-            HasLost = true;
-            loseStateCanvasGroup.blocksRaycasts = true;
-            
-            // Only create a lerp information if one doesn't exist.
-            if (fadeLerpInformation == null)
-            {
-                fadeLerpInformation = new LerpInformation<float>(0, 1, fadeDuration, Mathf.Lerp, null, (sender, args) => fadeLerpInformation = null);
-            }
-        }
-
         // Perform fade
         if (fadeLerpInformation != null)
         {
@@ -260,6 +244,22 @@ public class EncounterController : ControllerBehaviour
     private void StartPlayerTurn()
     {
         IsPlayerTurn = true;
+
+        // Check for gameover condition
+        // If we have no more actions (that means no cards in the deck or hand) 
+        // or we don't have anymore health then it's gameover!
+        // Also check if HasLost is false, we don't want to re-execute this if we've already done it.
+        if ((PlayerHealth <= 0 || deck.Count == 0 && cardHandController.HandCount == 0) && !HasLost)
+        {
+            HasLost = true;
+            loseStateCanvasGroup.blocksRaycasts = true;
+
+            // Only create a lerp information if one doesn't exist.
+            if (fadeLerpInformation == null)
+            {
+                fadeLerpInformation = new LerpInformation<float>(0, 1, fadeDuration, Mathf.Lerp, null, (sender, args) => fadeLerpInformation = null);
+            }
+        }
 
         // If we have available space in the hand, then let's draw a new card.
         if (cardHandController.HandCount < CardHandController.HandLimit && deck.Count > 0)

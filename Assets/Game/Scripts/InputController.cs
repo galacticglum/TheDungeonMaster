@@ -40,7 +40,9 @@ public class InputController : ControllerBehaviour
     /// Called every frame.
     /// </summary>
     private void Update()
-    {   
+    {
+        if (gameController.HasWon || encounterController.HasLost) return;
+
         // Are cursor is visible when the game is either paused, in combat, or when a loot window is open.
         Cursor.visible = gameController.IsPaused || encounterController.IsPlayerInsideEncounter || lootWindowController.IsOpen;
 

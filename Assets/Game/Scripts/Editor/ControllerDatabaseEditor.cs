@@ -31,6 +31,16 @@ public class ControllerDatabaseEditor : Editor
     }
 
     /// <summary>
+    /// Initialize this <see cref="ControllerDatabase"/> in the editor.
+    /// This is called when the editor is loaded.
+    /// </summary>
+    [InitializeOnLoadMethod]
+    private static void EditorInitialize()
+    {
+        EditorApplication.update += ControllerDatabase.HandleUpdate;
+    }
+
+    /// <summary>
     /// Draw the inspector.
     /// </summary>
     public override void OnInspectorGUI()
