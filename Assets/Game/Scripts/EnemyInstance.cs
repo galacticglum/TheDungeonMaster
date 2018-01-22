@@ -113,8 +113,14 @@ public class EnemyInstance : MonoBehaviour
         if (Enemy.CurrentHealthPoints <= 0) return;
         if (Effects.RemoveEffect(EffectType.Stun)) return;
 
+        // If our enemy can attack and heal, we must
+        // execute slightly different logic.
         if (Enemy.AttackPoints > 0 && Enemy.HealingPoints > 0)
         {
+            // If our enemy can both attack and heal on the same turn,
+            // let's execute the actions. 
+            // Otherwise, if we can't attack and heal on the same turn,
+            // we will alternate between attacking and healing.
             if (Enemy.CanSimultaneousHealAttack)
             {
                 ExecuteAttack();
@@ -122,6 +128,7 @@ public class EnemyInstance : MonoBehaviour
             }
             else 
             {
+                // Alternate between attacking and healing.
                 if (didHealLastTurn)
                 {
                     ExecuteAttack();
