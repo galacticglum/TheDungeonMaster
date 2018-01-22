@@ -79,7 +79,5 @@ public class LootWindowController : ControllerBehaviour
     {
         gameObject.SetActive(false);
         ControllerDatabase.Get<PlayerController>().Deck.Add(card.Clone());
-
-        Debug.Log($"selected {card.Name} as loot");
     }
 }
