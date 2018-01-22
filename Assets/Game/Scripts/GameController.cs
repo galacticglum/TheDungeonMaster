@@ -8,14 +8,30 @@
  */
 
 using System;
-using UnityEngine;
 
+/// <summary>
+/// The event handler for when the pause state changes.
+/// </summary>
 public delegate void PauseStateChangedEventHandler(object sender, PauseStateEventArgs args);
+
+/// <summary>
+/// The event args for the pause state.
+/// </summary>
 public class PauseStateEventArgs : EventArgs
 {
+    /// <summary>
+    /// The previous pause state.
+    /// </summary>
     public bool WasPaused { get; }
+
+    /// <summary>
+    /// The current pause state.
+    /// </summary>
     public bool IsPaused { get; }
 
+    /// <summary>
+    /// Initialize a new <see cref="PauseStateEventArgs"/>.
+    /// </summary>
     public PauseStateEventArgs(bool wasPaused, bool isPaused)
     {
         WasPaused = wasPaused;

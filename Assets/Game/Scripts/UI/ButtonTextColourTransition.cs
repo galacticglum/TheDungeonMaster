@@ -39,37 +39,55 @@ public class ButtonTextColourTransition : MonoBehaviour, IPointerEnterHandler, I
     private LerpInformation<Color> colourTransitionLerpInformation;
     private Button button;
 
+    /// <summary>
+    /// Called when the object is created in the world.
+    /// </summary>
     private void Start()
     {
         button = GetComponent<Button>();
         target.color = normalColour;
     }
 
+    /// <summary>
+    /// Called every frame.
+    /// </summary>
     private void Update()
     {
+        // If our button is disabled and we haven't transition to the disabled colour yet,
+        // let's transition to the disabled colour
         if (!button.IsInteractable() && target.color != disabledColour)
         {
             Transition(disabledColour);
         }
 
+        // If we have a queued lerp, let's execute it.
         if (colourTransitionLerpInformation != null)
         {
             target.color = colourTransitionLerpInformation.Step(Time.deltaTime);
         }
     }
 
+    /// <summary>
+    /// Called when the pointer is over this <see cref="MonoBehaviour"/>.
+    /// </summary>
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (!button.IsInteractable()) return;
         Transition(highlightedColour);
     }
 
+    /// <summary>
+    /// Called when the pointer leaves this <see cref="MonoBehaviour"/>.
+    /// </summary>
     public void OnPointerExit(PointerEventData eventData)
     {
         if (!button.IsInteractable()) return;
         Transition(normalColour);
     }
 
+    /// <summary>
+    /// Called when the pointer is down on this <see cref="MonoBehaviour"/>.
+    /// </summary>
     public void OnPointerDown(PointerEventData eventData)
     {
         if (!button.IsInteractable()) return;
@@ -77,6 +95,9 @@ public class ButtonTextColourTransition : MonoBehaviour, IPointerEnterHandler, I
         onPressed.Invoke();
     }
 
+    /// <summary>
+    /// Called when the pointer is up on this <see cref="MonoBehaviour"/>.
+    /// </summary>
     public void OnPointerUp(PointerEventData eventData)
     {
         if (!button.IsInteractable()) return;
@@ -84,6 +105,9 @@ public class ButtonTextColourTransition : MonoBehaviour, IPointerEnterHandler, I
         onNormalState.Invoke();
     }
 
+    /// <summary>
+    /// Transitions from the current text colour to the specified destination colour.
+    /// </summary>
     private void Transition(Color destination)
     {
         colourTransitionLerpInformation = new LerpInformation<Color>(target.color, destination, fadeDuration, Color.Lerp);

@@ -58,11 +58,10 @@ public class DungeonInstance : MonoBehaviour
         }
 
         // If the boss encounter is completed and we haven't opened the dungeon door yet, let's open it!
-        if (bossRoom.IsComplete && dungeonDoor.activeInHierarchy)
-        {
-            dungeonDoor.SetActive(false);
-            entryRoom.PlayerEntered -= OnPlayerEnterEntryRoom;
-        }
+        if (!bossRoom.IsComplete || !dungeonDoor.activeInHierarchy) return;
+
+        dungeonDoor.SetActive(false);
+        entryRoom.PlayerEntered -= OnPlayerEnterEntryRoom;
     }
 
     /// <summary>

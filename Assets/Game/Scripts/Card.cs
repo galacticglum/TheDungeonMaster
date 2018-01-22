@@ -70,6 +70,9 @@ public class Card : ScriptableObject
     /// </summary>
     public int PoisonPoints => poisonPoints;
 
+    /// <summary>
+    /// The amount of health it costs to play this <see cref="Card"/>.
+    /// </summary>
     public int HealthCost => healthCost;
 
     /// <summary>

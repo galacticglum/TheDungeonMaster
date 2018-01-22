@@ -18,5 +18,8 @@ public class InitializationLogic : MonoBehaviour
     [SerializeField]
     private UnityEvent onStart;
 
+    /// <summary>
+    /// Called when this component is created in the world.
+    /// </summary>
     private void Start() => onStart.Invoke();
 }

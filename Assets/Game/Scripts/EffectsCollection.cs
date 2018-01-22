@@ -71,5 +71,4 @@ public class EffectsCollection
         effects[type].Count -= 1;
         return true;
     }
-
 }

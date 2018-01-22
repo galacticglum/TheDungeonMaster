@@ -110,7 +110,6 @@ public class EncounterController : ControllerBehaviour
         }
 
         enemyInstanceParent.gameObject.SetActive(true);
-
         ClearEnemies();
 
         foreach (Enemy enemy in enemies)
@@ -134,7 +133,7 @@ public class EncounterController : ControllerBehaviour
         // If we have no more actions (that means no cards in the deck or hand) 
         // or we don't have anymore health then it's gameover!
         // Also check if HasLost is false, we don't want to re-execute this if we've already done it.
-        if (PlayerHealth <= 0 || deck.Count == 0 && cardHandController.HandCount == 0 && !HasLost)
+        if ((PlayerHealth <= 0 || deck.Count == 0 && cardHandController.HandCount == 0) && !HasLost)
         {
             HasLost = true;
             loseStateCanvasGroup.blocksRaycasts = true;
@@ -267,8 +266,6 @@ public class EncounterController : ControllerBehaviour
         {
             cardHandController.AddCard(deck.Pop());
         }
-
-        Debug.Log("enemy turn ended!");
     }
 
     /// <summary>

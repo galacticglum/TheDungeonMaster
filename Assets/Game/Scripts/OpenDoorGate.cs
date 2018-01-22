@@ -20,13 +20,24 @@ public class OpenDoorGate : MonoBehaviour
     [SerializeField]
     private GameObject door;
 
+    /// <summary>
+    /// Called when this component is created in the world.
+    /// </summary>
     private void Start()
     {
         door.SetActive(true);
     }
 
+    /// <summary>
+    /// Called every frame.
+    /// </summary>
     private void Update()
     {
+        // If the door is already disabled, there is no reason to continue.
+        if (!door.activeInHierarchy) return;
+
+        // If some of the rooms are still incomplete then we bail!
+        // Otherwise, we enable the door.
         if (!rooms.All(room => room.IsComplete)) return;
         door.SetActive(false);
     }

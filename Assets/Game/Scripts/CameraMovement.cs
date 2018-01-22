@@ -83,6 +83,9 @@ public class CameraMovement : MonoBehaviour
         roomHasChanged = true;
     }
 
+    /// <summary>
+    /// Sets the camera rotation angle.
+    /// </summary>
     public void SetRotation(float rotation)
     {
         targetCameraRotation = Quaternion.Euler(new Vector3(cameraAngle, rotation, 0));
@@ -90,6 +93,9 @@ public class CameraMovement : MonoBehaviour
         cameraRotateLerpInformation.Finished += (obj, eventArgs) => cameraRotateLerpInformation = null;
     }
 
+    /// <summary>
+    /// Calculates the position of the camera from the specified room centre.
+    /// </summary>
     private Vector3 CalculateCameraPosition(Room room)
     {
         Vector3 transformDirection = transform.forward;

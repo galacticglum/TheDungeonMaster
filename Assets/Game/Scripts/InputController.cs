@@ -24,19 +24,30 @@ public class InputController : ControllerBehaviour
     private LootWindowController lootWindowController;
     private EncounterController encounterController;
 
+    /// <summary>
+    /// Called when this componnet is created in the world.
+    /// </summary>
     private void Start()
     {
+        // Cache any controllers that we need.
         gameController = ControllerDatabase.Get<GameController>();
         gamePauseMenuController = ControllerDatabase.Get<GamePauseMenuController>();
         lootWindowController = ControllerDatabase.Get<LootWindowController>(); 
         encounterController = ControllerDatabase.Get<EncounterController>();
     }
 
+    /// <summary>
+    /// Called every frame.
+    /// </summary>
     private void Update()
     {
+        // Make sure that the cursor settings are correct.
         Cursor.lockState = CursorLockMode.Confined;
+
+        // Are cursor is visible when the game is either paused, in combat, or when a loot window is open.
         Cursor.visible = gameController.IsPaused || encounterController.IsPlayerInsideEncounter || lootWindowController.IsOpen;
 
+        // When we press escape and we are not in the ending game screen, pause the game.
         if (Input.GetKeyDown(KeyCode.Escape) && !gameController.HasWon && !encounterController.HasLost)
         {
             gamePauseMenuController.HideActiveMenu();

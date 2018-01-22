@@ -124,14 +124,16 @@ public class CardInstance : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         encounterController.PlayerEffects.AddEffect(EffectType.Shield, Card.ShieldPoints);
         CardHandController cardHandController = ControllerDatabase.Get<CardHandController>();
 
-        Debug.Log($"Rez. {Card.ResurrectionAmount}");
+        // Handle the resurrection.
+        // For each card to resurrect, we get the last discarded card and add it
+        // back to the hand.
         for (int i = 0; i < Card.ResurrectionAmount; i++)
         {
+            // GetLastDiscardCard() can return null but this is fine since
+            // AddCard() makes sure that the card passed to it is NOT null.
             Card card = encounterController.GetLastDiscardedCard();
             cardHandController.AddCard(card);
         }
-
-        Debug.Log($"Overcharge: {Card.OverchargeAmount}");
 
         // Let's make sure that we don't overcharge more than the amount of cards that we have in our hand.
         int actualOverchargeAmount = Mathf.Min(Card.OverchargeAmount, cardHandController.HandCount);
@@ -144,6 +146,7 @@ public class CardInstance : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         
         encounterController.DamagePlayer(Card.HealthCost, null);
         encounterController.HealPlayer(Card.HealPoints);
+
         encounterController.AddCardToDiscardPile(Card);
         encounterController.EndPlayerTurn();
         return true;
