@@ -112,6 +112,8 @@ public class EnemyInstance : MonoBehaviour
         if (Enemy.CurrentHealthPoints <= 0) return;
         if (Effects.RemoveEffect(EffectType.Stun)) return;
 
+        bool didAttack = false;
+
         // If our enemy can attack and heal, we must
         // execute slightly different logic.
         if (Enemy.AttackPoints > 0 && Enemy.HealingPoints > 0)
@@ -122,7 +124,7 @@ public class EnemyInstance : MonoBehaviour
             // we will alternate between attacking and healing.
             if (Enemy.CanSimultaneousHealAttack)
             {
-                ExecuteAttack();
+                didAttack = ExecuteAttack();
                 ExecuteHealing();
             }
             else 
@@ -130,7 +132,7 @@ public class EnemyInstance : MonoBehaviour
                 // Alternate between attacking and healing.
                 if (didHealLastTurn)
                 {
-                    ExecuteAttack();
+                    didAttack = ExecuteAttack();
                 }
                 else
                 {
@@ -142,7 +144,7 @@ public class EnemyInstance : MonoBehaviour
         }
         else if(Enemy.AttackPoints > 0)
         {
-            ExecuteAttack();
+            didAttack = ExecuteAttack();
         }
         else if (Enemy.HealingPoints > 0)
         {
@@ -150,19 +152,25 @@ public class EnemyInstance : MonoBehaviour
         }
 
         ExecutePoison();
-        ExecuteSpawn();
+
+        if (!didAttack)
+        {
+            ExecuteSpawn();
+        }
     }
 
     /// <summary>
     /// Handle the logic for attacking the player.
     /// </summary>
-    private void ExecuteAttack()
+    private bool ExecuteAttack()
     {
-        if (encounterController.PlayerEffects.RemoveEffect(EffectType.Shield)) return;
-        if (!(Random.value < Enemy.AttackChance)) return;
+        if (encounterController.PlayerEffects.RemoveEffect(EffectType.Shield)) return false;
+        if (!(Random.value < Enemy.AttackChance)) return false;
 
         encounterController.DamagePlayer(Enemy.AttackPoints, Enemy);
         PlayAnimation("Attack");
+
+        return true;
     }
 
     /// <summary>
