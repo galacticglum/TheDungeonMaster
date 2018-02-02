@@ -1431,7 +1431,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 5f7ea6eb3952f8e468af637f283f6168, type: 2}
       propertyPath: m_Name
-      value: puzzle door (1)
+      value: end door
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 5f7ea6eb3952f8e468af637f283f6168, type: 2}
       propertyPath: m_LocalScale.y
@@ -5190,7 +5190,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rooms:
-  - {fileID: 2044616626}
+  - {fileID: 422174655}
   door: {fileID: 126189684}
 --- !u!4 &422174654
 Transform:
@@ -5214,10 +5214,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 422174652}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cee1e606921ce714284ee9005df10cd1, type: 3}
+  m_Script: {fileID: 11500000, guid: 148657c894ff6dc4391a5aee9e2befde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   size: {x: 10, y: 10}
+  enemies:
+  - {fileID: 11400000, guid: f23fed13a00ea1047a11b9c507bc3460, type: 2}
+  lootCards: []
+  onCompleted:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &439178364
 GameObject:
   m_ObjectHideFlags: 0
@@ -7997,7 +8005,7 @@ Prefab:
     - target: {fileID: 224755053693624264, guid: 57285f727e670064090569b09f93f011,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -0.000030517578
       objectReference: {fileID: 0}
     - target: {fileID: 224591724321693358, guid: 57285f727e670064090569b09f93f011,
         type: 2}

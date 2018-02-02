@@ -1423,7 +1423,7 @@ MonoBehaviour:
   - Loading.
   - Loading..
   - Loading...
-  phasesPerSecond: 1
+  phasesPerSecond: 2
 --- !u!1 &331219200
 GameObject:
   m_ObjectHideFlags: 0

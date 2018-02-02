@@ -264,7 +264,7 @@ public class EnemyInstance : MonoBehaviour
     private void Die()
     {
         animator.SetTrigger("Die");
-        onDead();
+        onDead?.Invoke();
     }
 
     /// <summary>
