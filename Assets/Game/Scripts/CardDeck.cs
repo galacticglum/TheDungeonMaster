@@ -43,12 +43,15 @@ public class CardDeck : IEnumerable<Card>
     public IEnumerable<Card> CloneShuffled()
     {
         List<Card> deck = new List<Card>(this);
-        for (int i = deck.Count - 1; i > 0; i--)
+        int n = deck.Count;
+        while (n > 1)
         {
-            int j = Random.Range(0, i + 1);
-            Card temp = deck[j];
-            deck[j] = cards[i];
-            cards[i] = temp;
+            n -= 1;
+
+            int k = Random.Range(0, n);
+            Card temp = deck[k];
+            deck[k] = deck[n];
+            deck[n] = temp;
         }
 
         return deck;

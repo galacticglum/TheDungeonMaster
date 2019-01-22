@@ -51,6 +51,9 @@ public class CardInstance : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     [SerializeField]
     private Text cardAttackPointsText;
 
+    [SerializeField]
+    private RawImage crystalImage;
+
     private RectTransform rectTransform;
     private CanvasGroup canvasGroup;
 
@@ -68,6 +71,19 @@ public class CardInstance : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         cardNameText.text = card.Name;
         cardDescriptionText.text = card.Description;
         cardAttackPointsText.text = card.AttackPoints.ToString();
+        crystalImage.texture = GetCardCrystalFromRarirty(card.Rarity);
+    }
+
+    /// <summary>
+    /// Retrieves the appropriate card crystal from a specified rarity.
+    /// </summary>
+    /// <param name="rarity">The rarity of the card.</param>
+    /// <returns></returns>
+    public static Texture2D GetCardCrystalFromRarirty(CardRarity rarity)
+    {
+        string typeName = Enum.GetName(typeof(CardRarity), rarity);
+        string loadPath = $"Images/card_crystal_{typeName}";
+        return Resources.Load<Texture2D>(loadPath);
     }
 
     /// <summary>

@@ -48,10 +48,12 @@ public class LootWindowController : ControllerBehaviour
         deckListBoxContentParent.DestroyChildren();
 
         // Add each card from our deck into the deck list box.
-        foreach (Card card in ControllerDatabase.Get<PlayerController>().Deck)
+        CardDeck cardDeck = ControllerDatabase.Get<PlayerController>().Deck;
+        foreach (Card card in cardDeck)
         {
             GameObject cardItemGameObject = Instantiate(deckListItemPrefab);
             cardItemGameObject.transform.Find("Text").GetComponent<Text>().text = card.Name;
+            cardItemGameObject.transform.Find("Image").GetComponent<RawImage>().texture = CardInstance.GetCardCrystalFromRarirty(card.Rarity);
             cardItemGameObject.transform.SetParent(deckListBoxContentParent, false);
         }
 
@@ -79,5 +81,10 @@ public class LootWindowController : ControllerBehaviour
     {
         gameObject.SetActive(false);
         ControllerDatabase.Get<PlayerController>().Deck.Add(card.Clone());
+    }
+
+    public void CloseWindow()
+    {
+        gameObject.SetActive(false);
     }
 }

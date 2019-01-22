@@ -48,7 +48,11 @@ public class EncounterRoom : Room
     private void OnEncounterComplete()
     {
         IsComplete = true;
-        LootInstance.Create(transform, lootCards);
+        if (lootCards.Count > 0)
+        {
+            LootInstance.Create(transform, lootCards);
+        }
+
         onCompleted.Invoke();
     }
 }

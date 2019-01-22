@@ -182,7 +182,7 @@ public class EnemyInstance : MonoBehaviour
 
         int newHealth = Mathf.Clamp(Enemy.CurrentHealthPoints + Enemy.HealingPoints, 0, Enemy.MaximumHealthPoints);
         Enemy.CurrentHealthPoints = newHealth;
-        PlayAnimation("Cast");
+        //PlayAnimation("Cast");
     }
 
     /// <summary>
@@ -218,6 +218,7 @@ public class EnemyInstance : MonoBehaviour
             PlayAnimation("Cast");
             EnemyInstance spawnedEnemyInstance = encounterController.AddEnemyToEncounter(enemy);
 
+            spawnCount += 1;
             // We need to decrement the spawn count when the spawned enemy dies so we may spawn another one of it.
             spawnedEnemyInstance.onDead += () => spawnCount -= 1;
         }

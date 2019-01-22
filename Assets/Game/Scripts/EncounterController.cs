@@ -46,7 +46,8 @@ public class EncounterController : ControllerBehaviour
     /// <summary>
     /// The maximum (and starting) health of the player.
     /// </summary>
-    private const int MaximumPlayerHealth = 15;
+    [SerializeField]
+    private int maximumPlayerHealth = 15;
 
     /// <summary>
     /// All the effects on the player.
@@ -94,7 +95,7 @@ public class EncounterController : ControllerBehaviour
         fadeLerpInformation = new LerpInformation<float>(0, 1, fadeDuration, Mathf.Lerp, null, (sender, args) => fadeLerpInformation = null);
 
         // Reset any gameplay data.
-        PlayerHealth = MaximumPlayerHealth;
+        PlayerHealth = maximumPlayerHealth;
         IsPlayerTurn = true;
         discardPile = new Stack<Card>();
         animationQueue = new Queue<Func<bool>>();
@@ -385,7 +386,7 @@ public class EncounterController : ControllerBehaviour
     /// </summary>
     public void HealPlayer(int amount)
     {
-        PlayerHealth = Mathf.Clamp(PlayerHealth + amount, 0, MaximumPlayerHealth);
+        PlayerHealth = Mathf.Clamp(PlayerHealth + amount, 0, maximumPlayerHealth);
     }
 
     /// <summary>

@@ -75,6 +75,7 @@ public class LootInstance : MonoBehaviour
 
         GameObject lootGameObject = Instantiate(lootPrefab, spawnPosition, Quaternion.identity);
         lootGameObject.transform.SetParent(parent);
+        lootGameObject.transform.Rotate(new Vector3(0, Camera.main.transform.rotation.eulerAngles.y));
 
         LootInstance lootInstance = lootGameObject.GetComponent<LootInstance>();
         lootInstance.lootCards = lootCards;

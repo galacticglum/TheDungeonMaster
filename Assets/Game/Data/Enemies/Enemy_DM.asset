@@ -3,7 +3,7 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -14,7 +14,7 @@ MonoBehaviour:
   name: The Dungeon Master
   description: The all mighty!
   type: 1
-  maximumHealthPoints: 15
+  maximumHealthPoints: 30
   attackPoints: 4
   attackChance: 0.6
   canSimultaneousHealAttack: 1
@@ -27,4 +27,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: db075b52be5ed4747aa0a4c5aab858ca, type: 2}
   - {fileID: 11400000, guid: dff548c6d6713c34aa0a83ebbc75970d, type: 2}
   - {fileID: 11400000, guid: 0e74960f119a756438279662ad81bd8f, type: 2}
-  spawnChance: 0.1
+  spawnChance: 0.6
