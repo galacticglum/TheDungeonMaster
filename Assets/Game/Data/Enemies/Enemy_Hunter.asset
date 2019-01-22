@@ -16,8 +16,8 @@ MonoBehaviour:
     Spawns 3 bears as his companions.
   type: 1
   maximumHealthPoints: 12
-  attackPoints: 1
-  attackChance: 0.2
+  attackPoints: 0
+  attackChance: 0
   canSimultaneousHealAttack: 0
   poisonAttackPoints: 0
   poisonTurnDuration: 0
