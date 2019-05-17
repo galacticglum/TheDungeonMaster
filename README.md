@@ -10,6 +10,7 @@ The labyrinth is comprised of 3 dungeons; each one guarded by enemies. To comple
   </tr>
   <tr>
     <td><img src="https://i.imgur.com/n3hsVqF.jpg" width="600"></td>
+    <td><img src="https://i.imgur.com/EaqZZqI.png" width="600"></td>
   </tr>
 </table>
 
