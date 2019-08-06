@@ -34,6 +34,7 @@ public class DoorTrigger : MonoBehaviour
         roomController = ControllerDatabase.Get<RoomController>();
 
         roomController.CurrentRoomChanged += (sender, args) => StartCoroutine(nameof(EndAutoMove));
+        doorGameObject.SetActive(false);
     }
 
 	private void OnTriggerEnter(Collider other)
@@ -67,5 +68,6 @@ public class DoorTrigger : MonoBehaviour
 
         GetComponent<Collider>().enabled = false;
         otherDoorTrigger.GetComponent<Collider>().enabled = true;
+        doorGameObject.SetActive(true);
     }
 }

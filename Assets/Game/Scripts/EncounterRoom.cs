@@ -23,6 +23,8 @@ public class EncounterRoom : Room
 
     [SerializeField]
     private UnityEvent onCompleted;
+    [SerializeField]
+    private Vector3 lootSpawnOffset = Vector3.zero;
 
     /// <summary>
     /// Called when the <see cref="Room"/> is created and is placed into the world.
@@ -50,7 +52,7 @@ public class EncounterRoom : Room
         IsComplete = true;
         if (lootCards.Count > 0)
         {
-            LootInstance.Create(transform, lootCards);
+            LootInstance.Create(transform, lootSpawnOffset, lootCards);
         }
 
         onCompleted.Invoke();

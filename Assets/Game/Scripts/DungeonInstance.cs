@@ -7,6 +7,7 @@
  * Description: The top-level manager for a dungeon.
  */
 
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 
@@ -29,23 +30,6 @@ public class DungeonInstance : MonoBehaviour
     private bool isBossDoorOpen;
 
     /// <summary>
-    /// Called when the component is created and placed into the world.
-    /// </summary>
-    private void Start()
-    {
-        dungeonDoor.SetActive(false);
-        entryRoom.PlayerEntered += OnPlayerEnterEntryRoom;
-    }
-
-    /// <summary>
-    /// Called when the player enters the dungeon lobby (entry) room.
-    /// </summary>
-    private void OnPlayerEnterEntryRoom(object sender, RoomEventArgs args)
-    {
-        dungeonDoor.SetActive(true);
-    }
-
-    /// <summary>
     /// Called every frame.
     /// </summary>
     private void Update()
@@ -59,9 +43,7 @@ public class DungeonInstance : MonoBehaviour
 
         // If the boss encounter is completed and we haven't opened the dungeon door yet, let's open it!
         if (!bossRoom.IsComplete || !dungeonDoor.activeInHierarchy) return;
-
         dungeonDoor.SetActive(false);
-        entryRoom.PlayerEntered -= OnPlayerEnterEntryRoom;
     }
 
     /// <summary>

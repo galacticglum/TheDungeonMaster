@@ -53,7 +53,7 @@ public class LootWindowController : ControllerBehaviour
         {
             GameObject cardItemGameObject = Instantiate(deckListItemPrefab);
             cardItemGameObject.transform.Find("Text").GetComponent<Text>().text = card.Name;
-            cardItemGameObject.transform.Find("Image").GetComponent<RawImage>().texture = CardInstance.GetCardCrystalFromRarirty(card.Rarity);
+            cardItemGameObject.transform.Find("crystal").GetComponent<RawImage>().texture = CardInstance.GetCardCrystalFromRarirty(card.Rarity);
             cardItemGameObject.transform.SetParent(deckListBoxContentParent, false);
         }
 

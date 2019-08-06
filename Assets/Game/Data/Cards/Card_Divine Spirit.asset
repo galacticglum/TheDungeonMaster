@@ -3,7 +3,7 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -12,9 +12,14 @@ MonoBehaviour:
   m_Name: Card_Divine Spirit
   m_EditorClassIdentifier: 
   name: Divine Spirit
-  description: 'Resurrect: 1 card.'
+  description: '<color="#26C726">Resurrect</color>: 1 card.'
   attackPoints: 0
   damageType: 0
   resurrectionAmount: 1
   overchargeAmount: 0
+  healPoints: 0
+  stunPoints: 0
+  shieldPoints: 0
+  poisonPoints: 0
+  healthCost: 0
   rarity: 1

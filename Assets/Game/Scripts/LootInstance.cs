@@ -66,11 +66,12 @@ public class LootInstance : MonoBehaviour
     /// Creates a <see cref="LootInstance"/> an assigns it to the specified parent <see cref="Transform"/>.
     /// </summary>
     /// <param name="parent">The <see cref="Transform"/> to parent the <see cref="LootInstance"/> to.</param>
+    /// <param name="offset"></param>
     /// <param name="lootCards">The loot which is displayed in the <see cref="LootWindowController"/>.</param>
-    public static LootInstance Create(Transform parent, List<Card> lootCards)
+    public static LootInstance Create(Transform parent, Vector3 offset, List<Card> lootCards)
     {
         GameObject lootPrefab = Resources.Load<GameObject>("Prefabs/Loot_Box");
-        Vector3 spawnPosition = parent.position;
+        Vector3 spawnPosition = parent.position + offset;
         spawnPosition.y += lootPrefab.transform.localScale.z / 2f;
 
         GameObject lootGameObject = Instantiate(lootPrefab, spawnPosition, Quaternion.identity);
